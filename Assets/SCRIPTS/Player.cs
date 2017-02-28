@@ -6,11 +6,13 @@ using DG.Tweening;
 public delegate void EventHandler();
 
 public enum WaveState {CanWave, IsWaving, Cooldown};
+public enum JumpState {InAir, Grounded};
 
 public class Player : MonoBehaviour 
 {
 	[Header ("Player States")]
 	public WaveState WaveState = WaveState.CanWave;
+	public JumpState JumpState = JumpState.Grounded;
 
 	[Header ("Wave")]
 	public Wave CurrentWave;
@@ -23,6 +25,9 @@ public class Player : MonoBehaviour
 
 	[Header ("Crosshairs")]
 	public Transform Crosshairs;
+
+	[Header ("Grounded")]
+	public LayerMask GroundLayer;
 
 	private Camera _mainCamera;
 	private Vector3 _launchPosition;
@@ -48,6 +53,8 @@ public class Player : MonoBehaviour
 		GetInput ();
 
 		SetCrossHair ();
+
+		Grounded ();
 	}
 
 	void FixedUpdate ()
@@ -110,6 +117,8 @@ public class Player : MonoBehaviour
 		_waveForce = 0;
 		WaveForceDebug = 0;
 
+		JumpState = JumpState.InAir;
+
 		_slowMotion.StopSlowMotion ();
 		StartCoroutine (WaveCooldown ());
 	}
@@ -150,6 +159,16 @@ public class Player : MonoBehaviour
 		bodyRigidbody.AddForce (_previousRocket.transform.forward * launchForce, ForceMode.Impulse);
 	}
 
+	void Grounded ()
+	{
+		Vector3 position = transform.position;
+		position.y -= 0.8f;
+
+		if (Physics.CheckSphere (position, 0.4f, GroundLayer, QueryTriggerInteraction.Ignore))
+			JumpState = JumpState.Grounded;
+		else
+			JumpState = JumpState.InAir;
+	}
 
 	public void SetWave (Wave wave)
 	{

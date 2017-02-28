@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Be aware this will not prevent a non singleton constructor
@@ -19,6 +20,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 		if (_instance != null)
 			DontDestroyOnLoad(_instance.gameObject);
+
+		SceneManager.sceneLoaded += (arg0, arg1) => applicationIsQuitting = false;
 	}
 
 	public static T Instance
