@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
 	public Transform LaunchPoint;
 	public GameObject CurrentRocket;
 
+	[Header ("Crosshairs")]
+	public Transform Crosshairs;
+
 	private Camera _mainCamera;
 	private Vector3 _launchPosition;
 	private Rigidbody _rigidbody;
@@ -43,6 +46,8 @@ public class Player : MonoBehaviour
 	void Update () 
 	{
 		GetInput ();
+
+		SetCrossHair ();
 	}
 
 	void FixedUpdate ()
@@ -116,6 +121,21 @@ public class Player : MonoBehaviour
 		yield return new WaitForSecondsRealtime (CurrentWave.WaveCooldown);
 
 		WaveState = WaveState.CanWave;
+	}
+
+	void SetCrossHair ()
+	{
+		if(WaveState == WaveState.IsWaving)
+		{
+			if(!Crosshairs.gameObject.activeSelf)
+				Crosshairs.gameObject.SetActive (true);
+
+			Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+
+			Crosshairs.position = transform.position + direction.normalized * 3;
+		}
+		else if(Crosshairs.gameObject.activeSelf)
+			Crosshairs.gameObject.SetActive (false);
 	}
 
 	void LaunchRocket ()
