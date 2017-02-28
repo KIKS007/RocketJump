@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
 
 		WaveState = WaveState.IsWaving;
 
+		_rigidbody.velocity = Vector3.zero;
 		_waveForce = CurrentWave.WaveForceLimits.x;
 
 		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
