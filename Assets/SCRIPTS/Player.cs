@@ -6,11 +6,13 @@ using DG.Tweening;
 public delegate void EventHandler();
 
 public enum WaveState {CanWave, IsWaving, Cooldown};
+public enum JumpState {InAir, Grounded};
 
 public class Player : MonoBehaviour 
 {
 	[Header ("Player States")]
 	public WaveState WaveState = WaveState.CanWave;
+	public JumpState JumpState = JumpState.Grounded;
 
 	[Header ("Wave")]
 	public Wave CurrentWave;
@@ -21,10 +23,15 @@ public class Player : MonoBehaviour
 	public Transform LaunchPoint;
 	public GameObject CurrentRocket;
 
+	[Header ("Crosshairs")]
+	public Transform Crosshairs;
+
+	[Header ("Grounded")]
+	public LayerMask GroundLayer;
+
 	private Camera _mainCamera;
 	private Vector3 _launchPosition;
 	private Rigidbody _rigidbody;
-	private GameObject _previousRocket;
 	private float _waveForce;
 	private SlowMotion _slowMotion;
 
@@ -43,6 +50,10 @@ public class Player : MonoBehaviour
 	void Update () 
 	{
 		GetInput ();
+
+		SetCrossHair ();
+
+		Grounded ();
 	}
 
 	void FixedUpdate ()
@@ -58,22 +69,13 @@ public class Player : MonoBehaviour
 	void GetInput ()
 	{
 		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
-		{
 			WaveForce ();
-
-			/*if (_previousRocket == null)
-				LaunchRocket ();
-			else
-				_previousRocket.GetComponent<Rocket> ().Explode ();*/
-		}
 
 		if(Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
 			Wave ();
 
 		if(Input.GetMouseButton (0))
-		{
 			Debug.DrawRay (transform.position, _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z)), Color.red);
-		}
 	}
 
 	void WaveForce ()
@@ -82,6 +84,7 @@ public class Player : MonoBehaviour
 
 		WaveState = WaveState.IsWaving;
 
+		_rigidbody.velocity = Vector3.zero;
 		_waveForce = CurrentWave.WaveForceLimits.x;
 
 		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
@@ -95,6 +98,9 @@ public class Player : MonoBehaviour
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+		_rigidbody.velocity = Vector3.zero;
+
+		LaunchRocket ();
 
 		Vector3 recoilDirection = transform.position - _launchPosition;
 		recoilDirection.z = 0;
@@ -103,6 +109,8 @@ public class Player : MonoBehaviour
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
 		WaveForceDebug = 0;
+
+		JumpState = JumpState.InAir;
 
 		_slowMotion.StopSlowMotion ();
 		StartCoroutine (WaveCooldown ());
@@ -117,22 +125,55 @@ public class Player : MonoBehaviour
 		WaveState = WaveState.CanWave;
 	}
 
-	void LaunchRocket ()
+	void SetCrossHair ()
 	{
-		_previousRocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
+		if(WaveState == WaveState.IsWaving)
+		{
+			if(!Crosshairs.gameObject.activeSelf)
+				Crosshairs.gameObject.SetActive (true);
 
-		_previousRocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
+			Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
 
-		float launchForce = _previousRocket.GetComponent<Rocket> ().LaunchForce;
-		Rigidbody bodyRigidbody = _previousRocket.GetComponent<Rocket> ()._rigidbody;
-
-		bodyRigidbody.AddForce (_previousRocket.transform.forward * launchForce, ForceMode.Impulse);
+			Crosshairs.position = transform.position + direction.normalized * 3;
+		}
+		else if(Crosshairs.gameObject.activeSelf)
+			Crosshairs.gameObject.SetActive (false);
 	}
 
+	void LaunchRocket ()
+	{
+		if (CurrentRocket == null)
+			return;
+
+		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
+
+		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
+
+		float launchForce = rocket.GetComponent<Rocket> ().LaunchForce;
+		Rigidbody bodyRigidbody = rocket.GetComponent<Rocket> ()._rigidbody;
+
+		bodyRigidbody.AddForce (rocket.transform.forward * launchForce, ForceMode.Impulse);
+	}
+
+	void Grounded ()
+	{
+		Vector3 position = transform.position;
+		position.y -= 0.8f;
+
+		if (Physics.CheckSphere (position, 0.4f, GroundLayer, QueryTriggerInteraction.Ignore))
+			JumpState = JumpState.Grounded;
+		else
+			JumpState = JumpState.InAir;
+	}
 
 	public void SetWave (Wave wave)
 	{
 		CurrentWave = wave;
+
+		if (CurrentWave.Rocket != null)
+			SetRocket (CurrentWave.Rocket);
+		else
+			Debug.LogWarning ("No Rocket!");
 
 		if (OnWaveChange != null)
 			OnWaveChange ();

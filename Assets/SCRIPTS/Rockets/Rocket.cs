@@ -12,7 +12,7 @@ public class Rocket : MonoBehaviour
 	public LayerMask CollisionLayer = (1 << 9) | (1 << 10) | (1 << 11) | (1 << 12);
 
 	[Header ("Explosion")]
-	public LayerMask ExplosionLayer = (1 << 8) | (1 << 11);
+	public LayerMask ExplosionLayer = (1 << 11);
 	public float ExplosionForce;
 	public float ExplosionRadius;
 
@@ -55,12 +55,26 @@ public class Rocket : MonoBehaviour
 			}
 		}
 
-		Die ();
+		ExplosionDebug ();
+		//Die ();
+	}
+
+	void ExplosionDebug ()
+	{
+		GetComponent<Collider> ().enabled = false;
+		_rigidbody.velocity = Vector3.zero;
+		transform.DOScale (ExplosionRadius, 0.5f).OnComplete (Die);
 	}
 
 	public virtual void Die ()
 	{
 		Destroy (gameObject);
+	}
+
+	void OnBecameInvisible () 
+	{
+		if (gameObject)
+			Die ();
 	}
 }
 
