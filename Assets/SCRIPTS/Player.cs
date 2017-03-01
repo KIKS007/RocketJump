@@ -167,7 +167,10 @@ public class Player : MonoBehaviour
 	{
 		CurrentWave = wave;
 
-		SetRocket (CurrentWave.Rocket);
+		if (CurrentWave.Rocket != null)
+			SetRocket (CurrentWave.Rocket);
+		else
+			Debug.LogWarning ("No Rocket!");
 
 		if (OnWaveChange != null)
 			OnWaveChange ();
