@@ -11,4 +11,12 @@ public class DeadZone : MonoBehaviour
 			GameManager.Instance.GameOver ();
 		}
 	}
+
+	void OnCollisionEnter (Collision collision)
+	{
+		if(collision.gameObject.tag == "Player")
+		{
+			GameManager.Instance.GameOver ();
+		}
+	}
 }
