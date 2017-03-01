@@ -11,6 +11,9 @@ public class DestructiblePlatform : MonoBehaviour
 	{
 		if (collider.gameObject.tag == "Player")
 			Remove ();
+
+		if (LayerMask.NameToLayer ("Rocket") == collider.gameObject.layer)
+			Remove ();
 	}
 
 	void OnCollisionEnter (Collision collision)
