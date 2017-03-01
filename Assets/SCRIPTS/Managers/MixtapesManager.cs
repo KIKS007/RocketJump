@@ -5,6 +5,7 @@ using UnityEngine;
 public class MixtapesManager : Singleton<MixtapesManager> 
 {
 	[Header ("Mixtapes")]
+	public int MixtapeIndex = 0;
 	public Wave CurrentWave;
 	public Wave[] SelectedMixtapes = new Wave[3];
 
@@ -15,7 +16,6 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	public bool IsPaused = false;
 
 	private Player _playerScript;
-	private int _mixtapeIndex = 0;
 
 	public event EventHandler OnMixtapeChange;
 
@@ -27,8 +27,8 @@ public class MixtapesManager : Singleton<MixtapesManager>
 
 	void FirstMixtape ()
 	{
-		_playerScript.SetWave (SelectedMixtapes [_mixtapeIndex]);
-		CurrentWave = SelectedMixtapes [_mixtapeIndex];
+		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
+		CurrentWave = SelectedMixtapes [MixtapeIndex];
 		StartCoroutine (MixtapeDuration ());
 	}
 
@@ -61,13 +61,13 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	{
 		StopCoroutine (MixtapeDuration ());
 
-		_mixtapeIndex++;
+		MixtapeIndex++;
 
-		if (_mixtapeIndex == 2)
-			_mixtapeIndex = 0;
+		if (MixtapeIndex == 3)
+			MixtapeIndex = 0;
 
-		_playerScript.SetWave (SelectedMixtapes [_mixtapeIndex]);
-		CurrentWave = SelectedMixtapes [_mixtapeIndex];
+		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
+		CurrentWave = SelectedMixtapes [MixtapeIndex];
 
 		StartCoroutine (MixtapeDuration ());
 	}
@@ -76,13 +76,13 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	{
 		StopCoroutine (MixtapeDuration ());
 
-		_mixtapeIndex--;
+		MixtapeIndex--;
 
-		if (_mixtapeIndex == -1)
-			_mixtapeIndex = 2;
+		if (MixtapeIndex == -1)
+			MixtapeIndex = 2;
 
-		_playerScript.SetWave (SelectedMixtapes [_mixtapeIndex]);
-		CurrentWave = SelectedMixtapes [_mixtapeIndex];
+		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
+		CurrentWave = SelectedMixtapes [MixtapeIndex];
 
 		StartCoroutine (MixtapeDuration ());
 	}
