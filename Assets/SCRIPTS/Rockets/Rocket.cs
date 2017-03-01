@@ -67,7 +67,7 @@ public class Rocket : MonoBehaviour
 		//Die ();
 	}
 
-	void ExplosionDebug ()
+	protected virtual void ExplosionDebug ()
 	{
 		GetComponent<Collider> ().enabled = false;
 		_rigidbody.velocity = Vector3.zero;
