@@ -34,6 +34,14 @@ public class Rocket : MonoBehaviour
 	{
 		if ((CollisionLayer.value & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
 			Explode ();
+
+		if ((ExplosionLayer.value & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
+			KillEnemy (collision.gameObject);
+	}
+
+	protected virtual void KillEnemy (GameObject enemy)
+	{
+		//Enemy Killed
 	}
 
 	public virtual void Explode ()
@@ -63,10 +71,10 @@ public class Rocket : MonoBehaviour
 	{
 		GetComponent<Collider> ().enabled = false;
 		_rigidbody.velocity = Vector3.zero;
-		transform.DOScale (ExplosionRadius, 0.5f).OnComplete (Die);
+		transform.DOScale (ExplosionRadius, 0.5f).OnComplete (End);
 	}
 
-	public virtual void Die ()
+	public virtual void End ()
 	{
 		Destroy (gameObject);
 	}
@@ -74,7 +82,7 @@ public class Rocket : MonoBehaviour
 	void OnBecameInvisible () 
 	{
 		if (gameObject)
-			Die ();
+			End ();
 	}
 }
 
