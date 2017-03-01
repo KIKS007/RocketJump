@@ -16,4 +16,7 @@ public class Wave : MonoBehaviour
 
 	[Header ("Mixtape")]
 	public float MixtapeDuration = 10f;
+
+	[Header ("Rocket")]
+	public GameObject Rocket;
 }
