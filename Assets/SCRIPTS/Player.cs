@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
 	private Camera _mainCamera;
 	private Vector3 _launchPosition;
 	private Rigidbody _rigidbody;
-	private GameObject _previousRocket;
 	private float _waveForce;
 	private SlowMotion _slowMotion;
 
@@ -70,22 +69,13 @@ public class Player : MonoBehaviour
 	void GetInput ()
 	{
 		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
-		{
 			WaveForce ();
-
-			/*if (_previousRocket == null)
-				LaunchRocket ();
-			else
-				_previousRocket.GetComponent<Rocket> ().Explode ();*/
-		}
 
 		if(Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
 			Wave ();
 
 		if(Input.GetMouseButton (0))
-		{
 			Debug.DrawRay (transform.position, _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z)), Color.red);
-		}
 	}
 
 	void WaveForce ()
@@ -108,6 +98,9 @@ public class Player : MonoBehaviour
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+		_rigidbody.velocity = Vector3.zero;
+
+		LaunchRocket ();
 
 		Vector3 recoilDirection = transform.position - _launchPosition;
 		recoilDirection.z = 0;
@@ -149,14 +142,14 @@ public class Player : MonoBehaviour
 
 	void LaunchRocket ()
 	{
-		_previousRocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
+		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
 
-		_previousRocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
+		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
 
-		float launchForce = _previousRocket.GetComponent<Rocket> ().LaunchForce;
-		Rigidbody bodyRigidbody = _previousRocket.GetComponent<Rocket> ()._rigidbody;
+		float launchForce = rocket.GetComponent<Rocket> ().LaunchForce;
+		Rigidbody bodyRigidbody = rocket.GetComponent<Rocket> ()._rigidbody;
 
-		bodyRigidbody.AddForce (_previousRocket.transform.forward * launchForce, ForceMode.Impulse);
+		bodyRigidbody.AddForce (rocket.transform.forward * launchForce, ForceMode.Impulse);
 	}
 
 	void Grounded ()
@@ -173,6 +166,8 @@ public class Player : MonoBehaviour
 	public void SetWave (Wave wave)
 	{
 		CurrentWave = wave;
+
+		SetRocket (CurrentWave.Rocket);
 
 		if (OnWaveChange != null)
 			OnWaveChange ();
