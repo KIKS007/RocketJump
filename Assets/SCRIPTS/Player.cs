@@ -142,6 +142,9 @@ public class Player : MonoBehaviour
 
 	void LaunchRocket ()
 	{
+		if (CurrentRocket == null)
+			return;
+
 		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
 
 		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
@@ -167,7 +170,10 @@ public class Player : MonoBehaviour
 	{
 		CurrentWave = wave;
 
-		SetRocket (CurrentWave.Rocket);
+		if (CurrentWave.Rocket != null)
+			SetRocket (CurrentWave.Rocket);
+		else
+			Debug.LogWarning ("No Rocket!");
 
 		if (OnWaveChange != null)
 			OnWaveChange ();
