@@ -13,8 +13,11 @@ public class ChunkEditor : Editor
 	SerializedProperty RightWall;
 	SerializedProperty LeftWall;
 
-	SerializedProperty RightBreakableBloc;
-	SerializedProperty LeftBreakableBloc;
+	SerializedProperty RightBreakableBlocs;
+	SerializedProperty LeftBreakableBlocs;
+
+	SerializedProperty _rightLaneChange;
+	SerializedProperty _leftLaneChange;
 
 	void OnEnable ()
 	{
@@ -23,8 +26,11 @@ public class ChunkEditor : Editor
 		RightWall = serializedObject.FindProperty ("RightWall");
 		LeftWall = serializedObject.FindProperty ("LeftWall");
 
-		RightBreakableBloc = serializedObject.FindProperty ("RightBreakableBloc");
-		LeftBreakableBloc = serializedObject.FindProperty ("LeftBreakableBloc");
+		RightBreakableBlocs = serializedObject.FindProperty ("RightBreakableBlocs");
+		LeftBreakableBlocs = serializedObject.FindProperty ("LeftBreakableBlocs");
+
+		_rightLaneChange = serializedObject.FindProperty ("_rightLaneChange");
+		_leftLaneChange = serializedObject.FindProperty ("_leftLaneChange");
 	}
 
 	public override void OnInspectorGUI ()
@@ -41,8 +47,11 @@ public class ChunkEditor : Editor
 		if(Lane.enumValueIndex == (int)LaneType.Second || Lane.enumValueIndex == (int)LaneType.Third)
 			EditorGUILayout.PropertyField (LeftWall, true);			
 
-		EditorGUILayout.PropertyField (RightBreakableBloc, true);	
-		EditorGUILayout.PropertyField (LeftBreakableBloc, true);
+		/*EditorGUILayout.PropertyField (RightBreakableBlocs, true);	
+		EditorGUILayout.PropertyField (LeftBreakableBlocs, true);
+
+		EditorGUILayout.PropertyField (_rightLaneChange, true);
+		EditorGUILayout.PropertyField (_leftLaneChange, true);*/
 
 		serializedObject.ApplyModifiedProperties ();
 	}
