@@ -1,0 +1,1379 @@
+fileFormatVersion: 2
+guid: 3ebe58b4538528f4b88dbc8d13c22f76
+timeCreated: 1488392059
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: b_avantBrasD
+    100002: b_avantBrasG
+    100004: b_bassin
+    100006: b_brasD
+    100008: b_brasG
+    100010: b_doigtD01_01
+    100012: b_doigtD01_02
+    100014: b_doigtD02_01
+    100016: b_doigtD02_02
+    100018: b_doigtD03_01
+    100020: b_doigtD03_02
+    100022: b_doigtG01_01
+    100024: b_doigtG01_02
+    100026: b_doigtG02_01
+    100028: b_doigtG02_02
+    100030: b_doigtG03_01
+    100032: b_doigtG03_02
+    100034: b_dos01
+    100036: b_dos02
+    100038: b_jambeD01
+    100040: b_jambeD02
+    100042: b_jambeG01
+    100044: b_jambeG02
+    100046: b_mainD
+    100048: b_mainG
+    100050: b_natteD01
+    100052: b_natteD02
+    100054: b_natteG01
+    100056: b_natteG02
+    100058: b_PiedD
+    100060: b_PiedG
+    100062: b_pouceD01
+    100064: b_pouceD02
+    100066: b_pouceG01
+    100068: b_pouceG02
+    100070: b_tete
+    100072: BaeBB_body
+    100074: //RootNode
+    100076: Circle001
+    100078: Ctrl_BrasD
+    100080: Ctrl_BrasG
+    100082: Ctrl_CoudeD
+    100084: Ctrl_CoudeG
+    100086: Ctrl_GenouD
+    100088: Ctrl_GenouG
+    100090: Ctrl_HeadLookat
+    100092: Ctrl_JambeD
+    100094: Ctrl_JambeG
+    100096: Ctrl_MainD
+    100098: Ctrl_MainG
+    100100: Ctrl_PiedD
+    100102: Ctrl_PiedG
+    400000: b_avantBrasD
+    400002: b_avantBrasG
+    400004: b_bassin
+    400006: b_brasD
+    400008: b_brasG
+    400010: b_doigtD01_01
+    400012: b_doigtD01_02
+    400014: b_doigtD02_01
+    400016: b_doigtD02_02
+    400018: b_doigtD03_01
+    400020: b_doigtD03_02
+    400022: b_doigtG01_01
+    400024: b_doigtG01_02
+    400026: b_doigtG02_01
+    400028: b_doigtG02_02
+    400030: b_doigtG03_01
+    400032: b_doigtG03_02
+    400034: b_dos01
+    400036: b_dos02
+    400038: b_jambeD01
+    400040: b_jambeD02
+    400042: b_jambeG01
+    400044: b_jambeG02
+    400046: b_mainD
+    400048: b_mainG
+    400050: b_natteD01
+    400052: b_natteD02
+    400054: b_natteG01
+    400056: b_natteG02
+    400058: b_PiedD
+    400060: b_PiedG
+    400062: b_pouceD01
+    400064: b_pouceD02
+    400066: b_pouceG01
+    400068: b_pouceG02
+    400070: b_tete
+    400072: BaeBB_body
+    400074: //RootNode
+    400076: Circle001
+    400078: Ctrl_BrasD
+    400080: Ctrl_BrasG
+    400082: Ctrl_CoudeD
+    400084: Ctrl_CoudeG
+    400086: Ctrl_GenouD
+    400088: Ctrl_GenouG
+    400090: Ctrl_HeadLookat
+    400092: Ctrl_JambeD
+    400094: Ctrl_JambeG
+    400096: Ctrl_MainD
+    400098: Ctrl_MainG
+    400100: Ctrl_PiedD
+    400102: Ctrl_PiedG
+    4300000: BaeBB_body
+    7400000: Keypose1
+    7400002: Keypose2
+    7400004: Keypose3
+    7400006: Keypose4
+    7400008: Keypose5
+    7400010: Keypose6
+    7400012: Keypose7
+    7400014: Keypose8
+    7400016: Idle
+    9500000: //RootNode
+    13700000: BaeBB_body
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Keypose1
+      takeName: Take 001
+      firstFrame: 5
+      lastFrame: 6
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose2
+      takeName: Take 001
+      firstFrame: 9
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose3
+      takeName: Take 001
+      firstFrame: 13
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose4
+      takeName: Take 001
+      firstFrame: 17
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose5
+      takeName: Take 001
+      firstFrame: 21
+      lastFrame: 22
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose6
+      takeName: Take 001
+      firstFrame: 25
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose7
+      takeName: Take 001
+      firstFrame: 29
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Keypose8
+      takeName: Take 001
+      firstFrame: 33
+      lastFrame: 34
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 37
+      lastFrame: 38
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BaeBB_body
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle001/b_bassin
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD01_01/b_doigtD01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD02_01/b_doigtD02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_doigtD03_01/b_doigtD03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasD/b_avantBrasD/b_mainD/b_pouceD01/b_pouceD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG01_01/b_doigtG01_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG02_01/b_doigtG02_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_doigtG03_01/b_doigtG03_02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_brasG/b_avantBrasG/b_mainG/b_pouceG01/b_pouceG02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteD01/b_natteD02
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01
+        weight: 1
+      - path: Circle001/b_bassin/b_dos01/b_dos02/b_tete/b_natteG01/b_natteG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeD01/b_jambeD02/b_PiedD
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02
+        weight: 1
+      - path: Circle001/b_bassin/b_jambeG01/b_jambeG02/b_PiedG
+        weight: 1
+      - path: Circle001/Ctrl_BrasD
+        weight: 1
+      - path: Circle001/Ctrl_BrasD/Ctrl_CoudeD
+        weight: 1
+      - path: Circle001/Ctrl_BrasG
+        weight: 1
+      - path: Circle001/Ctrl_BrasG/Ctrl_CoudeG
+        weight: 1
+      - path: Circle001/Ctrl_HeadLookat
+        weight: 1
+      - path: Circle001/Ctrl_JambeD
+        weight: 1
+      - path: Circle001/Ctrl_JambeD/Ctrl_GenouD
+        weight: 1
+      - path: Circle001/Ctrl_JambeG
+        weight: 1
+      - path: Circle001/Ctrl_JambeG/Ctrl_GenouG
+        weight: 1
+      - path: Circle001/Ctrl_MainD
+        weight: 1
+      - path: Circle001/Ctrl_MainG
+        weight: 1
+      - path: Circle001/Ctrl_PiedD
+        weight: 1
+      - path: Circle001/Ctrl_PiedG
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

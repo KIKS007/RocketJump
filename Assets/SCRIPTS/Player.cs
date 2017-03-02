@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
 
 	public event EventHandler OnWaveChange;
 	public event EventHandler OnRocketChange;
+	public event EventHandler OnJump;
+	public event EventHandler OnGrounded;
 
 	// Use this for initialization
 	void Start () 
@@ -112,6 +114,9 @@ public class Player : MonoBehaviour
 
 		JumpState = JumpState.InAir;
 
+		if (OnJump != null)
+			OnJump ();
+
 		_slowMotion.StopSlowMotion ();
 		StartCoroutine (WaveCooldown ());
 	}
@@ -161,7 +166,12 @@ public class Player : MonoBehaviour
 		position.y -= 0.8f;
 
 		if (Physics.CheckSphere (position, 0.4f, GroundLayer, QueryTriggerInteraction.Ignore))
+		{
+			if(JumpState == JumpState.InAir && OnGrounded != null)
+				OnGrounded ();
+			
 			JumpState = JumpState.Grounded;
+		}
 		else
 			JumpState = JumpState.InAir;
 	}
