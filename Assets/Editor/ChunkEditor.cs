@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -47,12 +47,13 @@ public class ChunkEditor : Editor
 		if(Lane.enumValueIndex == (int)LaneType.Second || Lane.enumValueIndex == (int)LaneType.Third)
 			EditorGUILayout.PropertyField (LeftWall, true);			
 
-		/*EditorGUILayout.PropertyField (RightBreakableBlocs, true);	
+		EditorGUILayout.PropertyField (RightBreakableBlocs, true);	
 		EditorGUILayout.PropertyField (LeftBreakableBlocs, true);
 
 		EditorGUILayout.PropertyField (_rightLaneChange, true);
-		EditorGUILayout.PropertyField (_leftLaneChange, true);*/
+		EditorGUILayout.PropertyField (_leftLaneChange, true);
 
 		serializedObject.ApplyModifiedProperties ();
 	}
 }
+*/
