@@ -69,7 +69,7 @@ public class Rocket : MonoBehaviour
 
 	protected virtual void ExplosionDebug ()
 	{
-		GetComponent<Collider> ().enabled = false;
+		GetComponent<Collider> ().isTrigger = true;
 		_rigidbody.velocity = Vector3.zero;
 		transform.DOScale (ExplosionRadius, 0.5f).OnComplete (End);
 	}

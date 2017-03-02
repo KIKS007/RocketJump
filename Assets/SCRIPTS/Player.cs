@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
 	public float WaveForceDebug;
 
 	[Header ("Rocket Launch")]
+	public Transform RocketsParent;
 	public Transform LaunchPoint;
 	public GameObject CurrentRocket;
 
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour
 		if (CurrentRocket == null)
 			return;
 
-		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity) as GameObject;
+		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
 		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
 
