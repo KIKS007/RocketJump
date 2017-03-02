@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PassThroughPlatform : MonoBehaviour 
 {
-	public bool PassThroughOn;
+	//public bool PassThroughOn;
 
 	private Collider _parentCollider;
 	private Collider _playerCollider;
@@ -19,16 +19,13 @@ public class PassThroughPlatform : MonoBehaviour
 
 	void OnTriggerEnter (Collider collider)
 	{
-		if(collider.tag == "Player" && PassThroughOn)
+		if(collider.tag == "Player")
 			Physics.IgnoreCollision (_playerCollider, _parentCollider, true);
 	}
 
 	void OnTriggerExit (Collider collider)
 	{
-		if(collider.tag == "Player" && !PassThroughOn)
+		if(collider.tag == "Player")
 			Physics.IgnoreCollision (_playerCollider, _parentCollider, false);
-
-		if(collider.tag == "Player" && PassThroughOn)
-			Physics.IgnoreCollision (_playerCollider, _parentCollider, true);
 	}
 }
