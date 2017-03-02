@@ -4,13 +4,9 @@ using UnityEngine;
 using System;
 
 public enum WallType { Solid, Breakable };
-public enum LaneType { First, Second, Third };
 
 public class Chunk : MonoBehaviour 
 {
-	[HideInInspector]
-	public LaneType Lane;
-
 	[Header ("Wall Type")]
 	public WallType RightWall;
 	public WallType LeftWall;
@@ -19,72 +15,52 @@ public class Chunk : MonoBehaviour
 	public List<GameObject> RightBreakableBlocs = new List<GameObject>();
 	public List<GameObject> LeftBreakableBlocs = new List<GameObject>();
 
-	private GameObject _rightLaneChange;
-	private GameObject _leftLaneChange;
+	public GameObject _rightLaneChange;
+	public GameObject _leftLaneChange;
 
 	void Awake ()
 	{
 		if(RightWall != WallType.Solid)
 		{
-			if(Lane == LaneType.Second)
-				FindObjectwithTag ("BreakableBloc", RightBreakableBlocs, x => x.transform.position.x > transform.position.x);
-			
-			if(Lane == LaneType.First)
-				FindObjectwithTag ("BreakableBloc", RightBreakableBlocs);
+			FindObjectwithTag ("BreakableBloc", RightBreakableBlocs, x => x.transform.position.x > transform.position.x);
+
+			if(RightBreakableBlocs.Count == 0)
+				Debug.LogWarning ("No Right Breakable Blocs! Check Tags : " + name);
 		}
 
 		if(LeftWall != WallType.Solid)
 		{
-			if(Lane == LaneType.Second)
-				FindObjectwithTag ("BreakableBloc", LeftBreakableBlocs, x => x.transform.position.x < transform.position.x);
-			
-			if(Lane == LaneType.Third)
-				FindObjectwithTag ("BreakableBloc", LeftBreakableBlocs);
+			FindObjectwithTag ("BreakableBloc", LeftBreakableBlocs, x => x.transform.position.x < transform.position.x);
+
+			if(LeftBreakableBlocs.Count == 0)
+				Debug.LogWarning ("No Right Breakable Blocs! Check Tags : " + name);
 		}
 
-		switch (Lane)
+		LaneChange[] lanesChanges = transform.GetComponentsInChildren<LaneChange> ();
+		
+		if(lanesChanges.Length > 0)
 		{
-		case LaneType.First:
-			if (RightWall != WallType.Solid)
+			foreach(LaneChange laneChange in lanesChanges)
 			{
-				if (transform.GetComponentInChildren<LaneChange> () != null)
-					_rightLaneChange = transform.GetComponentInChildren<LaneChange> ().gameObject;
-				else
-					Debug.LogWarning ("No Right Lane Change!");
-			}
-			break;
-
-		case LaneType.Second:
-			if (RightWall != WallType.Solid || LeftWall != WallType.Solid)
-			{
-				LaneChange[] lanesChanges = transform.GetComponentsInChildren<LaneChange> ();
-				
-				if(lanesChanges.Length > 0)
+				if(laneChange.Change == LaneChange.ChangeType.Previous)
 				{
-					foreach(LaneChange laneChange in lanesChanges)
-					{
-						if(laneChange.Change == LaneChange.ChangeType.SecondToFirst)
-							_leftLaneChange = laneChange.gameObject;
-						
-						if(laneChange.Change == LaneChange.ChangeType.SecondToThird)
-							_rightLaneChange = laneChange.gameObject;
-					}
+					_leftLaneChange = laneChange.gameObject;
+					_leftLaneChange.SetActive (false);
 				}
-				else
-					Debug.LogWarning ("No Right Lane Change!");
+				
+				if(laneChange.Change == LaneChange.ChangeType.Next)
+				{
+					_rightLaneChange = laneChange.gameObject;
+					_rightLaneChange.SetActive (false);
+				}
 			}
-			break;
-
-		case LaneType.Third:
-			if (LeftWall != WallType.Solid)
-			{
-				if (transform.GetComponentInChildren<LaneChange> () != null)
-					_leftLaneChange = transform.GetComponentInChildren<LaneChange> ().gameObject;
-				else
-					Debug.LogWarning ("No Left Lane Change!");
-			}
-			break;
 		}
+
+		if(_leftLaneChange == null)
+			Debug.LogWarning ("No Left Lane Change!: " + name);
+
+		if(_rightLaneChange == null)
+			Debug.LogWarning ("No Right Lane Change!: " + name);
 	}
 
 	void FindObjectwithTag(string _tag, List<GameObject> list, Predicate<GameObject> predicate = null)
