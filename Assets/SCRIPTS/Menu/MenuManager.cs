@@ -60,25 +60,6 @@ public class MenuManager : Singleton <MenuManager>
 	[Header ("Menu Elements To Enable")]
 	public List<GameObject> elementsToEnable;
 
-	[Header ("Back Buttons")]
-	public RectTransform backButtons;
-	public Vector2 backButtonsXPos;
-
-	[Header ("Disconnected Gamepads")]
-	public bool oneGamepadDisconnected = false;
-	public RectTransform[] disconnectedGamepads = new RectTransform[4];
-	public Vector2 disconnectedGamepadsYPos;
-
-	[Header ("End Mode Menu")]
-	public MenuComponent endModeMenu;
-	public Vector2 initialPanelSize;
-	public Vector2 modifiedPanelSize;
-	public RectTransform[] playerScore = new RectTransform[4];
-	public RectTransform panelBackground;
-	public float delayBetweenStats = 0.01f ;
-
-	private RectTransform endModecontent;
-	private List<SecondaryContent> endModesecondaryContentList;
 
 	private EventSystem eventSyst;
 	private GameObject mainCamera;
@@ -99,7 +80,7 @@ public class MenuManager : Singleton <MenuManager>
 	#endregion
 
 	#region Setup
-	void Start () 
+	void Awake () 
 	{
 		DOTween.Init();
 		DOTween.defaultTimeScaleIndependent = true;
@@ -110,20 +91,10 @@ public class MenuManager : Singleton <MenuManager>
 		eventSyst = GameObject.FindGameObjectWithTag ("EventSystem").GetComponent<EventSystem> ();
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 
-		backButtons.anchoredPosition = new Vector2(backButtonsXPos.x, backButtons.anchoredPosition.y);
-
-		SetupLogo ();
-
 		SetupInitialSettings ();
 
 		for (int i = 0; i < elementsToEnable.Count; i++)
 			elementsToEnable [i].SetActive (true);
-	}
-
-	void SetupLogo ()
-	{
-		mainMenuScript.secondaryContents [0].content.gameObject.SetActive (true);
-		mainMenuScript.secondaryContents [0].content.anchoredPosition = mainMenuScript.secondaryContents [0].onScreenPos;
 	}
 
 	void StartScreen ()
@@ -138,8 +109,6 @@ public class MenuManager : Singleton <MenuManager>
 	#region Update
 	void Update () 
 	{
-		CheckNothingSelected ();
-		
 		if(DOTween.IsTweening ("Menu") || menuTweening)
 			isTweening = true;
 		else
@@ -152,11 +121,6 @@ public class MenuManager : Singleton <MenuManager>
 			currentMenu.Cancel ();
 	}
 
-	void CheckNothingSelected ()
-	{
-		if(eventSyst.currentSelectedGameObject == null && currentMenu != null && !isTweening)
-			SelectPreviousElement (currentMenu);
-	}
 	#endregion
 
 	#region Submit Methods
@@ -815,7 +779,7 @@ public class MenuManager : Singleton <MenuManager>
 
 	void SelectPreviousElement (MenuComponent whichMenu)
 	{
-		GameObject selectable = null;
+		/*GameObject selectable = null;
 
 		if (whichMenu.previousSelected != null && selectPreviousElement)
 			selectable = whichMenu.previousSelected;
@@ -833,7 +797,7 @@ public class MenuManager : Singleton <MenuManager>
 
 			else if(selectable.GetComponent<Button> () == null)
 				eventSyst.SetSelectedGameObject (selectable);
-		}
+		}*/
 	}
 
 	void SetInteractable (RectTransform target, float delayDuration = 0)

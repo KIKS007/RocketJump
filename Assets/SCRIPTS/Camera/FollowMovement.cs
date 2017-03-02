@@ -2,6 +2,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FollowMovement : MonoBehaviour 
 {
@@ -24,6 +25,11 @@ public class FollowMovement : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		GameManager.Instance.OnPlaying += Setup;
+	}
+
+	void Setup ()
+	{
 		_player = GameObject.FindGameObjectWithTag ("Player").transform;
 		_playerRigidbody = _player.GetComponent<Rigidbody> ();
 
@@ -35,12 +41,17 @@ public class FollowMovement : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		if(_playerRigidbody.velocity.magnitude < _velocityThreshold)
-			Rise ();
+		if(GameManager.Instance.GameState == GameState.Playing)
+		{
+			if (_player == null)
+				return;
 
-		else
-			Follow ();
-
+			if(_playerRigidbody.velocity.magnitude < _velocityThreshold)
+				Rise ();
+			
+			else
+				Follow ();
+		}
 	}
 
 	void Follow ()
