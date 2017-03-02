@@ -5,10 +5,14 @@ using DG.Tweening;
 
 public class LaneChange : MonoBehaviour 
 {
-	public enum ChangeType { FirstToSecond, SecondToFirst, SecondToThird, ThirdToSecond};
+	public enum ChangeType { Next, Previous };
 	public ChangeType Change;
 
-	private Vector3 _lanesPositions = new Vector3 (-14, 0, 14);
+	private static int CurrentLane = 2;
+
+	[HideInInspector]
+	public static Vector3 _lanesPositions = new Vector3 (-14, 0, 14);
+
 	private Ease _movementEase = Ease.OutQuad;
 	private float _movementDuration = 0.5f;
 
@@ -26,28 +30,45 @@ public class LaneChange : MonoBehaviour
 		{
 			Rigidbody playerRigibody = collider.gameObject.GetComponent<Rigidbody> ();
 
-			switch(Change)
-			{
-			case ChangeType.FirstToSecond:
-				if(playerRigibody.velocity.x > _velocityThreshold)
-					_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
-				break;
+			if (Change == ChangeType.Next && playerRigibody.velocity.x > _velocityThreshold)
+				Nextlane ();
 
-			case ChangeType.SecondToFirst:
-				if(playerRigibody.velocity.x < -_velocityThreshold)
-					_camera.DOMoveX (_lanesPositions.x, _movementDuration).SetEase (_movementEase);
-				break;
+			if (Change == ChangeType.Previous && playerRigibody.velocity.x < -_velocityThreshold)
+				PreviousLane ();
+		}
+	}
 
-			case ChangeType.SecondToThird:
-				if(playerRigibody.velocity.x > _velocityThreshold)
-					_camera.DOMoveX (_lanesPositions.z, _movementDuration).SetEase (_movementEase);
-				break;
+	void Nextlane ()
+	{
+		switch(CurrentLane)
+		{
+		case 1:
+			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
+			CurrentLane = 2;
+			break;
+		case 2:
+			_camera.DOMoveX (_lanesPositions.z, _movementDuration).SetEase (_movementEase);
+			CurrentLane = 3;
+			break;
+		case 3:
+			break;
+		}
+	}
 
-			case ChangeType.ThirdToSecond:
-				if(playerRigibody.velocity.x < -_velocityThreshold)
-					_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
-				break;
-			}
+	void PreviousLane ()
+	{
+		switch(CurrentLane)
+		{
+		case 1:
+			break;
+		case 2:
+			_camera.DOMoveX (_lanesPositions.x, _movementDuration).SetEase (_movementEase);
+			CurrentLane = 1;
+			break;
+		case 3:
+			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
+			CurrentLane = 2;
+			break;
 		}
 	}
 }
