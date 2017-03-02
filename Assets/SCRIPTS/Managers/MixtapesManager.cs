@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DarkTonic.MasterAudio;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MixtapesManager : Singleton<MixtapesManager> 
 {
@@ -15,20 +18,37 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	[Header ("Mixtape State")]
 	public bool IsPaused = false;
 
+	[Header ("Music Fade")]
+	public float MusicFadeTime = 0.5f;
+
 	private Player _playerScript;
+	private string _previousMusic;
 
 	public event EventHandler OnMixtapeChange;
 
 	void Start ()
 	{
 		_playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
+
+		SetupPlaylist ();
+		SceneManager.sceneLoaded += (arg0, arg1) => SetupPlaylist();
 		FirstMixtape ();
+	}
+
+	void SetupPlaylist ()
+	{
+		foreach (Wave wave in SelectedMixtapes)
+		{
+			MasterAudio.PlaySoundAndForget (wave.Music, 1);
+			MasterAudio.FadeSoundGroupToVolume (wave.Music, 0, 0);
+		}
 	}
 
 	void FirstMixtape ()
 	{
 		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
 		CurrentWave = SelectedMixtapes [MixtapeIndex];
+		SetPlaylist ();
 		StartCoroutine (MixtapeDuration ());
 	}
 
@@ -69,6 +89,7 @@ public class MixtapesManager : Singleton<MixtapesManager>
 		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
 		CurrentWave = SelectedMixtapes [MixtapeIndex];
 
+		SetPlaylist ();
 		StartCoroutine (MixtapeDuration ());
 	}
 
@@ -84,7 +105,17 @@ public class MixtapesManager : Singleton<MixtapesManager>
 		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
 		CurrentWave = SelectedMixtapes [MixtapeIndex];
 
+		SetPlaylist ();
 		StartCoroutine (MixtapeDuration ());
+	}
+
+	void SetPlaylist ()
+	{
+		if(_previousMusic != null)
+			MasterAudio.FadeSoundGroupToVolume (_previousMusic, 0, MusicFadeTime);
+
+		MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [MixtapeIndex].Music, 1, MusicFadeTime);
+		_previousMusic = SelectedMixtapes [MixtapeIndex].Music;
 	}
 
 	public void PauseMixtape (float duration)

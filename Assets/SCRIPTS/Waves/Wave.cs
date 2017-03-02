@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DarkTonic.MasterAudio;
 
 public class Wave : MonoBehaviour 
 {
@@ -19,4 +20,8 @@ public class Wave : MonoBehaviour
 
 	[Header ("Rocket")]
 	public GameObject Rocket;
+
+	[Header ("Music")]
+	[SoundGroup]
+	public string Music;
 }
