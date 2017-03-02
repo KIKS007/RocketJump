@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
 		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
 			.SetEase (Ease.OutQuad)
 			.OnUpdate (()=> WaveForceDebug = _waveForce / CurrentWave.WaveForceLimits.y).SetId ("Wave")
-			.OnComplete (()=> { if(WaveState == WaveState.IsWaving) Wave(); } );
+			.OnComplete (()=> { if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) Wave(); } );
 	}
 
 	void Wave ()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ChunkType { RightOpened, LeftOpened, BothOpened, BothClosed };
 
-public class ChunksManager : Singleton<ChunksManager> 
+public class ChunksManager : MonoBehaviour
 {
 	[Header ("Previous Chunks")]
 	public List<ChunkType> PreviousChunksType = new List<ChunkType> ();

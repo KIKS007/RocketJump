@@ -16,24 +16,26 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 	void Awake ()
 	{
-		_instance = (T) FindObjectOfType(typeof(T));
+		if (_instance == null)
+		{
+			DontDestroyOnLoad (this.gameObject);
+		}
+		else
+			Destroy (gameObject);
 
-		if (_instance != null)
-			DontDestroyOnLoad(_instance.gameObject);
-
-		//SceneManager.sceneLoaded += (arg0, arg1) => applicationIsQuitting = false;
+		SceneManager.sceneLoaded += (arg0, arg1) => applicationIsQuitting = false;
 	}
 
 	public static T Instance
 	{
 		get
 		{
-			if (applicationIsQuitting) {
+			/*if (applicationIsQuitting) {
 				Debug.LogWarning("[Singleton] Instance '"+ typeof(T) +
 					"' already destroyed on application quit." +
 					" Won't create again - returning null.");
 				return null;
-			}
+			}*/
 
 			lock(_lock)
 			{
@@ -83,7 +85,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	///   even after stopping playing the Application. Really bad!
 	/// So, this was made to be sure we're not creating that buggy ghost object.
 	/// </summary>
-	public void OnDestroy () {
+	public void OnDestroy () 
+	{
 		applicationIsQuitting = true;
 	}
 }

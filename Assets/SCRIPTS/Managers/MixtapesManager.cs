@@ -5,7 +5,7 @@ using DarkTonic.MasterAudio;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MixtapesManager : Singleton<MixtapesManager> 
+public class MixtapesManager : MonoBehaviour 
 {
 	[Header ("Mixtapes")]
 	public int MixtapeIndex = 0;
