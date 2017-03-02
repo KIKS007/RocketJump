@@ -6,23 +6,20 @@ public enum ChunkType { RightOpened, LeftOpened, BothOpened, BothClosed };
 
 public class ChunksManager : Singleton<ChunksManager> 
 {
-	[Header ("Chunks")]
+	[Header ("Previous Chunks")]
 	public List<ChunkType> PreviousChunksType = new List<ChunkType> ();
+
+	[Header ("Chunks Chance")]
 	public int RightOpenedChance = 1;
 	public int LeftOpenedChance = 1;
 	public int BothOpenedChance = 1;
 	public int BothClosedChance = 1;
 	public int SameTypeThreshold = 3;
 
-	private int _sameTypeCount = 0;
+	public int _sameTypeCount = 0;
 
 	[Header ("Chunks List")]
-	public List<Chunk> FirstLaneChuncks = new List<Chunk> ();
-	public List<Chunk> SecondLaneChuncks = new List<Chunk> ();
-	public List<Chunk> ThirdLaneChuncks = new List<Chunk> ();
-
 	public List<Chunk> AllChunks = new List<Chunk> ();
-
 
 	[Header ("Settings")]
 	public int ChunkIndex = 1;
@@ -314,10 +311,13 @@ public class ChunksManager : Singleton<ChunksManager>
 		for (int i = 0; i < BothClosedChance; i++)
 			chunksType.Add (ChunkType.BothClosed);
 
-
 		ChunkType chunkReturned = ChunkType.BothClosed;
 
-		if(_sameTypeCount == SameTypeThreshold)
+
+		if(!CheckChances ())
+			return chunkReturned;
+
+		if(_sameTypeCount == SameTypeThreshold - 1)
 		{
 			do
 			{
@@ -331,7 +331,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		{
 			chunkReturned = chunksType [Random.Range (0, chunksType.Count)];
 
-			if (PreviousChunksType [0] == chunkReturned)
+			if (PreviousChunksType.Count > 0 && PreviousChunksType [0] == chunkReturned)
 				_sameTypeCount++;
 			else
 				_sameTypeCount = 0;
@@ -341,6 +341,29 @@ public class ChunksManager : Singleton<ChunksManager>
 		return chunkReturned;
 	}
 		
+	bool CheckChances ()
+	{
+		int noChanceCount = 0;
+
+		if (RightOpenedChance == 0)
+			noChanceCount++;
+
+		if (LeftOpenedChance == 0)
+			noChanceCount++;
+
+		if (BothOpenedChance == 0)
+			noChanceCount++;
+		
+		if (BothClosedChance == 0)
+			noChanceCount++;
+
+
+		if (noChanceCount > 2) {
+			Debug.LogError ("There aren't enough chances!");
+			return false;
+		} else
+			return true;
+	}
 
 	IEnumerator RemoveBlocs (List<GameObject> blocs)
 	{
