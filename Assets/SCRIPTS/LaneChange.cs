@@ -8,7 +8,9 @@ public class LaneChange : MonoBehaviour
 	public enum ChangeType { FirstToSecond, SecondToFirst, SecondToThird, ThirdToSecond};
 	public ChangeType Change;
 
-	private Vector3 _lanesPositions = new Vector3 (-14, 0, 14);
+	[HideInInspector]
+	public static Vector3 _lanesPositions = new Vector3 (-14, 0, 14);
+
 	private Ease _movementEase = Ease.OutQuad;
 	private float _movementDuration = 0.5f;
 
