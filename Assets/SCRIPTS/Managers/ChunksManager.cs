@@ -8,15 +8,15 @@ public class ChunksManager : Singleton<ChunksManager>
 {
 	[Header ("Previous Chunks")]
 	public List<ChunkType> PreviousChunksType = new List<ChunkType> ();
+	public int SameTypeThreshold = 3;
 
 	[Header ("Chunks Chance")]
 	public int RightOpenedChance = 1;
 	public int LeftOpenedChance = 1;
 	public int BothOpenedChance = 1;
 	public int BothClosedChance = 1;
-	public int SameTypeThreshold = 3;
 
-	public int _sameTypeCount = 0;
+	private int _sameTypeCount = 0;
 
 	[Header ("Chunks List")]
 	public List<Chunk> AllChunks = new List<Chunk> ();
@@ -161,6 +161,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -172,6 +173,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 	}
 
 	void AddLeftOpenedLane ()
@@ -191,6 +193,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -202,6 +205,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -230,6 +234,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -241,6 +246,8 @@ public class ChunksManager : Singleton<ChunksManager>
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -252,6 +259,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
+		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 	}
 
 	void AddBothClosedLane ()
@@ -371,6 +379,25 @@ public class ChunksManager : Singleton<ChunksManager>
 
 		foreach (GameObject bloc in blocs)
 			Destroy (bloc);
+	}
+
+	IEnumerator EnableLaneChanges (Chunk chunk, ChunkType type)
+	{
+		yield return new WaitForSeconds (0.05f);
+
+		if (type == ChunkType.BothOpened || type == ChunkType.RightOpened)
+		{
+			chunk._rightLaneChange.SetActive (true);
+
+			chunk._leftLaneChange.SetActive (false);
+		}
+
+		if (type == ChunkType.BothOpened || type == ChunkType.LeftOpened)
+		{
+			chunk._leftLaneChange.SetActive (true);
+
+			chunk._rightLaneChange.SetActive (false);
+		}
 	}
 
 	void RemovePreviousChunks ()
