@@ -19,6 +19,7 @@ public class ChunksManager : Singleton<ChunksManager>
 	private int _sameTypeCount = 0;
 
 	[Header ("Chunks List")]
+	public Transform ChunksParent;
 	public List<Chunk> AllChunks = new List<Chunk> ();
 
 	[Header ("Settings")]
@@ -42,6 +43,11 @@ public class ChunksManager : Singleton<ChunksManager>
 	void Start () 
 	{
 		_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+
+		AllChunks.Clear ();
+
+		foreach (Transform child in ChunksParent)
+			AllChunks.Add (child.GetComponent<Chunk> ());
 
 		AddFirstChunks ();
 
