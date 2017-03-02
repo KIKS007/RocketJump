@@ -85,7 +85,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		_previousChunks.Add (secondChunk);
 
 		//First Lane
-		if(secondLane.LeftWall == WallType.Opened)
+		if(secondLane.LeftWall == WallType.Breakable)
 		{
 			firstlane = _firstLaneOpened [Random.Range (0, _firstLaneOpened.Count)];
 
@@ -103,7 +103,7 @@ public class ChunksManager : Singleton<ChunksManager>
 		}
 
 		//Third Lane
-		if(secondLane.RightWall == WallType.Opened)
+		if(secondLane.RightWall == WallType.Breakable)
 		{
 			thirdlane = _thirdLaneOpened [Random.Range (0, _thirdLaneOpened.Count)];
 

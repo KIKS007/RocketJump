@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum WallType { Solid, Breakable, Opened };
+public enum WallType { Solid, Breakable };
 public enum LaneType { First, Second, Third };
 
 public class Chunk : MonoBehaviour 
 {
-	[Header ("Lane Type")]
+	[HideInInspector]
 	public LaneType Lane;
 
 	[Header ("Wall Type")]
 	public WallType RightWall;
 	public WallType LeftWall;
 
+	[Header ("Breakable Blocs")]
 	public List<GameObject> RightBreakableBlocs = new List<GameObject>();
 	public List<GameObject> LeftBreakableBlocs = new List<GameObject>();
 
-	public GameObject _rightLaneChange;
-	public GameObject _leftLaneChange;
+	private GameObject _rightLaneChange;
+	private GameObject _leftLaneChange;
 
 	void Awake ()
 	{
