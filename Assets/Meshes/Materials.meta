@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: e672cda4a6ff3114ab854af1dcb2f408
 folderAsset: yes
 timeCreated: 1488555408
+=======
+guid: 6e04376099ff5e34a93e4a9b82e473b2
+folderAsset: yes
+timeCreated: 1488556456
+>>>>>>> loic
 licenseType: Pro
 DefaultImporter:
   userData: 
