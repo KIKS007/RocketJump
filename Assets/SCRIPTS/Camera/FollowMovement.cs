@@ -23,7 +23,7 @@ public class FollowMovement : MonoBehaviour
 	private float _velocityThreshold = 0.5f;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		GameManager.Instance.OnPlaying += Setup;
 	}
