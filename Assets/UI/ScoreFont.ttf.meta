@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b709c7fa444281b4f8efaa127f818cef
+timeCreated: 1488579002
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ScoreFont
+  fontNames:
+  - ScoreFont
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
