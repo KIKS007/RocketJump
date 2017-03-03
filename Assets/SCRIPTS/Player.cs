@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
 		Vector3 position = transform.position;
 		position.y -= 0.8f;
 
-		if (Physics.CheckSphere (position, 0.4f, GroundLayer, QueryTriggerInteraction.Ignore))
+		if (Physics.CheckSphere (position, 0.2f, GroundLayer, QueryTriggerInteraction.Ignore))
 		{
 			if(JumpState == JumpState.InAir && OnGrounded != null)
 				OnGrounded ();

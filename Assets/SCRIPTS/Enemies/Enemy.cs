@@ -8,13 +8,13 @@ public class Enemy : MonoBehaviour
 	private Rigidbody _playerRigidbody;
 
 	// Use this for initialization
-	void Start () 
+	protected virtual void Start () 
 	{
 		_playerRigidbody = GameObject.FindGameObjectWithTag ("Player").GetComponent<Rigidbody> ();	
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	protected virtual void Update () 
 	{
 		
 	}

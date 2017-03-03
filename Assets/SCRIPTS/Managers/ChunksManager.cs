@@ -49,7 +49,7 @@ public class ChunksManager : MonoBehaviour
 		foreach (Transform child in ChunksParent)
 			AllChunks.Add (child.GetComponent<Chunk> ());
 
-		AddFirstChunks ();
+		//AddFirstChunks ();
 
 		SortChunks ();
 	}
@@ -167,8 +167,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
-
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
 		thirdLaneChunks = new List<Chunk> (_bothBreakable);
@@ -179,7 +179,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 	}
 
 	void AddLeftOpenedLane ()
@@ -199,7 +200,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -211,7 +213,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -240,7 +243,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -252,8 +256,9 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -265,7 +270,8 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
 	}
 
 	void AddBothClosedLane ()
@@ -385,6 +391,13 @@ public class ChunksManager : MonoBehaviour
 
 		foreach (GameObject bloc in blocs)
 			Destroy (bloc);
+	}
+
+	void EnableBothLaneChanges (Chunk chunk)
+	{
+		chunk._rightLaneChange.SetActive (true);
+		
+		chunk._leftLaneChange.SetActive (true);
 	}
 
 	IEnumerator EnableLaneChanges (Chunk chunk, ChunkType type)
