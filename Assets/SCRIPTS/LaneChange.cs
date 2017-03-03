@@ -7,6 +7,7 @@ public class LaneChange : MonoBehaviour
 {
 	public enum ChangeType { Next, Previous };
 	public ChangeType Change;
+	public int ThisLanePosition;
 
 	private static int CurrentLane = 2;
 
@@ -16,16 +17,32 @@ public class LaneChange : MonoBehaviour
 	private Ease _movementEase = Ease.OutQuad;
 	private float _movementDuration = 0.5f;
 
-	private float _velocityThreshold = 2;
+	private float _velocityThreshold = 0;
 	private Transform _camera;
 
 	void Start ()
 	{
 		_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+
+		switch(transform.parent.parent.position.x.ToString ())
+		{
+		case "-14":
+			ThisLanePosition = 1;
+			break;
+		case "0":
+			ThisLanePosition = 2;
+			break;
+		case "14":
+			ThisLanePosition = 3;
+			break;
+		}
+
+		GameManager.Instance.OnPlaying += () => CurrentLane = 2;
 	}
 
 	void OnTriggerEnter (Collider collider)
 	{
+
 		if(collider.gameObject.tag == "Player")
 		{
 			Rigidbody playerRigibody = collider.gameObject.GetComponent<Rigidbody> ();
@@ -43,12 +60,12 @@ public class LaneChange : MonoBehaviour
 		switch(CurrentLane)
 		{
 		case 1:
-			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
 			CurrentLane = 2;
+			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		case 2:
-			_camera.DOMoveX (_lanesPositions.z, _movementDuration).SetEase (_movementEase);
 			CurrentLane = 3;
+			_camera.DOMoveX (_lanesPositions.z, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		case 3:
 			break;
@@ -62,12 +79,12 @@ public class LaneChange : MonoBehaviour
 		case 1:
 			break;
 		case 2:
-			_camera.DOMoveX (_lanesPositions.x, _movementDuration).SetEase (_movementEase);
 			CurrentLane = 1;
+			_camera.DOMoveX (_lanesPositions.x, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		case 3:
-			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase);
 			CurrentLane = 2;
+			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		}
 	}

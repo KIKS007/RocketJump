@@ -19,10 +19,16 @@ public class Rocket : MonoBehaviour
 	[HideInInspector]
 	public Rigidbody _rigidbody;
 
+	public Transform rocketWave;
+	public GameObject explosion;
+
 	// Use this for initialization
 	protected virtual void Awake () 
 	{
 		SetupRigidbody ();
+
+		if(rocketWave != null)
+			rocketWave.SetParent (null);
 	}
 
 	protected virtual void SetupRigidbody ()
@@ -46,6 +52,8 @@ public class Rocket : MonoBehaviour
 
 	public virtual void Explode ()
 	{
+		Instantiate (explosion, transform.position, Quaternion.identity);
+
 		foreach(Collider other in Physics.OverlapSphere(transform.position, ExplosionRadius, ExplosionLayer))
 		{
 			Vector3 repulseDirection = other.transform.position - transform.position;

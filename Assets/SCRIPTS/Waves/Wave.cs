@@ -9,9 +9,6 @@ public class Wave : MonoBehaviour
 	public Vector2 WaveForceLimits;
 	public float MaxForceDuration;
 
-	[Header ("Cooldown")]
-	public float WaveCooldown;
-
 	[Header ("Gravity")]
 	public float GravityForce;
 

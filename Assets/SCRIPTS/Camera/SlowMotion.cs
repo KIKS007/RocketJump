@@ -26,6 +26,8 @@ public class SlowMotion : MonoBehaviour
 
 		_initialTimeScale = Time.timeScale;
 		_initialFixedDelta = Time.fixedDeltaTime;
+
+		GameManager.Instance.OnGameOver += StopSlowMotion;
 	}
 
 	// Update is called once per frame

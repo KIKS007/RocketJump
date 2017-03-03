@@ -14,6 +14,10 @@ public class BounceRocket : Rocket
 
 	private Vector3 _initialScale;
 
+	private int _bounceCount;
+
+	public ParticleSystem lighting;
+
 	protected override void Awake ()
 	{
 		base.Awake ();
@@ -25,6 +29,13 @@ public class BounceRocket : Rocket
 	{
 		base.OnCollisionEnter (collision);
 
+		_bounceCount++;
+
+		lighting.Play ();
+
+		if (_bounceCount > 3)
+			End ();
+		
 		if(!DOTween.IsTweening ("Bounce" + GetInstanceID ()))
 		{
 			transform.localScale = _initialScale;

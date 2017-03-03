@@ -11,12 +11,14 @@ public class EnemiesManager : Singleton<EnemiesManager>
     public List<GameObject> Enemies = new List<GameObject>();
 
     // Use this for initialization
-    void Start () {
-		
+    void Start () 
+	{
+		GameManager.Instance.OnGameOver += RemoveEnemies;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void RemoveEnemies ()
+	{
+		for (int i = 0; i < enemiesParent.childCount; i++)
+			Destroy (enemiesParent.GetChild (i).gameObject);
 	}
 }

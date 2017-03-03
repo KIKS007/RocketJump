@@ -9,13 +9,13 @@ public class Enemy : MonoBehaviour
 
 
 	// Use this for initialization
-	void Start () 
+	protected virtual void Start () 
 	{
 		_playerRigidbody = GameObject.FindGameObjectWithTag ("Player").GetComponent<Rigidbody> ();	
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	protected virtual void Update () 
 	{
 		
 	}
@@ -44,12 +44,11 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Death ()
 	{
-        
-
-        
-        Animator animator = GetComponentInChildren<Animator>();
-        StartCoroutine(Delaymort());
-        animator.SetTrigger("Mort");
+		ScoreManager.Instance.EnemyKilled (50);
+		
+		Animator animator = GetComponentInChildren<Animator>();
+		StartCoroutine(Delaymort());
+		animator.SetTrigger("Mort");
 	}
 
     IEnumerator Delaymort ()
