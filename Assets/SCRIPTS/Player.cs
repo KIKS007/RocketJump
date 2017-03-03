@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
 	[Header ("Crosshairs")]
 	public Transform Crosshairs;
+	public LineRenderer CrossHairRenderer;
 
 	[Header ("Grounded")]
 	public LayerMask GroundLayer;
@@ -52,6 +53,8 @@ public class Player : MonoBehaviour
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera> ();
 		_slowMotion = _mainCamera.GetComponent<SlowMotion> (); 
 		_rigidbody = GetComponent<Rigidbody> ();
+
+		CrossHairRenderer.startWidth = 0;
 	}
 	
 	// Update is called once per frame
@@ -133,17 +136,31 @@ public class Player : MonoBehaviour
 
 	void SetCrossHair ()
 	{
+		if(WaveState == WaveState.IsWaving && CrossHairRenderer.startWidth != 1)
+			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f);
+			
+		else if(CrossHairRenderer.startWidth != 0)
+			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f);
+
+
 		if(WaveState == WaveState.IsWaving)
 		{
 			if(!Crosshairs.gameObject.activeSelf)
+			{
 				Crosshairs.gameObject.SetActive (true);
+			}
 
 			Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
 
 			Crosshairs.position = transform.position + direction.normalized * 3;
+
+			CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
+			CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
 		}
 		else if(Crosshairs.gameObject.activeSelf)
+		{
 			Crosshairs.gameObject.SetActive (false);
+		}
 	}
 
 	void LaunchRocket ()

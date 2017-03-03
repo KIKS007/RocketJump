@@ -16,6 +16,8 @@ public class BounceRocket : Rocket
 
 	private int _bounceCount;
 
+	public ParticleSystem lighting;
+
 	protected override void Awake ()
 	{
 		base.Awake ();
@@ -28,6 +30,8 @@ public class BounceRocket : Rocket
 		base.OnCollisionEnter (collision);
 
 		_bounceCount++;
+
+		lighting.Play ();
 
 		if (_bounceCount > 3)
 			End ();
