@@ -9,6 +9,7 @@ public class Enemy_Walk : MonoBehaviour {
     bool goRight = true;
     Rigidbody rb;
 
+	public LayerMask collisionLayer = (1 << 11) | (1 << 12) | (1 << 13);
     public float speed;
 
     Transform child;
@@ -38,17 +39,15 @@ public class Enemy_Walk : MonoBehaviour {
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(child.transform.position, -Vector3.up, out hit))
+		if (Physics.Raycast(child.transform.position, -Vector3.up, out hit, collisionLayer))
         {
-
-
             if (hit.distance > 2)
             {
                 ChangeDirection();
             }
         }
 
-        if (Physics.Raycast(child.transform.position, transform.forward, out hit))
+		if (Physics.Raycast(child.transform.position, transform.forward, out hit, collisionLayer))
         {
             Debug.DrawRay(child.transform.position, transform.forward);
 
