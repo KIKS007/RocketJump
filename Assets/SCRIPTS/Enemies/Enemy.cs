@@ -44,12 +44,11 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Death ()
 	{
-        
-
-        
-        Animator animator = GetComponentInChildren<Animator>();
-        StartCoroutine(Delaymort());
-        animator.SetTrigger("Mort");
+		ScoreManager.Instance.EnemyKilled (50);
+		
+		Animator animator = GetComponentInChildren<Animator>();
+		StartCoroutine(Delaymort());
+		animator.SetTrigger("Mort");
 	}
 
     IEnumerator Delaymort ()
