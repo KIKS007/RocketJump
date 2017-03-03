@@ -21,18 +21,18 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void OnCollisionEnter (Collision collision)
 	{
-		if(collision.gameObject.tag == "Player")
-			HitByPlayer ();
-
+		
 		if (LayerMask.NameToLayer ("Rocket") == collision.gameObject.layer)
 			Death ();
-	}
+
+        if (collision.gameObject.tag == "Player")
+            HitByPlayer();
+
+    }
 
 	protected virtual void HitByPlayer ()
 	{
-		_playerRigidbody.AddForce (Vector3.up * _jumpForce, ForceMode.Impulse);
-
-		Death ();
+        GameManager.Instance.GameOver();
 	}
 
 	protected virtual void Death ()
