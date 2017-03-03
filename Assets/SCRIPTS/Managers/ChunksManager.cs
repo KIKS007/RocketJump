@@ -167,8 +167,9 @@ public class ChunksManager : MonoBehaviour
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
+
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
 		thirdLaneChunks = new List<Chunk> (_bothBreakable);
@@ -180,7 +181,7 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 	}
 
 	void AddLeftOpenedLane ()
@@ -201,7 +202,7 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -214,7 +215,7 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -244,7 +245,7 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
+		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
@@ -256,9 +257,9 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.RightOpened));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
+		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
+		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//THIRD LANE
 		thirdLaneChunks.Clear ();
@@ -271,7 +272,7 @@ public class ChunksManager : MonoBehaviour
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
-		//StartCoroutine (EnableLaneChanges (chunk.GetComponent<Chunk> (), ChunkType.LeftOpened));
+		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 	}
 
 	void AddBothClosedLane ()
