@@ -31,18 +31,23 @@ public class Player : MonoBehaviour
 	public LayerMask GroundLayer;
 
 	private Camera _mainCamera;
-	private Vector3 _launchPosition;
+    [HideInInspector]
+    public Vector3 _launchPosition;
 	private Rigidbody _rigidbody;
 	private float _waveForce;
 	private SlowMotion _slowMotion;
+    [HideInInspector]
+    public float _launchDelay = 0.005f;
 
 	public event EventHandler OnWaveChange;
 	public event EventHandler OnRocketChange;
 	public event EventHandler OnJump;
 	public event EventHandler OnGrounded;
+    public event EventHandler OnLaunch;
+    public event EventHandler OnHold;
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
 	{
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera> ();
 		_slowMotion = _mainCamera.GetComponent<SlowMotion> (); 
@@ -83,7 +88,10 @@ public class Player : MonoBehaviour
 
 	void WaveForce ()
 	{
-		_slowMotion.StartSlowMotion ();
+        if (OnHold != null)
+        OnHold();
+
+        _slowMotion.StartSlowMotion ();
 
 		WaveState = WaveState.IsWaving;
 
@@ -103,7 +111,7 @@ public class Player : MonoBehaviour
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
 		_rigidbody.velocity = Vector3.zero;
 
-		LaunchRocket ();
+       LaunchRocket ();
 
 		Vector3 recoilDirection = transform.position - _launchPosition;
 		recoilDirection.z = 0;
@@ -143,7 +151,10 @@ public class Player : MonoBehaviour
 		if (CurrentRocket == null)
 			return;
 
-		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
+        if (OnLaunch != null)
+            OnLaunch();
+
+        GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
 		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
 
