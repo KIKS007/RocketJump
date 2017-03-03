@@ -8,6 +8,7 @@ public enum GameState { Menu, Playing, GameOver };
 public class GameManager : Singleton<GameManager> 
 {
 	public GameState GameState = GameState.Playing;
+	public string GameScene ="Kiki";
 
 	public event EventHandler OnPlaying;
 	public event EventHandler OnMenu;
@@ -24,7 +25,7 @@ public class GameManager : Singleton<GameManager>
 		if (GameState == GameState.Menu)
 			MenuManager.Instance.ShowMenu (MenuManager.Instance.mainMenu.GetComponent<MenuComponent> ());
 		else
-			StartCoroutine (LoadScene ("Kiki"));
+			StartCoroutine (LoadScene (GameScene));
 
 		OnGameOver += () => 
 		{
