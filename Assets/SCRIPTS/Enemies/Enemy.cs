@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 	private static float _jumpForce = 10;
 	private Rigidbody _playerRigidbody;
 
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -43,6 +44,19 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Death ()
 	{
-		Destroy (gameObject);
+        
+
+        
+        Animator animator = GetComponentInChildren<Animator>();
+        StartCoroutine(Delaymort());
+        animator.SetTrigger("Mort");
 	}
+
+    IEnumerator Delaymort ()
+    {
+        yield return new WaitForSeconds(1);
+        GetComponent<Enemy_Walk>().speed = 0;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        Destroy(gameObject);
+    }
 }
