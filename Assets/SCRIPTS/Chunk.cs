@@ -18,9 +18,16 @@ public class Chunk : MonoBehaviour
 	public GameObject _rightLaneChange;
 	public GameObject _leftLaneChange;
 
-	void Awake ()
+    public List<GameObject> SpawnablePlatforms = new List<GameObject>();
+
+
+    void Awake ()
 	{
-		if(RightWall != WallType.Solid)
+        SpawnEnemies();
+
+        FindObjectwithTag("SpawnablePlatform", SpawnablePlatforms);
+
+        if (RightWall != WallType.Solid)
 		{
 			FindObjectwithTag ("BreakableBloc", RightBreakableBlocs, x => x.transform.position.x > transform.position.x);
 
@@ -89,4 +96,33 @@ public class Chunk : MonoBehaviour
 			}
 		}
 	}
+
+    void SpawnEnemies()
+    {
+
+       int numberOfEnemies = EnemiesManager.Instance.numberOfEnemies;
+
+       List<GameObject> SpawnablePlatformsTemp = new List<GameObject>(SpawnablePlatforms);
+
+       
+            for(int i =0; i<numberOfEnemies; i++)
+            {
+                if (SpawnablePlatformsTemp.Count > 0)
+                {
+
+                GameObject enemy = EnemiesManager.Instance.Enemies[UnityEngine.Random.Range(0, EnemiesManager.Instance.Enemies.Count)];
+                GameObject platform = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)];
+                Vector3 position = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)].transform.position;
+                position.y = position.y + (platform.transform.localScale.y / 2) + 1;
+
+                Instantiate(enemy, position, enemy.transform.rotation, EnemiesManager.Instance.enemiesParent);
+
+                SpawnablePlatformsTemp.Remove(platform);
+                }
+            }
+
+        
+
+        //numberOfEnemies
+    }
 }

@@ -17,6 +17,8 @@ public class Enemy_Walk : MonoBehaviour {
 	void Start () {
         child = transform.GetChild(0);
         rb = GetComponent<Rigidbody>();
+
+        Debug.Log("ok");
 	}
 	
 	// Update is called once per frame
@@ -52,7 +54,7 @@ public class Enemy_Walk : MonoBehaviour {
         {
             Debug.DrawRay(child.transform.position, transform.forward);
 
-            if (hit.distance < 0.2)
+            if (hit.distance < 0.5f)
             {
                 ChangeDirection();
             }

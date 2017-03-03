@@ -26,11 +26,17 @@ public class Enemy : MonoBehaviour
 			Death ();
 
         if (collision.gameObject.tag == "Player")
-            HitByPlayer();
+            HitByPlayer();  
 
     }
 
-	protected virtual void HitByPlayer ()
+    protected virtual void OnTriggerEnter(Collider collider)
+    {
+        if (LayerMask.NameToLayer("Rocket") == collider.gameObject.layer)
+            Death();
+    }
+
+    protected virtual void HitByPlayer ()
 	{
         GameManager.Instance.GameOver();
 	}
