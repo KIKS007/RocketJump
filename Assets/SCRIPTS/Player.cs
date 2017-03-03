@@ -119,14 +119,6 @@ public class Player : MonoBehaviour
 			OnJump ();
 
 		_slowMotion.StopSlowMotion ();
-		StartCoroutine (WaveCooldown ());
-	}
-
-	IEnumerator WaveCooldown ()
-	{
-		WaveState = WaveState.Cooldown;
-
-		yield return new WaitForSecondsRealtime (CurrentWave.WaveCooldown);
 
 		WaveState = WaveState.CanWave;
 	}

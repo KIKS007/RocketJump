@@ -17,8 +17,10 @@ public class GameManager : Singleton<GameManager>
 	{
 		StartCoroutine (GameStateChange (GameState));
 
-		if(GameState == GameState.Menu)
+		if (GameState == GameState.Menu)
 			MenuManager.Instance.ShowMenu (MenuManager.Instance.mainMenu.GetComponent<MenuComponent> ());
+		else
+			StartCoroutine (LoadScene ("Kiki"));
 	}
 
 	public void GameOver ()
@@ -33,7 +35,21 @@ public class GameManager : Singleton<GameManager>
 
 		string scene = SceneManager.GetSceneAt (1).name;
 
-		yield return SceneManager.UnloadSceneAsync (scene);
+		if(SceneManager.GetSceneByName (scene).isLoaded)
+			yield return SceneManager.UnloadSceneAsync (scene);
+		
+		yield return SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
+
+		GameState = GameState.Playing;
+	}
+
+	IEnumerator LoadScene (string scene)
+	{
+		GameState = GameState.Menu;
+
+		if(SceneManager.GetSceneByName (scene).isLoaded)
+			yield return SceneManager.UnloadSceneAsync (scene);
+		
 		yield return SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
 
 		GameState = GameState.Playing;
