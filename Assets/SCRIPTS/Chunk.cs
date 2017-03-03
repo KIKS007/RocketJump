@@ -31,9 +31,9 @@ public class Chunk : MonoBehaviour
 
     void Awake ()
 	{
-        SpawnEnemies();
+		FindObjectwithTag("SpawnablePlatform", SpawnablePlatforms);
 
-        FindObjectwithTag("SpawnablePlatform", SpawnablePlatforms);
+		SpawnEnemies();
 
         if (RightWall != WallType.Solid)
 		{
@@ -133,29 +133,29 @@ public class Chunk : MonoBehaviour
 
     void SpawnEnemies()
     {
+		if (GameManager.Instance.GameState != GameState.Playing)
+			return;
+		
+		int numberOfEnemies = EnemiesManager.Instance.numberOfEnemies;
+		
+		List<GameObject> SpawnablePlatformsTemp = new List<GameObject>(SpawnablePlatforms);
 
-       int numberOfEnemies = EnemiesManager.Instance.numberOfEnemies;
-
-       List<GameObject> SpawnablePlatformsTemp = new List<GameObject>(SpawnablePlatforms);
-
-       
-            for(int i =0; i<numberOfEnemies; i++)
-            {
-                if (SpawnablePlatformsTemp.Count > 0)
-                {
-
-                GameObject enemy = EnemiesManager.Instance.Enemies[UnityEngine.Random.Range(0, EnemiesManager.Instance.Enemies.Count)];
-                GameObject platform = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)];
-                Vector3 position = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)].transform.position;
-                position.y = position.y + (platform.transform.localScale.y / 2) + 1;
-
-                Instantiate(enemy, position, enemy.transform.rotation, EnemiesManager.Instance.enemiesParent);
-
-                SpawnablePlatformsTemp.Remove(platform);
-                }
-            }
-
-        
+		for(int i = 0; i < numberOfEnemies; i++)
+		{
+			if (SpawnablePlatformsTemp.Count > 0)
+			{
+				
+				GameObject enemy = EnemiesManager.Instance.Enemies[UnityEngine.Random.Range(0, EnemiesManager.Instance.Enemies.Count)];
+				GameObject platform = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)];
+				Vector3 position = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)].transform.position;
+				position.y = position.y + (platform.transform.localScale.y / 2) + 1;
+				
+				Instantiate(enemy, position, enemy.transform.rotation, EnemiesManager.Instance.enemiesParent);
+				
+				
+				SpawnablePlatformsTemp.Remove(platform);
+			}
+		}
 
         //numberOfEnemies
     }

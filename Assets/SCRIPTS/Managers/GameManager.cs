@@ -22,10 +22,7 @@ public class GameManager : Singleton<GameManager>
 
 		StartCoroutine (GameStateChange (GameState));
 
-		if (GameState == GameState.Menu)
-			MenuManager.Instance.ShowMenu (MenuManager.Instance.mainMenu.GetComponent<MenuComponent> ());
-		else
-			StartCoroutine (LoadScene (GameScene));
+		StartCoroutine (LoadScene (GameScene));
 
 		OnGameOver += () => 
 		{

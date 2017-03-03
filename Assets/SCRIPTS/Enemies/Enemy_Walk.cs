@@ -17,8 +17,6 @@ public class Enemy_Walk : MonoBehaviour {
 	void Start () {
         child = transform.GetChild(0);
         rb = GetComponent<Rigidbody>();
-
-        Debug.Log("ok");
 	}
 	
 	// Update is called once per frame
