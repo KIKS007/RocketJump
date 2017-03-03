@@ -13,14 +13,35 @@ public class GameManager : Singleton<GameManager>
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
 
+	public bool FirstLaunch = false;
+
 	void Start ()
 	{
+		CheckFirstLaunch ();
+
 		StartCoroutine (GameStateChange (GameState));
 
 		if (GameState == GameState.Menu)
 			MenuManager.Instance.ShowMenu (MenuManager.Instance.mainMenu.GetComponent<MenuComponent> ());
 		else
 			StartCoroutine (LoadScene ("Kiki"));
+
+		OnGameOver += () => 
+		{
+			if(FirstLaunch)
+			{
+				FirstLaunch = false; 
+				PlayerPrefs.SetInt ("FirstLaunch", 0);
+			}
+		};
+	}
+
+	void CheckFirstLaunch ()
+	{
+		if (PlayerPrefs.GetInt ("FirstLaunch") == 0)
+			FirstLaunch = false;
+		else
+			FirstLaunch = true;
 	}
 
 	public void GameOver ()
