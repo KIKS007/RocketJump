@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
 	public event EventHandler OnPlaying;
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
+    public GameObject PanelGameOver;
 
 	void Start ()
 	{
@@ -23,9 +24,16 @@ public class GameManager : Singleton<GameManager>
 
 	public void GameOver ()
 	{
-		if(GameState != GameState.GameOver)
-			StartCoroutine (LoadScene ());
+        ShowPanelGameOver();
+
+		//if(GameState != GameState.GameOver)
+			//StartCoroutine (LoadScene ());
 	}
+
+    void ShowPanelGameOver ()
+    {
+        PanelGameOver.SetActive(true);
+    }
 
 	IEnumerator LoadScene ()
 	{
