@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
 		_slowMotion = _mainCamera.GetComponent<SlowMotion> (); 
 		_rigidbody = GetComponent<Rigidbody> ();
 
+		CrossHairRenderer.gameObject.SetActive (true);
 		CrossHairRenderer.startWidth = 0;
 	}
 	
@@ -138,8 +139,11 @@ public class Player : MonoBehaviour
 
 	void SetCrossHair ()
 	{
-		if(WaveState == WaveState.IsWaving && CrossHairRenderer.startWidth != 1)
-			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f);
+		if(WaveState == WaveState.IsWaving)
+		{
+			if(CrossHairRenderer.startWidth != 1)	
+				DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f);
+		}
 			
 		else if(CrossHairRenderer.startWidth != 0)
 			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f);
