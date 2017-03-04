@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
 	[Header ("Grounded")]
 	public LayerMask GroundLayer;
 
+	[Header ("Death")]
+	public GameObject deathParticle;
+
 	private Camera _mainCamera;
     [HideInInspector]
     public Vector3 _launchPosition;
@@ -227,5 +230,10 @@ public class Player : MonoBehaviour
 
 		if (OnRocketChange != null)
 			OnRocketChange ();
+	}
+
+	void OnDestroy ()
+	{
+		Instantiate (deathParticle, transform.position, Quaternion.identity);
 	}
 }

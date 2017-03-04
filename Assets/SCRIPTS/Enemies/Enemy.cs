@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
 	private static float _jumpForce = 10;
 	private Rigidbody _playerRigidbody;
 	private bool _dead = false;
+
+	public GameObject deathParticle;
+
 	// Use this for initialization
 	protected virtual void Start () 
 	{
@@ -47,6 +50,8 @@ public class Enemy : MonoBehaviour
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Kill);
 
+		Instantiate (deathParticle, transform.position, Quaternion.identity);
+
 		_dead = true;
 
 		ScoreManager.Instance.EnemyKilled (50);
@@ -63,7 +68,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Delaymort ()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 }
