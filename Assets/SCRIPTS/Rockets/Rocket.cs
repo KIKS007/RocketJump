@@ -21,6 +21,7 @@ public class Rocket : MonoBehaviour
 
 	public Transform rocketWave;
 	public GameObject explosion;
+	public GameObject ball;
 
 	// Use this for initialization
 	protected virtual void Awake () 
@@ -52,6 +53,7 @@ public class Rocket : MonoBehaviour
 
 	public virtual void Explode ()
 	{
+		Destroy (ball);
 		Instantiate (explosion, transform.position, Quaternion.identity);
 
 		foreach(Collider other in Physics.OverlapSphere(transform.position, ExplosionRadius, ExplosionLayer))
@@ -77,9 +79,11 @@ public class Rocket : MonoBehaviour
 
 	protected virtual void ExplosionDebug ()
 	{
+		GetComponent<Renderer> ().enabled = false;
+
 		GetComponent<Collider> ().isTrigger = true;
 		_rigidbody.velocity = Vector3.zero;
-		transform.DOScale (ExplosionRadius, 0.5f).OnComplete (End);
+		transform.DOScale (ExplosionRadius, 0.4f).OnComplete (End);
 	}
 
 	public virtual void End ()

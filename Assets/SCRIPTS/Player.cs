@@ -120,6 +120,8 @@ public class Player : MonoBehaviour
 		recoilDirection.z = 0;
 		recoilDirection.Normalize ();
 
+		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Jump);
+
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
 		WaveForceDebug = 0;
@@ -152,7 +154,9 @@ public class Player : MonoBehaviour
 
 			Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
 
+
 			Crosshairs.position = transform.position + direction.normalized * 3;
+			Crosshairs.LookAt (transform.position);
 
 			CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
 			CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);

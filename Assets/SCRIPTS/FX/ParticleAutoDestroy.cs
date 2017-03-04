@@ -6,7 +6,7 @@ public class ParticleAutoDestroy : MonoBehaviour
 {
 	private ParticleSystem particle;
 
-	/*// Use this for initialization
+	// Use this for initialization
 	void Start () 
 	{
 		particle = GetComponent<ParticleSystem> ();
@@ -19,5 +19,5 @@ public class ParticleAutoDestroy : MonoBehaviour
 		yield return new WaitWhile (() => particle.IsAlive ());
 
 		Destroy (gameObject);
-	}*/
+	}
 }
