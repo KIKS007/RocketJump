@@ -17,12 +17,31 @@ public class GameManager : Singleton<GameManager>
 
 	public bool FirstLaunch = false;
 
-	void Start ()
+	void Awake ()
 	{
-		CheckFirstLaunch ();
+        // +++Amplitude+++ //
+        Amplitude amplitude = Amplitude.Instance;
+        amplitude.logging = true;
+        amplitude.init("f5d77f52f038bf0224c9a9ac9d81b0d8");
+        // +++Amplitude+++ //
 
 		if(SceneManager.GetSceneByName (GameScene).isLoaded)
 			SceneManager.UnloadSceneAsync (GameScene);
+
+		if (GameState == GameState.Menu)
+		{
+			
+			UI.Instance.ShowMaineMenu ();
+		}
+		else
+		{
+			StartCoroutine (LoadGame ());
+			UI.Instance.HideAll ();
+		}
+
+		GameState = GameState.Menu;
+
+        CheckFirstLaunch();
 
 		if (GameState == GameState.Menu)
 		{
