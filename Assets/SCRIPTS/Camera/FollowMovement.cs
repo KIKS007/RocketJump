@@ -26,16 +26,23 @@ public class FollowMovement : MonoBehaviour
 	void Awake () 
 	{
 		GameManager.Instance.OnPlaying += Setup;
+		GameManager.Instance.OnGameOver += ()=> transform.position = new Vector3 (0, 0, transform.position.z);
 	}
 
 	void Setup ()
 	{
+		if(GameObject.FindGameObjectWithTag ("Player") == null)
+		{
+			Debug.LogWarning ("No Player Found!");
+			return;
+		}
+
 		_player = GameObject.FindGameObjectWithTag ("Player").transform;
 		_playerRigidbody = _player.GetComponent<Rigidbody> ();
 
-		CurrentHeight = _player.position.y;
+		transform.position = new Vector3 (0, 0, transform.position.z);
 
-		transform.position = new Vector3 (transform.position.x, _player.position.y, transform.position.z);
+		CurrentHeight = _player.position.y;
 	}
 	
 	// Update is called once per frame

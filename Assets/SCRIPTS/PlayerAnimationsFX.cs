@@ -13,7 +13,12 @@ public class PlayerAnimationsFX : MonoBehaviour
 	{
 		_playerScript = GetComponent<Player> ();
 		_playerScript.OnJump += OnJump;
-		_playerScript.OnGrounded += OnGrounded;
+		_playerScript.OnGrounded += () => PlayerAnimator.SetTrigger ("Idle");
+	}
+
+	void Update ()
+	{
+		OnGrounded ();
 	}
 
 	void OnJump ()
@@ -36,6 +41,7 @@ public class PlayerAnimationsFX : MonoBehaviour
 
 	void OnGrounded ()
 	{
-		PlayerAnimator.SetTrigger ("Idle");
+		if(_playerScript.JumpState == JumpState.Grounded && !PlayerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+			PlayerAnimator.SetTrigger ("Idle");
 	}
 }

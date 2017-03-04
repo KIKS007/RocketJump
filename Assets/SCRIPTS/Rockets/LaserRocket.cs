@@ -10,10 +10,14 @@ public class LaserRocket : Rocket
 	public float LaserDuration = 0.5f;
 	public Ease LaserEase = Ease.OutQuad;
 
+	public ParticleSystem laser;
+
 	void Start ()
 	{
-		transform.DOScaleZ (LaserScale, LaserDuration).SetEase (LaserEase)
+		transform.GetChild (0).DOScaleZ (LaserScale, LaserDuration).SetEase (LaserEase)
 			.OnComplete (()=> transform.DOScaleY (0f, 0.2f).OnComplete (End));
+
+		laser.Play ();
 	}
 
  	protected override void OnCollisionEnter (Collision collision)

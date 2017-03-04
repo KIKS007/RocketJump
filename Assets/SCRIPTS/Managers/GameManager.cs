@@ -2,67 +2,107 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DarkTonic.MasterAudio;
 
 public enum GameState { Menu, Playing, GameOver };
 
 public class GameManager : Singleton<GameManager> 
 {
 	public GameState GameState = GameState.Playing;
+	public string GameScene ="Kiki";
 
 	public event EventHandler OnPlaying;
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
-    public GameObject PanelGameOver;
+
+	public bool FirstLaunch = false;
 
 	void Start ()
 	{
+		CheckFirstLaunch ();
+
+		if (GameState == GameState.Menu)
+		{
+			
+			UI.Instance.ShowMaineMenu ();
+		}
+		else
+		{
+			StartCoroutine (LoadGame ());
+			UI.Instance.HideAll ();
+		}
+
+		GameState = GameState.Menu;
+
 		StartCoroutine (GameStateChange (GameState));
 
-		if(GameState == GameState.Menu)
-			MenuManager.Instance.ShowMenu (MenuManager.Instance.mainMenu.GetComponent<MenuComponent> ());
+		OnGameOver += () => 
+		{
+			if(FirstLaunch)
+			{
+				FirstLaunch = false; 
+				PlayerPrefs.SetInt ("FirstLaunch", 0);
+			}
+		};
+	}
+
+	void CheckFirstLaunch ()
+	{
+		if (PlayerPrefs.GetInt ("FirstLaunch") == 0)
+			FirstLaunch = false;
+		else
+			FirstLaunch = true;
 	}
 
 	public void GameOver ()
 	{
-        ShowPanelGameOver();
-
-		//if(GameState != GameState.GameOver)
-			//StartCoroutine (LoadScene ());
+		StartCoroutine (GameOverCoroutine ());
 	}
 
-    void ShowPanelGameOver ()
-    {
-        PanelGameOver.SetActive(true);
-    }
-
-	IEnumerator LoadScene ()
+	IEnumerator GameOverCoroutine ()
 	{
+		Destroy (GameObject.FindGameObjectWithTag ("Player"));
+
+		yield return new WaitForSeconds (0.5f);
+
 		GameState = GameState.GameOver;
+		UI.Instance.ShowGameOver ();
 
-		string scene = SceneManager.GetSceneAt (1).name;
+		if(SceneManager.GetSceneByName (GameScene).isLoaded)
+			yield return SceneManager.UnloadSceneAsync (GameScene);
+	}
 
-		yield return SceneManager.UnloadSceneAsync (scene);
-		yield return SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
+	IEnumerator LoadGame ()
+	{
+		GameState = GameState.Menu;
+
+		if(SceneManager.GetSceneByName (GameScene).isLoaded)
+			yield return SceneManager.UnloadSceneAsync (GameScene);
+		
+		yield return SceneManager.LoadSceneAsync (GameScene, LoadSceneMode.Additive);
 
 		GameState = GameState.Playing;
 	}
 
-	IEnumerator GameStateChange (GameState state)
+	IEnumerator GameStateChange (GameState state, bool firstLaunch = false)
 	{
-		switch (state)
+		if(!firstLaunch)
 		{
-		case GameState.Menu:
-			if (OnMenu != null)
-				OnMenu ();
-			break;
-		case GameState.Playing:
-			if (OnPlaying != null)
-				OnPlaying ();
-			break;
-		case GameState.GameOver:
-			if (OnGameOver != null)
-				OnGameOver ();
-			break;
+			switch (state)
+			{
+			case GameState.Menu:
+				if (OnMenu != null)
+					OnMenu ();
+				break;
+			case GameState.Playing:
+				if (OnPlaying != null)
+					OnPlaying ();
+				break;
+			case GameState.GameOver:
+				if (OnGameOver != null)
+					OnGameOver ();
+				break;
+			}
 		}
 
 		yield return new WaitWhile (() => GameState == state);
