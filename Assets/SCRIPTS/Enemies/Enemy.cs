@@ -6,8 +6,7 @@ public class Enemy : MonoBehaviour
 {
 	private static float _jumpForce = 10;
 	private Rigidbody _playerRigidbody;
-
-
+	private bool _dead = false;
 	// Use this for initialization
 	protected virtual void Start () 
 	{
@@ -22,7 +21,9 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void OnCollisionEnter (Collision collision)
 	{
-		
+		if (_dead)
+			return;
+
 		if (LayerMask.NameToLayer ("Rocket") == collision.gameObject.layer)
 			Death ();
 
@@ -44,18 +45,25 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Death ()
 	{
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Kill);
+
+		_dead = true;
+
 		ScoreManager.Instance.EnemyKilled (50);
 		
 		Animator animator = GetComponentInChildren<Animator>();
-		StartCoroutine(Delaymort());
 		animator.SetTrigger("Mort");
+
+		GetComponent<Rigidbody>().isKinematic = true;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Enemy_Walk>().speed = 0;
+
+		StartCoroutine(Delaymort());
 	}
 
     IEnumerator Delaymort ()
     {
         yield return new WaitForSeconds(1);
-        GetComponent<Enemy_Walk>().speed = 0;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         Destroy(gameObject);
     }
 }

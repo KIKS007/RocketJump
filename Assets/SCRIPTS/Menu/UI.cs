@@ -79,24 +79,7 @@ public class UI : Singleton<UI>
 
     public void ChangeVolume ()
     {
-        Sound = !Sound;
-            if(Sound == true)
-        {
-            VolumeOff.gameObject.SetActive(true);
-            VolumeOn.gameObject.SetActive(false);
-
-			AudioListener.volume = 0;
-			MasterAudio.MasterVolumeLevel = 0;
-
-        }
-            if(Sound == false)
-        {
-            VolumeOff.gameObject.SetActive(false);
-            VolumeOn.gameObject.SetActive(true);
-
-			MasterAudio.MasterVolumeLevel = 1;
-        }
-
+		MasterAudio.ToggleMuteBus ("MUSIC");
     }
 
     public void StartGame ()
