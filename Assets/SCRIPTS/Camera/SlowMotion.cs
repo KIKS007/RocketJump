@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using Colorful;
 
 public class SlowMotion : MonoBehaviour 
 {
@@ -17,8 +18,18 @@ public class SlowMotion : MonoBehaviour
 	public bool SlowMotionDebug;
 	public float TimeScaleDebug;
 
+	[Header ("Slow Motion Effect")]
+	public Renderer slowMoWaves;
+	public float effectDuration;
+	public float wavesValue;
+	public float vignettingValue;
+
+	private FastVignette _vignetting;
+
 	private float _initialTimeScale;
 	private float _initialFixedDelta;
+
+	private float _initialVignetting;
 
 	void Awake ()
 	{
@@ -26,7 +37,8 @@ public class SlowMotion : MonoBehaviour
 
 		_initialTimeScale = Time.timeScale;
 		_initialFixedDelta = Time.fixedDeltaTime;
-
+		_vignetting = GetComponent<FastVignette> ();
+		_initialVignetting = _vignetting.Darkness;
 		GameManager.Instance.OnGameOver += StopSlowMotion;
 	}
 
@@ -44,13 +56,15 @@ public class SlowMotion : MonoBehaviour
 
 	public void StartSlowMotion ()
 	{
-		DOTween.Kill ("StopSlowMotion");
+		DOTween.Kill ("SlowMotion");
 
 		if (OnSlowMotionStart != null)
 			OnSlowMotionStart ();
 
-		DOTween.To(()=> Time.timeScale, x=> Time.timeScale =x, _initialTimeScale/SlowFactor, TimeTween).SetEase(easetype).SetId("StartSlowMotion");
-		DOTween.To(()=> Time.fixedDeltaTime, x=> Time.fixedDeltaTime =x, _initialFixedDelta/SlowFactor, TimeTween).SetEase(easetype).SetId("StartSlowMotion");
+		DOTween.To(()=> Time.timeScale, x=> Time.timeScale =x, _initialTimeScale/SlowFactor, TimeTween).SetEase(easetype).SetId("SlowMotion");
+		DOTween.To(()=> Time.fixedDeltaTime, x=> Time.fixedDeltaTime =x, _initialFixedDelta/SlowFactor, TimeTween).SetEase(easetype).SetId("SlowMotion");
+
+		StartEffect ();
 	}
 
 	public void StopSlowMotion ()
@@ -60,7 +74,21 @@ public class SlowMotion : MonoBehaviour
 		if (OnSlowMotionStop != null)
 			OnSlowMotionStop ();
 
-		DOTween.To(()=> Time.timeScale, x=> Time.timeScale =x, 1, TimeTween).SetEase(easetype).SetId("StopSlowMotion");
-		DOTween.To(()=> Time.fixedDeltaTime, x=> Time.fixedDeltaTime =x, _initialFixedDelta, TimeTween).SetEase(easetype).SetId("StopSlowMotion");
+		DOTween.To(()=> Time.timeScale, x=> Time.timeScale =x, 1, TimeTween).SetEase(easetype).SetId("SlowMotion");
+		DOTween.To(()=> Time.fixedDeltaTime, x=> Time.fixedDeltaTime =x, _initialFixedDelta, TimeTween).SetEase(easetype).SetId("SlowMotion");
+
+		StopEffect ();
+	}
+
+	void StartEffect ()
+	{
+		slowMoWaves.material.DOFloat (wavesValue,  "_EffectStrength", effectDuration).SetId("SlowMotion");
+		DOTween.To(()=> _vignetting.Darkness, x=> _vignetting.Darkness =x, vignettingValue, effectDuration).SetId("SlowMotion");
+	}
+
+	void StopEffect ()
+	{
+		slowMoWaves.material.DOFloat (0,  "_EffectStrength", effectDuration).SetId("SlowMotion");;
+		DOTween.To(()=> _vignetting.Darkness, x=> _vignetting.Darkness =x, _initialVignetting, effectDuration).SetId("SlowMotion");
 	}
 }
