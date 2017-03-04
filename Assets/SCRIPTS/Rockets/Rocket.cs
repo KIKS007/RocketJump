@@ -54,7 +54,9 @@ public class Rocket : MonoBehaviour
 	public virtual void Explode ()
 	{
 		Destroy (ball);
-		Instantiate (explosion, transform.position, Quaternion.identity);
+	
+		if(explosion != null)
+			Instantiate (explosion, transform.position, Quaternion.identity);
 
 		foreach(Collider other in Physics.OverlapSphere(transform.position, ExplosionRadius, ExplosionLayer))
 		{

@@ -14,6 +14,10 @@ public class ScoreManager : Singleton<ScoreManager>
 	[Header ("Score Text")]
 	public Text ScoreText;
 
+	[Header ("Menu Score Text")]
+	public Text MenuScoreText;
+	public Text MenuBestScoreText;
+
 	[Header ("Scores")]
 	public int ClimbingScore;
 	public int EnemyScore;
@@ -25,15 +29,20 @@ public class ScoreManager : Singleton<ScoreManager>
 	public float PickupScoreFactor = 1;
 
 	private Transform _mainCamera;
-
+	private GameObject _scoreCanvas;
 	// Use this for initialization
 	void Start () 
 	{
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
-
+		_scoreCanvas = transform.GetChild (0).gameObject;
 		BestScores.Sort (new Comparison<int>((i1, i2) => i2.CompareTo(i1)));
 
 		GameManager.Instance.OnGameOver += OnGameOver;
+
+		GameManager.Instance.OnGameOver += ()=> transform.GetChild (0).gameObject.SetActive (false);
+		GameManager.Instance.OnPlaying += ()=> transform.GetChild (0).gameObject.SetActive (true);
+
+		transform.GetChild (0).gameObject.SetActive (false);
 
 		GetSavedScores ();
 	}
@@ -84,10 +93,14 @@ public class ScoreManager : Singleton<ScoreManager>
 		BestScores.Add (CurrentScore);
 		CurrentScore = 0;
 
+
 		BestScores.Sort (new Comparison<int>((i1, i2) => i2.CompareTo(i1)));
 
 		if (BestScores.Count > BestScoreLimit)
 			BestScores.RemoveAt (BestScores.Count - 1);
+
+		MenuScoreText.text = CurrentScore.ToString ();
+		MenuBestScoreText.text = BestScores [0].ToString ();
 
 		SaveScores ();
 	}

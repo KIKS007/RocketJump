@@ -75,6 +75,9 @@ public class Player : MonoBehaviour
 
 	void Gravity ()
 	{
+		if (CurrentWave == null)
+			return;
+
 		_rigidbody.AddForce (Vector3.down * CurrentWave.GravityForce, ForceMode.Force);
 	}
 

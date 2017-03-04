@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 961c47d2ff66daf4bbd9fd2386ab5f7b
+timeCreated: 1488626884
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JF1
+  fontNames:
+  - JF1
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
