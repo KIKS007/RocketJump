@@ -10,11 +10,13 @@ public class Tapes : MonoBehaviour {
     public MixtapesManager MixtapesManager;
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
-        //MakeGame.Do();
+		GameManager.Instance.OnPlaying += Actived;
 
         MixtapesManager.OnMixtapeChange += Actived;
+
+		Actived ();
     }
 		
     void Actived()
@@ -22,8 +24,6 @@ public class Tapes : MonoBehaviour {
         if (MixtapesManager.MixtapeIndex != Index)
             return;
 
-        Debug.Log("Mixtape " + MixtapesManager.MixtapeIndex);
-        Debug.Log("Index " + Index);
         transform.DOLocalMoveY(-915f, 0.5f).OnComplete(()=>
         {
             transform.DOLocalMoveY(-1000, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f);

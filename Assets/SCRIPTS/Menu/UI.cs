@@ -17,21 +17,18 @@ public class UI : Singleton<UI>
 	public GameObject PanelHowToPlay;
     public GameObject PanelHowToPlay2;
 	public GameObject PanelMixtape;
-  
 
 	[Header ("Game Over")]
 	public GameObject PanelGameOver;
 
-	[Header ("Buttons")]
-    public Button VolumeOff;
-    public Button VolumeOn;
-    public bool Sound;
-
 	// Use this for initialization
 	void Start () 
 	{
-       
-		
+		DisableAll ();
+		ShowMaineMenu ();
+
+		GameManager.Instance.OnPlaying += ()=> PanelMixtape.SetActive (true);
+		GameManager.Instance.OnGameOver += ()=> PanelMixtape.SetActive (false);
 	}
 
 	public void ShowMaineMenu ()
@@ -47,6 +44,7 @@ public class UI : Singleton<UI>
 	{
 		PanelCredit.SetActive(false);
 		PanelHowToPlay.SetActive(false);
+		PanelHowToPlay2.SetActive(false);
 		PanelMixtape.SetActive(false);
 		PanelGameOver.SetActive(false);
 		PanelMainMenu.SetActive(false);
@@ -67,6 +65,8 @@ public class UI : Singleton<UI>
         PanelCredit.SetActive(true);
         PanelMainMenu.SetActive(false);
         DoomBoxMesh.SetActive(false);
+		
+		Debug.Log (PanelMainMenu.activeSelf);
     }
 
     public void ShowPanelHowToPlay ()
