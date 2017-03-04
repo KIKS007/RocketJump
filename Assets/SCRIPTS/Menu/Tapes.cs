@@ -7,6 +7,7 @@ using DG.Tweening;
 public class Tapes : MonoBehaviour {
 
     Sprite tape;
+    public MixtapesManager MManager;
     public int Index;
 
     // Use this for initialization

@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
     public GameObject PanelGameOver;
+    public GameObject GameOverMeshes;
 
 	public bool FirstLaunch = false;
 
@@ -54,6 +55,7 @@ public class GameManager : Singleton<GameManager>
     void ShowPanelGameOver ()
     {
         PanelGameOver.SetActive(true);
+        GameOverMeshes.SetActive(true);
     }
 
 	IEnumerator LoadScene ()
