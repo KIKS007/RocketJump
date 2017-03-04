@@ -22,9 +22,11 @@ public class Tapes : MonoBehaviour {
         if (MixtapesManager.MixtapeIndex != Index)
             return;
 
-        transform.DOScale(2f, 0.5f).OnComplete(()=>
+        Debug.Log("Mixtape " + MixtapesManager.MixtapeIndex);
+        Debug.Log("Index " + Index);
+        transform.DOLocalMoveY(-915f, 0.5f).OnComplete(()=>
         {
-            transform.DOScale(0.5f, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f);
+            transform.DOLocalMoveY(-1000, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f);
         });
         
     }
