@@ -21,6 +21,9 @@ public class GameManager : Singleton<GameManager>
 	{
 		CheckFirstLaunch ();
 
+		if(SceneManager.GetSceneByName (GameScene).isLoaded)
+			SceneManager.UnloadSceneAsync (GameScene);
+
 		if (GameState == GameState.Menu)
 		{
 			

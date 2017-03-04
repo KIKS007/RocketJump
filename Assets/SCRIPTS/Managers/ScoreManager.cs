@@ -91,8 +91,6 @@ public class ScoreManager : Singleton<ScoreManager>
 	void OnGameOver ()
 	{
 		BestScores.Add (CurrentScore);
-		CurrentScore = 0;
-
 
 		BestScores.Sort (new Comparison<int>((i1, i2) => i2.CompareTo(i1)));
 
@@ -101,6 +99,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
 		MenuScoreText.text = CurrentScore.ToString ();
 		MenuBestScoreText.text = BestScores [0].ToString ();
+		CurrentScore = 0;
 
 		SaveScores ();
 	}

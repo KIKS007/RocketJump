@@ -23,13 +23,23 @@ public class Rocket : MonoBehaviour
 	public GameObject explosion;
 	public GameObject ball;
 
+	private GameObject _player;
+
 	// Use this for initialization
 	protected virtual void Awake () 
 	{
+		_player = GameObject.FindGameObjectWithTag ("Player");
 		SetupRigidbody ();
 
-		if(rocketWave != null)
-			rocketWave.SetParent (null);
+	}
+
+	protected virtual void Start ()
+	{
+		
+		Instantiate (rocketWave.gameObject, _player.transform.position, transform.rotation, _player.transform);
+		
+		/*if(rocketWave != null)
+			rocketWave.SetParent (null);*/
 	}
 
 	protected virtual void SetupRigidbody ()
@@ -53,7 +63,8 @@ public class Rocket : MonoBehaviour
 
 	public virtual void Explode ()
 	{
-		Destroy (ball);
+		if(ball != null)
+			Destroy (ball);
 	
 		if(explosion != null)
 			Instantiate (explosion, transform.position, Quaternion.identity);
@@ -82,8 +93,8 @@ public class Rocket : MonoBehaviour
 	protected virtual void ExplosionDebug ()
 	{
 		GetComponent<Renderer> ().enabled = false;
-
 		GetComponent<Collider> ().isTrigger = true;
+
 		_rigidbody.velocity = Vector3.zero;
 		transform.DOScale (ExplosionRadius, 0.4f).OnComplete (End);
 	}
@@ -95,7 +106,7 @@ public class Rocket : MonoBehaviour
 
 	void OnBecameInvisible () 
 	{
-		if (gameObject)
+		if (gameObject && GetComponent<Renderer> ().enabled)
 			End ();
 	}
 }
