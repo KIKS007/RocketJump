@@ -64,6 +64,8 @@ public class GameManager : Singleton<GameManager>
 
 	IEnumerator GameOverCoroutine ()
 	{
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
+
 		Destroy (GameObject.FindGameObjectWithTag ("Player"));
 
 		yield return new WaitForSeconds (0.5f);

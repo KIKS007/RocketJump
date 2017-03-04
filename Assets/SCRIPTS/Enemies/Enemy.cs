@@ -45,6 +45,8 @@ public class Enemy : MonoBehaviour
 
 	protected virtual void Death ()
 	{
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Kill);
+
 		_dead = true;
 
 		ScoreManager.Instance.EnemyKilled (50);
