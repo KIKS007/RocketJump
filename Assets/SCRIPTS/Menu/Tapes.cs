@@ -6,19 +6,26 @@ using DG.Tweening;
 
 public class Tapes : MonoBehaviour {
 
-    Sprite tape;
     public int Index;
+    public MixtapesManager MixtapesManager;
 
     // Use this for initialization
     void Start ()
     {
         //MakeGame.Do();
-        tape = GetComponent<Sprite>();
+
+        MixtapesManager.OnMixtapeChange += Actived;
     }
-	
-	// Update is called once per frame
-	void Update ()
+		
+    void Actived()
     {
+        if (MixtapesManager.MixtapeIndex != Index)
+            return;
+
+        transform.DOScale(2f, 0.5f).OnComplete(()=>
+        {
+            transform.DOScale(0.5f, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f);
+        });
         
-	}
+    }
 }
