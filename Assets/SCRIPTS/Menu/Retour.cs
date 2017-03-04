@@ -19,7 +19,6 @@ public class Retour : MonoBehaviour {
         {
             PanelCredit.SetActive(false);
             PanelHowToplay.SetActive(false);
-
         }
 		
 	}

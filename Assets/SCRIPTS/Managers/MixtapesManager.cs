@@ -5,7 +5,7 @@ using DarkTonic.MasterAudio;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MixtapesManager : MonoBehaviour 
+public class MixtapesManager : Singleton<MixtapesManager> 
 {
 	[Header ("Mixtapes")]
 	public int MixtapeIndex = 0;
@@ -26,13 +26,15 @@ public class MixtapesManager : MonoBehaviour
 
 	public event EventHandler OnMixtapeChange;
 
-	void Start ()
+	void Awake ()
 	{
-		_playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
-
 		SetupPlaylist ();
 		SceneManager.sceneLoaded += (arg0, arg1) => SetupPlaylist();
-		FirstMixtape ();
+
+		if(GameManager.Instance.GameState == GameState.Menu)
+			MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [Random.Range(0, SelectedMixtapes.Length)].Music, 1, MusicFadeTime);
+
+		GameManager.Instance.OnPlaying += FirstMixtape; 
 	}
 
 	void SetupPlaylist ()
@@ -46,6 +48,10 @@ public class MixtapesManager : MonoBehaviour
 
 	void FirstMixtape ()
 	{
+		foreach (Wave wave in SelectedMixtapes)
+			MasterAudio.FadeSoundGroupToVolume (wave.Music, 0, 0);
+
+		_playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
 		CurrentWave = SelectedMixtapes [MixtapeIndex];
 		SetPlaylist ();
