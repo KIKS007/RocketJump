@@ -15,7 +15,9 @@ public class UI : Singleton<UI>
 	[Header ("Panels")]
     public GameObject PanelCredit;
 	public GameObject PanelHowToPlay;
+    public GameObject PanelHowToPlay2;
 	public GameObject PanelMixtape;
+  
 
 	[Header ("Game Over")]
 	public GameObject PanelGameOver;
@@ -63,12 +65,21 @@ public class UI : Singleton<UI>
     public void ShowPanelCredit ()
     {
         PanelCredit.SetActive(true);
+        PanelMainMenu.SetActive(false);
+        DoomBoxMesh.SetActive(false);
     }
 
     public void ShowPanelHowToPlay ()
     {
         PanelHowToPlay.SetActive(true);
+        PanelMainMenu.SetActive(false);
+        DoomBoxMesh.SetActive(false);
+    }
 
+    public void ShowPanelHowToPlay2 ()
+    {
+        PanelHowToPlay2.SetActive(true);
+        PanelHowToPlay.SetActive(false);
     }
 
 	public void ShowGameOver ()
