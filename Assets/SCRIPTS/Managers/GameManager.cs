@@ -17,9 +17,15 @@ public class GameManager : Singleton<GameManager>
 
 	public bool FirstLaunch = false;
 
-	void Start ()
+	void Awake ()
 	{
-		CheckFirstLaunch ();
+        // +++Amplitude+++ //
+        Amplitude amplitude = Amplitude.Instance;
+        amplitude.logging = true;
+        amplitude.init("f5d77f52f038bf0224c9a9ac9d81b0d8");
+        // +++Amplitude+++ //
+
+        CheckFirstLaunch();
 
 		if (GameState == GameState.Menu)
 		{
