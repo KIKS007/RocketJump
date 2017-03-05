@@ -231,9 +231,4 @@ public class Player : MonoBehaviour
 		if (OnRocketChange != null)
 			OnRocketChange ();
 	}
-
-	void OnDestroy ()
-	{
-		Instantiate (deathParticle, transform.position, Quaternion.identity);
-	}
 }

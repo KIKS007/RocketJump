@@ -388,7 +388,7 @@ public class ChunksManager : MonoBehaviour
 
 	IEnumerator RemoveBlocs (List<GameObject> blocs)
 	{
-		yield return new WaitForSeconds (0.05f);
+		yield return new WaitForSecondsRealtime (0.05f);
 
 		foreach (GameObject bloc in blocs)
 			Destroy (bloc);
@@ -403,7 +403,7 @@ public class ChunksManager : MonoBehaviour
 
 	IEnumerator EnableLaneChanges (Chunk chunk, ChunkType type)
 	{
-		yield return new WaitForSeconds (0.05f);
+		yield return new WaitForSecondsRealtime (0.05f);
 
 		if (type == ChunkType.BothOpened || type == ChunkType.RightOpened)
 		{

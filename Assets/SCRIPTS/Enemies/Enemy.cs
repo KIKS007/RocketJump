@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Delaymort ()
     {
-        yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
     }
 }

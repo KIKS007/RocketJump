@@ -84,10 +84,13 @@ public class GameManager : Singleton<GameManager>
 	IEnumerator GameOverCoroutine ()
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
 
-		Destroy (GameObject.FindGameObjectWithTag ("Player"));
+		GameObject player = GameObject.FindGameObjectWithTag ("Player");
+		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
+		Destroy (player);
 
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSecondsRealtime (0.5f);
 
 		GameState = GameState.GameOver;
 		UI.Instance.ShowGameOver ();
