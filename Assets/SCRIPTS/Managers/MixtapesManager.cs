@@ -29,7 +29,6 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	void Awake ()
 	{
 		SetupPlaylist ();
-		SceneManager.sceneLoaded += (arg0, arg1) => SetupPlaylist();
 
 		if(GameManager.Instance.GameState == GameState.Menu)
 			MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [Random.Range(0, SelectedMixtapes.Length)].Music, 1, MusicFadeTime);
@@ -41,16 +40,17 @@ public class MixtapesManager : Singleton<MixtapesManager>
 	{
 		foreach (Wave wave in SelectedMixtapes)
 		{
-			MasterAudio.PlaySoundAndForget (wave.Music, 1);
+			MasterAudio.PlaySoundAndForget (wave.Music);
 			MasterAudio.FadeSoundGroupToVolume (wave.Music, 0, 0);
 		}
 	}
 
 	void FirstMixtape ()
 	{
-		foreach (Wave wave in SelectedMixtapes)
-			MasterAudio.FadeSoundGroupToVolume (wave.Music, 0, 0);
+		MasterAudio.StopEverything ();
 
+		SetupPlaylist ();
+		
 		_playerScript = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 		_playerScript.SetWave (SelectedMixtapes [MixtapeIndex]);
 		CurrentWave = SelectedMixtapes [MixtapeIndex];
@@ -154,8 +154,10 @@ public class MixtapesManager : Singleton<MixtapesManager>
 
 		if (GameManager.Instance.GameState != GameState.Playing)
 		{
-			if(GameManager.Instance.GameState == GameState.Menu)
-				MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [Random.Range(0, SelectedMixtapes.Length)].Music, 1, MusicFadeTime);
+			int random = Random.Range (0, SelectedMixtapes.Length);
+			
+			MasterAudio.PlaySoundAndForget (SelectedMixtapes [random].Music);
+			MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [random].Music, 1, MusicFadeTime);
 		}
 	}
 }

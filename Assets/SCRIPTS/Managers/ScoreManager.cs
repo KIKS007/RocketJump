@@ -63,15 +63,20 @@ public class ScoreManager : Singleton<ScoreManager>
 	// Update is called once per frame
 	void Update () 
 	{
-		GetClimbingScore ();
 
-		CurrentScore = ClimbingScore + EnemyScore + PickupScore;
-		ScoreText.text = "Score: " + CurrentScore.ToString ();
+		if(GameManager.Instance.GameState == GameState.Playing)
+		{
+			GetClimbingScore ();
+
+			CurrentScore = ClimbingScore + EnemyScore + PickupScore;
+			ScoreText.text = "Score: " + CurrentScore.ToString ();
+		}
 	}
 
 	void GetClimbingScore ()
 	{
-		ClimbingScore = (int)(ClimbingScoreFactor * (_mainCamera.transform.position.y - InitialPosition));
+		if(GameManager.Instance.GameState == GameState.Playing)
+			ClimbingScore = (int)(ClimbingScoreFactor * (_mainCamera.transform.position.y - InitialPosition));
 
 		if (ClimbingScore < 0)
 			ClimbingScore = 0;
@@ -79,12 +84,14 @@ public class ScoreManager : Singleton<ScoreManager>
 
 	public void EnemyKilled (int score)
 	{
-		EnemyScore += (int)(score * EnemyScoreFactor);
+		if(GameManager.Instance.GameState == GameState.Playing)
+			EnemyScore += (int)(score * EnemyScoreFactor);
 	}
 
 	public void PickupCollected (int score)
 	{
-		PickupScoreFactor += (int)(score * PickupScoreFactor);
+		if(GameManager.Instance.GameState == GameState.Playing)
+			PickupScoreFactor += (int)(score * PickupScoreFactor);
 	}
 
 	void OnGameOver ()
@@ -98,6 +105,10 @@ public class ScoreManager : Singleton<ScoreManager>
 
 		MenuScoreText.text = CurrentScore.ToString ();
 		MenuBestScoreText.text = BestScores [0].ToString ();
+
+		ClimbingScore = 0;
+		EnemyScore = 0;
+		PickupScore = 0;
 		CurrentScore = 0;
 
 		SaveScores ();
