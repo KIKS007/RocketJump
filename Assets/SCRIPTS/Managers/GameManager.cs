@@ -88,6 +88,7 @@ public class GameManager : Singleton<GameManager>
 	IEnumerator GameOverCoroutine ()
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
+		VibrationManager.Instance.Vibrate (FeedbackType.Death);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
 
 		MixtapesManager.Instance.StartCoroutine ("GameOver");

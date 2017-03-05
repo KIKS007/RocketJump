@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
 	protected virtual void Death ()
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Kill);
+		VibrationManager.Instance.Vibrate (FeedbackType.Kill);
 
 		Instantiate (deathParticle, transform.position, Quaternion.identity);
 
