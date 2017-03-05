@@ -116,7 +116,8 @@ public class Player : MonoBehaviour
 		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
 			.SetEase (Ease.OutQuad)
 			.OnUpdate (()=> WaveForceDebug = _waveForce / CurrentWave.WaveForceLimits.y).SetId ("Wave")
-			.OnComplete (()=> { if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) Wave(); } );
+			.OnComplete (()=> { if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) Wave(); })
+			.SetUpdate (true);
 	}
 
 	void Wave ()
@@ -156,11 +157,11 @@ public class Player : MonoBehaviour
 		if(WaveState == WaveState.IsWaving)
 		{
 			if(CrossHairRenderer.startWidth != 1)	
-				DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f);
+				DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f).SetUpdate (true);
 		}
 			
 		else if(CrossHairRenderer.startWidth != 0)
-			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f);
+			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f).SetUpdate (true);
 
 
 		if(WaveState == WaveState.IsWaving)

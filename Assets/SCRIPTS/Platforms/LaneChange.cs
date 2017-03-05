@@ -8,12 +8,10 @@ public class LaneChange : MonoBehaviour
 {
 	public enum ChangeType { Next, Previous };
 	public ChangeType Change;
-	public int ThisLanePosition;
 
-	private static int CurrentLane = 2;
+	public static LanePosition CurrentLane = LanePosition.Second;
 
-	[HideInInspector]
-	public static Vector3 _lanesPositions = new Vector3 (-14, 0, 14);
+	public static Vector3 LanesPositions = new Vector3 (-14, 0, 14);
 
 	private Ease _movementEase = Ease.OutQuad;
 	private float _movementDuration = 0.5f;
@@ -24,37 +22,28 @@ public class LaneChange : MonoBehaviour
 	private string NextLaneSound = "SFX_ChangeLane_LR";
 	private string PreviousLaneSound = "SFX_ChangeLane_RL";
 
+	private Chunk _chunkParent;
+
+	public static event EventHandler OnLaneChange;
+
 	void Start ()
 	{
 		_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		_chunkParent = transform.GetComponentInParent<Chunk> ();
 
-		switch(transform.parent.parent.position.x.ToString ())
-		{
-		case "-14":
-			ThisLanePosition = 1;
-			break;
-		case "0":
-			ThisLanePosition = 2;
-			break;
-		case "14":
-			ThisLanePosition = 3;
-			break;
-		}
-
-		GameManager.Instance.OnPlaying += () => CurrentLane = 2;
+		GameManager.Instance.OnPlaying += () => CurrentLane = LanePosition.Second;
 	}
 
 	void OnTriggerEnter (Collider collider)
 	{
-
 		if(collider.gameObject.tag == "Player")
 		{
 			Rigidbody playerRigibody = collider.gameObject.GetComponent<Rigidbody> ();
 
-			if (Change == ChangeType.Next && playerRigibody.velocity.x > _velocityThreshold)
+			if (Change == ChangeType.Next)
 				Nextlane ();
 
-			if (Change == ChangeType.Previous && playerRigibody.velocity.x < -_velocityThreshold)
+			if (Change == ChangeType.Previous)
 				PreviousLane ();
 		}
 	}
@@ -63,17 +52,20 @@ public class LaneChange : MonoBehaviour
 	{
 		switch(CurrentLane)
 		{
-		case 1:
-			CurrentLane = 2;
-			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
+		case LanePosition.First:
+			CurrentLane = LanePosition.Second;
+			_camera.DOMoveX (LanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
-		case 2:
-			CurrentLane = 3;
-			_camera.DOMoveX (_lanesPositions.z, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
+		case LanePosition.Second:
+			CurrentLane = LanePosition.Third;
+			_camera.DOMoveX (LanesPositions.z, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
-		case 3:
+		case LanePosition.Third:
 			break;
 		}
+
+		if (OnLaneChange != null)
+			OnLaneChange ();
 
 		MasterAudio.PlaySoundAndForget (NextLaneSound);
 	}
@@ -82,18 +74,21 @@ public class LaneChange : MonoBehaviour
 	{
 		switch(CurrentLane)
 		{
-		case 1:
+		case LanePosition.First:
 			break;
-		case 2:
-			CurrentLane = 1;
-			_camera.DOMoveX (_lanesPositions.x, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
+		case LanePosition.Second:
+			CurrentLane = LanePosition.First;
+			_camera.DOMoveX (LanesPositions.x, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
-		case 3:
-			CurrentLane = 2;
-			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
+		case LanePosition.Third:
+			CurrentLane = LanePosition.Second;
+			_camera.DOMoveX (LanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		}
 
+		if (OnLaneChange != null)
+			OnLaneChange ();
+		
 		MasterAudio.PlaySoundAndForget (PreviousLaneSound);
 	}
 }

@@ -26,8 +26,8 @@ public class Tapes : MonoBehaviour {
 
         transform.DOLocalMoveY(-915f, 0.5f).OnComplete(()=>
         {
-            transform.DOLocalMoveY(-1000, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f);
-        });
+			transform.DOLocalMoveY(-1000, MixtapesManager.CurrentWave.MixtapeDuration - 0.5f).SetUpdate (true);
+		}).SetUpdate (true);
         
     }
 }

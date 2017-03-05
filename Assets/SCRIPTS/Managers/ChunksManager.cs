@@ -49,7 +49,7 @@ public class ChunksManager : MonoBehaviour
 		foreach (Transform child in ChunksParent)
 			AllChunks.Add (child.GetComponent<Chunk> ());
 
-		//AddFirstChunks ();
+		AddFirstChunks ();
 
 		SortChunks ();
 	}
@@ -153,7 +153,8 @@ public class ChunksManager : MonoBehaviour
 		firstLaneChunks.AddRange (_leftBreakable);
 		firstLaneChunks.AddRange (_bothSolid);
 
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
@@ -162,12 +163,12 @@ public class ChunksManager : MonoBehaviour
 		secondLaneChunks = new List<Chunk> (_bothBreakable);
 		secondLaneChunks.AddRange (_rightBreakable);
 
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//THIRD LANE
@@ -175,12 +176,12 @@ public class ChunksManager : MonoBehaviour
 		thirdLaneChunks = new List<Chunk> (_bothBreakable);
 		thirdLaneChunks.AddRange (_leftBreakable);
 
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 	}
 
@@ -196,12 +197,12 @@ public class ChunksManager : MonoBehaviour
 		firstLaneChunks = new List<Chunk> (_bothBreakable);
 		firstLaneChunks.AddRange (_rightBreakable);
 
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//SECOND LANE
@@ -209,12 +210,12 @@ public class ChunksManager : MonoBehaviour
 		secondLaneChunks = new List<Chunk> (_bothBreakable);
 		secondLaneChunks.AddRange (_leftBreakable);
 
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 
 		//THIRD LANE
@@ -222,7 +223,8 @@ public class ChunksManager : MonoBehaviour
 		thirdLaneChunks = new List<Chunk> (_bothBreakable);
 		thirdLaneChunks.AddRange (_leftBreakable);
 
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 	}
@@ -239,25 +241,25 @@ public class ChunksManager : MonoBehaviour
 		firstLaneChunks = new List<Chunk> (_bothBreakable);
 		firstLaneChunks.AddRange (_rightBreakable);
 
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
 		//SECOND LANE
 		secondLaneChunks.Clear ();
 		secondLaneChunks = new List<Chunk> (_bothBreakable);
 
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
 
@@ -266,12 +268,12 @@ public class ChunksManager : MonoBehaviour
 		thirdLaneChunks = new List<Chunk> (_bothBreakable);
 		thirdLaneChunks.AddRange (_leftBreakable);
 
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
 		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		EnableBothLaneChanges (chunk.GetComponent<Chunk> ());
 		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
 	}
 
@@ -289,7 +291,8 @@ public class ChunksManager : MonoBehaviour
 		firstLaneChunks.AddRange (_leftBreakable);
 		firstLaneChunks.AddRange (_bothSolid);
 
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
@@ -300,7 +303,8 @@ public class ChunksManager : MonoBehaviour
 		secondLaneChunks.AddRange (_leftBreakable);
 		secondLaneChunks.AddRange (_bothSolid);
 
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 
@@ -311,7 +315,8 @@ public class ChunksManager : MonoBehaviour
 		thirdLaneChunks.AddRange (_leftBreakable);
 		thirdLaneChunks.AddRange (_bothSolid);
 
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange._lanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
+		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
 		chunk.SetActive (true);
 		_previousChunks.Add (chunk);
 	}
@@ -394,35 +399,9 @@ public class ChunksManager : MonoBehaviour
 			Destroy (bloc);
 	}
 
-	void EnableBothLaneChanges (Chunk chunk)
-	{
-		chunk._rightLaneChange.SetActive (true);
-		
-		chunk._leftLaneChange.SetActive (true);
-	}
-
-	IEnumerator EnableLaneChanges (Chunk chunk, ChunkType type)
-	{
-		yield return new WaitForSecondsRealtime (0.05f);
-
-		if (type == ChunkType.BothOpened || type == ChunkType.RightOpened)
-		{
-			chunk._rightLaneChange.SetActive (true);
-
-			chunk._leftLaneChange.SetActive (false);
-		}
-
-		if (type == ChunkType.BothOpened || type == ChunkType.LeftOpened)
-		{
-			chunk._leftLaneChange.SetActive (true);
-
-			chunk._rightLaneChange.SetActive (false);
-		}
-	}
-
 	void RemovePreviousChunks ()
 	{
-		if (_previousChunks [0].transform.position.y < _camera.position.y - _chunkHeight * 2)
+		if (_previousChunks [0].transform.position.y < _camera.position.y - _chunkHeight * 1)
 		{
 			Destroy (_previousChunks [0]);
 			Destroy (_previousChunks [1]);

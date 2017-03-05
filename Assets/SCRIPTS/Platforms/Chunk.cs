@@ -4,9 +4,12 @@ using UnityEngine;
 using System;
 
 public enum WallType { Solid, Breakable };
+public enum LanePosition { First, Second, Third };
 
 public class Chunk : MonoBehaviour 
 {
+	public LanePosition ChunkPosition;
+
 	[Header ("Wall Type")]
 	public WallType RightWall;
 	public WallType LeftWall;
@@ -77,7 +80,10 @@ public class Chunk : MonoBehaviour
 		if(_rightLaneChange == null)
 			Debug.LogWarning ("No Right Lane Change!: " + name);
 
+		LaneChange.OnLaneChange += OnLaneChange;
+
 		SetupMeshes ();
+		OnLaneChange ();
 	}
 
 	void SetupMeshes ()
@@ -186,5 +192,40 @@ public class Chunk : MonoBehaviour
 			BrokenLeftMeshes [UnityEngine.Random.Range (0, BrokenLeftMeshes.Count)].SetActive (true);
 		else
 			CompleteLeftMeshes [UnityEngine.Random.Range (0, CompleteLeftMeshes.Count)].SetActive (true);
+	}
+
+	public void OnLaneChange ()
+	{
+		if (LaneChange.CurrentLane == ChunkPosition)
+		{
+			switch(ChunkPosition)
+			{
+			case LanePosition.First:
+				_leftLaneChange.SetActive (false);
+
+				_rightLaneChange.SetActive (true);
+				break;
+			case LanePosition.Second:
+				_leftLaneChange.SetActive (true);
+				_rightLaneChange.SetActive (true);
+				break;
+			case LanePosition.Third:
+				_leftLaneChange.SetActive (true);
+
+				_rightLaneChange.SetActive (false);
+				break;
+			}
+		}
+
+		else
+		{
+			_leftLaneChange.SetActive (false);
+			_rightLaneChange.SetActive (false);
+		}
+	}
+
+	void OnDestroy ()
+	{
+		LaneChange.OnLaneChange -= OnLaneChange;
 	}
 }
