@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DarkTonic.MasterAudio;
 
 public class Enemy : MonoBehaviour 
 {
-	private static float _jumpForce = 10;
-	private Rigidbody _playerRigidbody;
 	private bool _dead = false;
 
 	public GameObject deathParticle;
 
+	private string DeathSound = "SFX_EnemyDead";
+
 	// Use this for initialization
 	protected virtual void Start () 
 	{
-		_playerRigidbody = GameObject.FindGameObjectWithTag ("Player").GetComponent<Rigidbody> ();	
 	}
 	
 	// Update is called once per frame
@@ -49,8 +49,11 @@ public class Enemy : MonoBehaviour
 	protected virtual void Death ()
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Kill);
+		VibrationManager.Instance.Vibrate (FeedbackType.Kill);
 
 		Instantiate (deathParticle, transform.position, Quaternion.identity);
+
+		MasterAudio.PlaySoundAndForget (DeathSound);
 
 		_dead = true;
 
@@ -68,7 +71,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Delaymort ()
     {
-        yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
     }
 }

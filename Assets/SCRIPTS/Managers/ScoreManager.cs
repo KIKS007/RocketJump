@@ -29,12 +29,11 @@ public class ScoreManager : Singleton<ScoreManager>
 	public float PickupScoreFactor = 1;
 
 	private Transform _mainCamera;
-	private GameObject _scoreCanvas;
+
 	// Use this for initialization
 	void Start () 
 	{
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
-		_scoreCanvas = transform.GetChild (0).gameObject;
 		BestScores.Sort (new Comparison<int>((i1, i2) => i2.CompareTo(i1)));
 
 		GameManager.Instance.OnGameOver += OnGameOver;

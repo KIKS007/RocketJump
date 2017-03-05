@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using DG.Tweening;
 
-public enum FeedbackType {Default, Death, Kill, Jump};
+public enum FeedbackType {Default, Death, Kill, Jump, Submit};
 
 public class ScreenShakeCamera : MonoBehaviour 
 {

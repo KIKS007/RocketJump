@@ -80,7 +80,8 @@ public class MixtapesManager : Singleton<MixtapesManager>
 			yield return new WaitForEndOfFrame ();
 		}
 
-		NextMixtape ();
+		if(GameManager.Instance.GameState == GameState.Playing)
+			NextMixtape ();
 	}
 
 	public void NextMixtape ()
@@ -136,5 +137,25 @@ public class MixtapesManager : Singleton<MixtapesManager>
 		yield return new WaitForSecondsRealtime (duration);
 
 		IsPaused = false;
+	}
+
+	public void FadeAll (float fadeDuration = 0.2f)
+	{
+		foreach (Wave wave in SelectedMixtapes)
+			MasterAudio.FadeSoundGroupToVolume (wave.Music, 0, fadeDuration);
+	}
+
+	public IEnumerator GameOver ()
+	{
+		FadeAll ();
+		MasterAudio.StopEverything ();
+
+		yield return new WaitForSeconds (1.5f);
+
+		if (GameManager.Instance.GameState != GameState.Playing)
+		{
+			if(GameManager.Instance.GameState == GameState.Menu)
+				MasterAudio.FadeSoundGroupToVolume (SelectedMixtapes [Random.Range(0, SelectedMixtapes.Length)].Music, 1, MusicFadeTime);
+		}
 	}
 }

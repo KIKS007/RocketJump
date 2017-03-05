@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public delegate void EventHandler();
 
@@ -128,6 +129,7 @@ public class Player : MonoBehaviour
 		recoilDirection.Normalize ();
 
 		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Jump);
+		VibrationManager.Instance.Vibrate (FeedbackType.Jump);
 
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
@@ -139,6 +141,8 @@ public class Player : MonoBehaviour
 			OnJump ();
 
 		_slowMotion.StopSlowMotion ();
+
+		MasterAudio.PlaySoundAndForget (CurrentWave.WaveSound);
 
 		WaveState = WaveState.CanWave;
 	}
@@ -230,10 +234,5 @@ public class Player : MonoBehaviour
 
 		if (OnRocketChange != null)
 			OnRocketChange ();
-	}
-
-	void OnDestroy ()
-	{
-		Instantiate (deathParticle, transform.position, Quaternion.identity);
 	}
 }

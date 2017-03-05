@@ -21,4 +21,8 @@ public class Wave : MonoBehaviour
 	[Header ("Music")]
 	[SoundGroup]
 	public string Music;
+
+	[Header ("Sounds")]
+	[SoundGroup]
+	public string WaveSound;
 }

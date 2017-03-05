@@ -49,24 +49,12 @@ public class UI : Singleton<UI>
 		PanelGameOver.SetActive(false);
 		PanelMainMenu.SetActive(false);
 	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		if(Input.GetKey(KeyCode.Escape))
-		{
-			PanelCredit.SetActive(false);
-			PanelHowToPlay.SetActive(false);
-		}
-	}
 
     public void ShowPanelCredit ()
     {
         PanelCredit.SetActive(true);
         PanelMainMenu.SetActive(false);
         DoomBoxMesh.SetActive(false);
-		
-		Debug.Log (PanelMainMenu.activeSelf);
     }
 
     public void ShowPanelHowToPlay ()
