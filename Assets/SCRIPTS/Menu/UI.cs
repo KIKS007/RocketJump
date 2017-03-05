@@ -21,6 +21,8 @@ public class UI : Singleton<UI>
 	[Header ("Game Over")]
 	public GameObject PanelGameOver;
 
+	private bool isLoading = false;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -28,6 +30,7 @@ public class UI : Singleton<UI>
 		ShowMaineMenu ();
 
 		GameManager.Instance.OnPlaying += ()=> PanelMixtape.SetActive (true);
+		GameManager.Instance.OnPlaying += ()=> isLoading = false;
 		GameManager.Instance.OnGameOver += ()=> PanelMixtape.SetActive (false);
 	}
 
@@ -83,11 +86,14 @@ public class UI : Singleton<UI>
 
     public void StartGame ()
     {
-		StartCoroutine (WaitLoadScene ());
+		if(!isLoading)
+			StartCoroutine (WaitLoadScene ());
     }
 
 	IEnumerator WaitLoadScene ()
 	{
+		isLoading = true;
+
 		yield return GameManager.Instance.StartCoroutine ("LoadGame");
 
 		HideAll ();

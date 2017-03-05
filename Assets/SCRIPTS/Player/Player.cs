@@ -65,16 +65,20 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		GetInput ();
-
-		SetCrossHair ();
-
-		Grounded ();
+		if (GameManager.Instance.GameState == GameState.Playing) 
+		{
+			GetInput ();
+			
+			SetCrossHair ();
+			
+			Grounded ();
+		}
 	}
 
 	void FixedUpdate ()
 	{
-		Gravity ();
+		if(GameManager.Instance.GameState == GameState.Playing)
+			Gravity ();
 	}
 
 	void Gravity ()
@@ -87,20 +91,20 @@ public class Player : MonoBehaviour
 
 	void GetInput ()
 	{
+		if (CurrentWave == null)
+			return;
+
 		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
 			WaveForce ();
-
+		
 		if(Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
 			Wave ();
-
-		if(Input.GetMouseButton (0))
-			Debug.DrawRay (transform.position, _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z)), Color.red);
 	}
 
 	void WaveForce ()
 	{
         if (OnHold != null)
-        OnHold();
+			OnHold();
 
         _slowMotion.StartSlowMotion ();
 
