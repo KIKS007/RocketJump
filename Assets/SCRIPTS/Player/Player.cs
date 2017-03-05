@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
 		recoilDirection.Normalize ();
 
 		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Jump);
+		VibrationManager.Instance.Vibrate (FeedbackType.Jump);
 
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
