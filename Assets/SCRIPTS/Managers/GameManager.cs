@@ -11,6 +11,10 @@ public class GameManager : Singleton<GameManager>
 	public GameState GameState = GameState.Playing;
 	public string GameScene ="Kiki";
 
+	[Header ("Sounds")]
+	[SoundGroup]
+	public string MenuGameOver;
+
 	public event EventHandler OnPlaying;
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
@@ -85,6 +89,9 @@ public class GameManager : Singleton<GameManager>
 	{
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
+
+		MixtapesManager.Instance.StartCoroutine ("GameOver");
+		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
 		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);

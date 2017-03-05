@@ -30,16 +30,21 @@ public class Rocket : MonoBehaviour
 	{
 		_player = GameObject.FindGameObjectWithTag ("Player");
 		SetupRigidbody ();
-
 	}
 
 	protected virtual void Start ()
 	{
-		
-		Instantiate (rocketWave.gameObject, _player.transform.position, transform.rotation, _player.transform);
+		if(rocketWave != null)
+			Instantiate (rocketWave.gameObject, _player.transform.position, transform.rotation, _player.transform);
 		
 		/*if(rocketWave != null)
 			rocketWave.SetParent (null);*/
+	}
+
+	protected virtual void Update ()
+	{
+		if (GameManager.Instance.GameState != GameState.Playing)
+			Destroy (gameObject);
 	}
 
 	protected virtual void SetupRigidbody ()

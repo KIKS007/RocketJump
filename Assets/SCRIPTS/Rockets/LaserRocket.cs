@@ -12,7 +12,7 @@ public class LaserRocket : Rocket
 
 	public ParticleSystem laser;
 
-	void Start ()
+	protected override void Start ()
 	{
 		transform.GetChild (0).DOScaleZ (LaserScale, LaserDuration).SetEase (LaserEase)
 			.OnComplete (()=> transform.DOScaleY (0f, 0.2f).OnComplete (End));

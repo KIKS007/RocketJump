@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public class LaneChange : MonoBehaviour 
 {
@@ -19,6 +20,9 @@ public class LaneChange : MonoBehaviour
 
 	private float _velocityThreshold = 0;
 	private Transform _camera;
+
+	private string NextLaneSound = "SFX_ChangeLane_LR";
+	private string PreviousLaneSound = "SFX_ChangeLane_RL";
 
 	void Start ()
 	{
@@ -70,6 +74,8 @@ public class LaneChange : MonoBehaviour
 		case 3:
 			break;
 		}
+
+		MasterAudio.PlaySoundAndForget (NextLaneSound);
 	}
 
 	void PreviousLane ()
@@ -87,5 +93,7 @@ public class LaneChange : MonoBehaviour
 			_camera.DOMoveX (_lanesPositions.y, _movementDuration).SetEase (_movementEase).SetId ("LaneChange");
 			break;
 		}
+
+		MasterAudio.PlaySoundAndForget (PreviousLaneSound);
 	}
 }

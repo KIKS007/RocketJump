@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public class DestructiblePlatform : MonoBehaviour 
 {
 	private static float DestroyDuration = 0.2f;
+
+	private string DestroySound = "SFX_BreakPlatform";
 
 	void OnTriggerEnter (Collider collider)
 	{
@@ -24,6 +27,8 @@ public class DestructiblePlatform : MonoBehaviour
 
 	void Remove ()
 	{
+		MasterAudio.PlaySoundAndForget (DestroySound);
+
 		if (GetComponent<Collider> () != null) 
 		{
 			GetComponent<Collider> ().enabled = false;

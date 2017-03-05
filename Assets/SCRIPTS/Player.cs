@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public delegate void EventHandler();
 
@@ -139,6 +140,8 @@ public class Player : MonoBehaviour
 			OnJump ();
 
 		_slowMotion.StopSlowMotion ();
+
+		MasterAudio.PlaySoundAndForget (CurrentWave.WaveSound);
 
 		WaveState = WaveState.CanWave;
 	}

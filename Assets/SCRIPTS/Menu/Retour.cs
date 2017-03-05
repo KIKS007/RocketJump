@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DarkTonic.MasterAudio;
 
 public class Retour : MonoBehaviour {
 
@@ -9,6 +10,11 @@ public class Retour : MonoBehaviour {
 	public GameObject PanelHowToplay2;
 	public GameObject PanelMainMenu;
 	public GameObject DoomBoxMeshes;
+
+
+	[Header ("Sounds")]
+	[SoundGroup]
+	public string MenuCancel;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +31,8 @@ public class Retour : MonoBehaviour {
 			PanelHowToplay2.SetActive(false);
 			PanelMainMenu.SetActive(true);
 			DoomBoxMeshes.SetActive(true);
+
+			MasterAudio.PlaySoundAndForget (MenuCancel);
 		}
 
 	}

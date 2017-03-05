@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class Enemy_Walk : MonoBehaviour {
 
-    bool goRight = true;
     Rigidbody rb;
 
 	public LayerMask collisionLayer = (1 << 11) | (1 << 12) | (1 << 13);
