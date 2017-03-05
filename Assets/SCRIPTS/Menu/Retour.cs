@@ -9,6 +9,7 @@ public class Retour : MonoBehaviour {
 	public GameObject PanelHowToplay;
 	public GameObject PanelHowToplay2;
 	public GameObject PanelMainMenu;
+	public GameObject PanelGameOver;
 	public GameObject DoomBoxMeshes;
 
 
@@ -29,6 +30,8 @@ public class Retour : MonoBehaviour {
 			PanelCredit.SetActive(false);
 			PanelHowToplay.SetActive(false);
 			PanelHowToplay2.SetActive(false);
+			PanelGameOver.SetActive(false);
+
 			PanelMainMenu.SetActive(true);
 			DoomBoxMeshes.SetActive(true);
 
