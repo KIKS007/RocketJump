@@ -9,6 +9,8 @@ public class ScoreManager : Singleton<ScoreManager>
 	public List<int> BestScores = new List<int>();
 	public int BestScoreLimit = 5;
 	public int CurrentScore;
+
+	[HideInInspector]
 	public float InitialPosition = -4;
 
 	[Header ("Score Text")]

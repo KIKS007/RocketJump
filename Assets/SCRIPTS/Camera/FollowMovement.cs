@@ -40,7 +40,8 @@ public class FollowMovement : MonoBehaviour
 		_player = GameObject.FindGameObjectWithTag ("Player").transform;
 		_playerRigidbody = _player.GetComponent<Rigidbody> ();
 
-		transform.position = new Vector3 (0, 0, transform.position.z);
+		transform.position = new Vector3 (0, _player.position.y + Offset.y, transform.position.z);
+		ScoreManager.Instance.InitialPosition = transform.position.y;
 
 		CurrentHeight = _player.position.y;
 	}

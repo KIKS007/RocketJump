@@ -29,9 +29,6 @@ public class GameManager : Singleton<GameManager>
         amplitude.init("f5d77f52f038bf0224c9a9ac9d81b0d8");
         // +++Amplitude+++ //
 
-		if(SceneManager.GetSceneByName (GameScene).isLoaded)
-			SceneManager.UnloadSceneAsync (GameScene);
-
 		if (GameState == GameState.Menu)
 		{
 			
@@ -72,6 +69,12 @@ public class GameManager : Singleton<GameManager>
 		};
 	}
 
+	void Start ()
+	{
+		if(SceneManager.GetSceneByName (GameScene).isLoaded)
+			SceneManager.UnloadSceneAsync (GameScene);
+	}
+
 	void CheckFirstLaunch ()
 	{
 		if (PlayerPrefs.GetInt ("FirstLaunch") == 0)
@@ -95,6 +98,7 @@ public class GameManager : Singleton<GameManager>
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
+
 		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
 		player.SetActive (false);
 
