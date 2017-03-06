@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
 	public WaveState WaveState = WaveState.CanWave;
 	public JumpState JumpState = JumpState.Grounded;
 
+	[Header ("Inputs")]
+	public int MouseHeldThreshold = 5;
+
 	[Header ("Wave")]
 	public Wave CurrentWave;
 	[Range (0, 1)]
@@ -43,6 +46,8 @@ public class Player : MonoBehaviour
 	private SlowMotion _slowMotion;
     [HideInInspector]
     public float _launchDelay = 0.005f;
+	private int _mouseHeldCount = 0;
+	public bool _hasShot = false;
 
 	public event EventHandler OnWaveChange;
 	public event EventHandler OnRocketChange;
@@ -94,11 +99,35 @@ public class Player : MonoBehaviour
 		if (CurrentWave == null)
 			return;
 
-		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
-			WaveForce ();
-		
-		if(Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
-			Wave ();
+		if (Input.GetMouseButton (0) && WaveState == WaveState.CanWave && !_hasShot)
+		{
+			if (_mouseHeldCount < MouseHeldThreshold)
+				_mouseHeldCount++;
+			
+			else
+			{
+				_hasShot = true;
+				_mouseHeldCount = 0;
+				WaveForce ();
+			}
+		}
+
+		if (Input.GetMouseButtonUp (0))
+		{
+			if (_mouseHeldCount < MouseHeldThreshold && !_hasShot)
+			{
+				_mouseHeldCount = 0;
+				LaunchRocket ();
+			}
+			else if(WaveState == WaveState.IsWaving)
+			{
+				_mouseHeldCount = 0;
+				Wave ();
+			}
+
+			_hasShot = false;
+		}
+			
 	}
 
 	void WaveForce ()
@@ -116,18 +145,22 @@ public class Player : MonoBehaviour
 		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
 			.SetEase (Ease.OutQuad)
 			.OnUpdate (()=> WaveForceDebug = _waveForce / CurrentWave.WaveForceLimits.y).SetId ("Wave")
-			.OnComplete (()=> { if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) Wave(); })
-			.SetUpdate (true);
+			.SetUpdate (true)
+			.OnComplete (()=> { 
+				if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) 
+					Wave();
+			});
 	}
 
 	void Wave ()
 	{
+
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
 		_rigidbody.velocity = Vector3.zero;
 
-       LaunchRocket ();
+       //LaunchRocket ();
 
 		Vector3 recoilDirection = transform.position - _launchPosition;
 		recoilDirection.z = 0;
@@ -194,7 +227,9 @@ public class Player : MonoBehaviour
         if (OnLaunch != null)
             OnLaunch();
 
-        GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
+		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+       
+		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
 		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
 
