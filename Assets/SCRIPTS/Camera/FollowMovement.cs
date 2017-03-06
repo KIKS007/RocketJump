@@ -22,7 +22,6 @@ public class FollowMovement : MonoBehaviour
 
 	private Vector3 _velocity = Vector3.zero;
 
-	private float _velocityThreshold = 0.5f;
 	private float _initialYOffset;
 
 	// Use this for initialization

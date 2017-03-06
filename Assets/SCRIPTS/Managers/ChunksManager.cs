@@ -5,27 +5,34 @@ using System;
 
 public class ChunksManager : MonoBehaviour
 {
-	[Header ("Previous Chunks")]
-	public int SameTypeThreshold = 3;
-
-	private int _sameTypeCount = 0;
-
-	[Header ("Chunks List")]
-	public Transform ChunksParent;
-	public List<Chunk> AllChunks = new List<Chunk> ();
-	public List<ChunkList> SortedChunks = new List<ChunkList> ();
+	[Header ("Difficulty")]
+	public List<int> PreviousDifficultyLevels = new List<int>();
+	public int CurrentDifficulty = 0;
+	public int DifficultyThreshold = 200;
+	public AnimationCurve DifficultyCurve;
 
 	[Header ("Settings")]
 	public int ChunkIndex = 1;
-	public int AheadChunksCount = 3;
+	public int AheadChunksCount = 1;
+
+	[Header ("Chunks List")]
+	public Transform ChunksPrefabs;
+	public List<Chunk> AllChunks = new List<Chunk> ();
+	public List<ChunkList> SortedChunks = new List<ChunkList> ();
+
+	[Header ("Previous Chunks List")]
+	public List<GameObject> PreviousChunksSpawned = new List<GameObject> ();
+	public List<Chunk> PreviousChunks = new List<Chunk> ();
+
+	[Header ("Testing")]
+	public bool OnlyActiveOnes = false;
+	public bool SortByDifficulty = false;
 
 	[Header ("Lanes Parents")]
-	public Transform LanesParent;
+	public Transform ChunksParent;
 
 	private float _chunkHeight = 28f;
 	private Transform _camera;
-
-	private List<GameObject> _previousChunks = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () 
@@ -34,9 +41,14 @@ public class ChunksManager : MonoBehaviour
 
 		AllChunks.Clear ();
 
-		foreach (Transform child in ChunksParent)
-			AllChunks.Add (child.GetComponent<Chunk> ());
-
+		if (GameManager.Instance._initialState != GameState.Testing || !OnlyActiveOnes)
+			foreach (Transform child in ChunksPrefabs)
+				AllChunks.Add (child.GetComponent<Chunk> ());
+		else
+			foreach (Transform child in ChunksPrefabs)
+				if(child.gameObject.activeSelf == true)
+					AllChunks.Add (child.GetComponent<Chunk> ());
+			
 		AddFirstChunks ();
 
 		SortChunks ();
@@ -47,22 +59,46 @@ public class ChunksManager : MonoBehaviour
 
 	void SortChunks ()
 	{
+		SortedChunks.Clear ();
+
+		for (int i = 0; i < 5; i++)
+		{
+			SortedChunks.Add (new ChunkList ());
+			SortedChunks [i].List = new List<Chunk> ();
+		}
+
 		foreach (Chunk chunk in AllChunks)
 			SortedChunks [chunk.Difficulty].List.Add (chunk);
 	}
 
 	void AddFirstChunks ()
 	{
-		if(LanesParent.childCount > 0)
-			_previousChunks.Add (LanesParent.GetChild (0).gameObject);
+		if(ChunksParent.childCount > 0)
+			PreviousChunksSpawned.Add (ChunksParent.GetChild (0).gameObject);
 	}
 
 	void TestingChunks ()
 	{
-		for (int i = 0; i < ChunksParent.childCount; i++)
+		if(!SortByDifficulty)
+			for (int i = 0; i < ChunksPrefabs.childCount; i++)
+			{
+				ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, _chunkHeight * (i + 1), 0);			
+				ChunksPrefabs.GetChild (i).gameObject.SetActive (true);
+			}
+		else
 		{
-			ChunksParent.GetChild (i).transform.position = new Vector3 (0, _chunkHeight * (i + 1), 0);			
-			ChunksParent.GetChild (i).gameObject.SetActive (true);
+			int index = 0;
+
+			foreach(ChunkList chunkList in SortedChunks)
+			{
+				foreach(Chunk chunk in chunkList.List)
+				{
+					chunk.transform.position = new Vector3 (0, _chunkHeight * (index + 1), 0);
+					chunk.gameObject.SetActive (true);
+					index++;
+				}
+			}
+
 		}
 	}
 
@@ -75,78 +111,86 @@ public class ChunksManager : MonoBehaviour
 				_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
 			
 			if (_camera.position.y + (_chunkHeight * (AheadChunksCount - 1)) > _chunkHeight * ChunkIndex)
-				AddNewChunks ();
+				AddNewChunk ();
+
+			if ((CurrentDifficulty + 1) * DifficultyThreshold < ScoreManager.Instance.ClimbingScore && CurrentDifficulty < 4)
+				CurrentDifficulty++;
 		}
 	}
 
-	public void AddNewChunks ()
+	public void AddNewChunk ()
 	{
 		ChunkIndex++;
 
-		RemovePreviousChunks ();
-	}
+		Chunk newChunk = null;
+		GameObject chunkSpawned = null;
 
-	void AddNewChunk ()
-	{
+		float evaluatedDifficulty = DifficultyCurve.Evaluate ((float)(ScoreManager.Instance.ClimbingScore - CurrentDifficulty * DifficultyThreshold) / DifficultyThreshold);
+
+		int difficultyIndex = CurrentDifficulty;
+
+		if (evaluatedDifficulty > -0.05f && evaluatedDifficulty < 0.05f)
+			difficultyIndex = CurrentDifficulty;
 		
-	}
+		else if(evaluatedDifficulty > 0.05f && CurrentDifficulty < 4)
+			difficultyIndex = CurrentDifficulty + 1;
 
-	void AddRightOpenedLane ()
-	{
-		/*List<Chunk> firstLaneChunks = new List<Chunk> ();
-		List<Chunk> secondLaneChunks = new List<Chunk> ();
-		List<Chunk> thirdLaneChunks = new List<Chunk> ();
-		GameObject chunk = null;
+		else if(evaluatedDifficulty < -0.05f && CurrentDifficulty > 0)
+			difficultyIndex = CurrentDifficulty - 1;
 
-		//FIRST LANE
-		firstLaneChunks.Clear ();
-		firstLaneChunks = new List<Chunk> (_bothBreakable);
-		firstLaneChunks.AddRange (_rightBreakable);
-		firstLaneChunks.AddRange (_leftBreakable);
-		firstLaneChunks.AddRange (_bothSolid);
+		/*Debug.Log ("Evaluated Difficulty : " + evaluatedDifficulty);
+		Debug.Log ("CurrentDifficulty : " + CurrentDifficulty);
+		Debug.Log ("Index : " + difficultyIndex);*/
 
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
+		PreviousDifficultyLevels.Add (difficultyIndex);
+		bool validChunk = true;
 
-		//SECOND LANE
-		secondLaneChunks.Clear ();
-		secondLaneChunks = new List<Chunk> (_bothBreakable);
-		secondLaneChunks.AddRange (_rightBreakable);
+		do
+		{
+			validChunk = true;
 
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
+			if(SortedChunks [difficultyIndex].List.Count == 0)
+			{
+				Debug.LogWarning ("There's no Chunks!");
+				difficultyIndex = 0;
+			}
 
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
+			else if(SortedChunks [difficultyIndex].List.Count < 4)
+			{
+				Debug.LogWarning ("Not Enough Chunks!");
+				difficultyIndex = 0;
+			}
 
-		//THIRD LANE
-		thirdLaneChunks.Clear ();
-		thirdLaneChunks = new List<Chunk> (_bothBreakable);
-		thirdLaneChunks.AddRange (_leftBreakable);
 
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
+			newChunk = SortedChunks [difficultyIndex].List [UnityEngine.Random.Range (0, SortedChunks [difficultyIndex].List.Count)];
+			
+			if(PreviousChunksSpawned.Count > 0 && PreviousChunksSpawned [0] == newChunk)
+				validChunk = false;
+			
+		}
+		while (!validChunk);
 
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);*/
+
+		chunkSpawned = Instantiate (newChunk.gameObject, new Vector3 (0, _chunkHeight * ChunkIndex, 0), Quaternion.identity, ChunksParent) as GameObject;
+
+		PreviousChunksSpawned.Insert (0, chunkSpawned);
+		PreviousChunks.Insert (0, newChunk);
+
+		chunkSpawned.SetActive (true);
+
+		newChunk.EnableRightMeshes (false);
+		newChunk.EnableLeftMeshes (false);
+
+		RemovePreviousChunks ();
 	}		
 		
 	void RemovePreviousChunks ()
 	{
-		if (_previousChunks [0].transform.position.y < _camera.position.y - _chunkHeight * 1)
+		if (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1] != null && PreviousChunksSpawned [PreviousChunksSpawned.Count - 1].transform.position.y < _camera.position.y - _chunkHeight * 1)
 		{
-			Destroy (_previousChunks [0]);
-			Destroy (_previousChunks [1]);
-			Destroy (_previousChunks [2]);
+			Destroy (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1]);
 
-			for(int i = 0; i < 3; i++)
-				_previousChunks.RemoveAt (0);
+			PreviousChunksSpawned.RemoveAt (PreviousChunksSpawned.Count - 1);
 		}
 	}
 }

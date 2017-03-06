@@ -100,17 +100,26 @@ public class GameManager : Singleton<GameManager>
 
 		yield return new WaitForSecondsRealtime (0.5f);
 
-		UI.Instance.ShowGameOver ();
-		GameState = GameState.Menu;
-
-		if(SceneManager.GetSceneByName (GameScene).isLoaded)
-			yield return SceneManager.UnloadSceneAsync (GameScene);
+		if (_initialState != GameState.Testing) 
+		{
+			UI.Instance.ShowGameOver ();
+			GameState = GameState.Menu;
+			
+			if (SceneManager.GetSceneByName (GameScene).isLoaded)
+				yield return SceneManager.UnloadSceneAsync (GameScene);
+		} 
+		else
+			StartCoroutine (ReLoadGame ());
 	}
 
 	IEnumerator LoadGame ()
 	{
 		GameState = GameState.Menu;
 
+		if(SceneManager.sceneCount > 1)
+			for(int i = 1; i < SceneManager.sceneCount; i++)
+				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt (i).name);
+		
 		if(SceneManager.GetSceneByName (GameScene).isLoaded)
 			yield return SceneManager.UnloadSceneAsync (GameScene);
 		
