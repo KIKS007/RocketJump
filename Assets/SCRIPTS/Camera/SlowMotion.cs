@@ -39,6 +39,7 @@ public class SlowMotion : MonoBehaviour
 		_initialFixedDelta = Time.fixedDeltaTime;
 		_vignetting = GetComponent<FastVignette> ();
 		_initialVignetting = _vignetting.Darkness;
+
 		GameManager.Instance.OnGameOver += StopSlowMotion;
 	}
 

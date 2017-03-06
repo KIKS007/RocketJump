@@ -96,7 +96,7 @@ public class GameManager : Singleton<GameManager>
 
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
 		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
-		Destroy (player);
+		player.SetActive (false);
 
 		yield return new WaitForSecondsRealtime (0.5f);
 

@@ -16,20 +16,16 @@ public class LaneChange : MonoBehaviour
 	private Ease _movementEase = Ease.OutQuad;
 	private float _movementDuration = 0.5f;
 
-	private float _velocityThreshold = 0;
 	private Transform _camera;
 
 	private string NextLaneSound = "SFX_ChangeLane_LR";
 	private string PreviousLaneSound = "SFX_ChangeLane_RL";
-
-	private Chunk _chunkParent;
 
 	public static event EventHandler OnLaneChange;
 
 	void Start ()
 	{
 		_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
-		_chunkParent = transform.GetComponentInParent<Chunk> ();
 
 		GameManager.Instance.OnPlaying += () => CurrentLane = LanePosition.Second;
 	}
@@ -38,8 +34,6 @@ public class LaneChange : MonoBehaviour
 	{
 		if(collider.gameObject.tag == "Player")
 		{
-			Rigidbody playerRigibody = collider.gameObject.GetComponent<Rigidbody> ();
-
 			if (Change == ChangeType.Next)
 				Nextlane ();
 

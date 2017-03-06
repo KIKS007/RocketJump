@@ -11,7 +11,6 @@ public class AmplitudeEvents : MonoBehaviour {
 
     void Start ()
     {
-
         GameManager.Instance.OnGameOver += GameOver;
         GameManager.Instance.OnPlaying += Playing;
 	}
