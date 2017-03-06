@@ -9,7 +9,8 @@ public class FollowMovement : MonoBehaviour
 	public float CurrentHeight = 0;
 
 	[Header ("Rise")]
-	public float Speed;
+	public float RiseLerp = 0.1f;
+	public float RiseValue = 3;
 
 	[Header ("Follow")]
 	public float SmoothTime;
@@ -22,12 +23,15 @@ public class FollowMovement : MonoBehaviour
 	private Vector3 _velocity = Vector3.zero;
 
 	private float _velocityThreshold = 0.5f;
+	private float _initialYOffset;
 
 	// Use this for initialization
 	void Awake () 
 	{
 		GameManager.Instance.OnPlaying += Setup;
 		GameManager.Instance.OnMenu += ()=> transform.position = new Vector3 (0, 0, transform.position.z);
+
+		_initialYOffset = Offset.y;
 	}
 
 	void Setup ()
@@ -55,12 +59,12 @@ public class FollowMovement : MonoBehaviour
 			if (_player == null)
 				return;
 
-			/*if(_playerRigidbody.velocity.magnitude < _velocityThreshold)
-				Rise ();
-			
-			else*/
-				
 			Follow ();
+
+			if(_playerRigidbody.velocity.y > 0)
+				Offset.y = Mathf.Lerp (Offset.y, RiseValue, RiseLerp);
+			else
+				Offset.y = Mathf.Lerp (Offset.y, _initialYOffset, RiseLerp);
 		}
 	}
 
@@ -76,21 +80,4 @@ public class FollowMovement : MonoBehaviour
 		transform.position = Vector3.SmoothDamp (transform.position, target, ref _velocity, smoothTime);
 	}
 
-	/*void Follow ()
-	{
-		Vector3 target = transform.position;
-
-		if (_player.position.y > CurrentHeight)
-			CurrentHeight = _player.position.y;
-			
-		target.y = CurrentHeight;
-		target += Offset;
-
-		transform.position = Vector3.SmoothDamp (transform.position, target, ref _velocity, SmoothTime);
-	}*/
-
-	void Rise ()
-	{
-		transform.Translate (Vector3.up * Speed * Time.deltaTime);
-	}
 }
