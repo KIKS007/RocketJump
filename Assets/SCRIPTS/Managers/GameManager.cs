@@ -90,6 +90,8 @@ public class GameManager : Singleton<GameManager>
 
 	IEnumerator GameOverCoroutine ()
 	{
+		GameState = GameState.GameOver;
+
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
 		VibrationManager.Instance.Vibrate (FeedbackType.Death);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
@@ -104,8 +106,8 @@ public class GameManager : Singleton<GameManager>
 
 		yield return new WaitForSecondsRealtime (0.5f);
 
-		GameState = GameState.GameOver;
 		UI.Instance.ShowGameOver ();
+		GameState = GameState.Menu;
 
 		if(SceneManager.GetSceneByName (GameScene).isLoaded)
 			yield return SceneManager.UnloadSceneAsync (GameScene);
