@@ -3,31 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum WallType { Solid, Breakable };
-public enum LanePosition { First, Second, Third };
-
 public class Chunk : MonoBehaviour 
 {
-	public LanePosition ChunkPosition;
-
-	[Header ("Wall Type")]
-	public WallType RightWall;
-	public WallType LeftWall;
-
-	[Header ("Breakable Blocs")]
-	public List<GameObject> RightBreakableBlocs = new List<GameObject>();
-	public List<GameObject> LeftBreakableBlocs = new List<GameObject>();
+	[Header ("Difficulty")]
+	[Range (0, 4)]
+	public int Difficulty;
 
 	[Header ("Meshes")]
 	public List<GameObject> CompleteRightMeshes = new List<GameObject>();
 	public List<GameObject> CompleteLeftMeshes = new List<GameObject>();
 	public List<GameObject> BrokenRightMeshes = new List<GameObject>();
 	public List<GameObject> BrokenLeftMeshes = new List<GameObject>();
-
-	[HideInInspector]
-	public GameObject _rightLaneChange;
-	[HideInInspector]
-	public GameObject _leftLaneChange;
 
     public List<GameObject> SpawnablePlatforms = new List<GameObject>();
 
@@ -38,52 +24,7 @@ public class Chunk : MonoBehaviour
 
 		SpawnEnemies();
 
-        if (RightWall != WallType.Solid)
-		{
-			FindObjectwithTag ("BreakableBloc", RightBreakableBlocs, x => x.transform.position.x > transform.position.x);
-
-			if(RightBreakableBlocs.Count == 0)
-				Debug.LogWarning ("No Right Breakable Blocs! Check Tags : " + name);
-		}
-
-		if(LeftWall != WallType.Solid)
-		{
-			FindObjectwithTag ("BreakableBloc", LeftBreakableBlocs, x => x.transform.position.x < transform.position.x);
-
-			if(LeftBreakableBlocs.Count == 0)
-				Debug.LogWarning ("No Right Breakable Blocs! Check Tags : " + name);
-		}
-
-		LaneChange[] lanesChanges = transform.GetComponentsInChildren<LaneChange> ();
-		
-		if(lanesChanges.Length > 0)
-		{
-			foreach(LaneChange laneChange in lanesChanges)
-			{
-				if(laneChange.Change == LaneChange.ChangeType.Previous)
-				{
-					_leftLaneChange = laneChange.gameObject;
-					_leftLaneChange.SetActive (false);
-				}
-				
-				if(laneChange.Change == LaneChange.ChangeType.Next)
-				{
-					_rightLaneChange = laneChange.gameObject;
-					_rightLaneChange.SetActive (false);
-				}
-			}
-		}
-
-		if(_leftLaneChange == null)
-			Debug.LogWarning ("No Left Lane Change!: " + name);
-
-		if(_rightLaneChange == null)
-			Debug.LogWarning ("No Right Lane Change!: " + name);
-
-		LaneChange.OnLaneChange += OnLaneChange;
-
 		SetupMeshes ();
-		OnLaneChange ();
 	}
 
 	void SetupMeshes ()
@@ -92,7 +33,6 @@ public class Chunk : MonoBehaviour
 		
 		EnableLeftMeshes (false);
 		EnableRightMeshes (false);
-		
 	}
 
 	void DisableAllMeshes ()
@@ -192,40 +132,5 @@ public class Chunk : MonoBehaviour
 			BrokenLeftMeshes [UnityEngine.Random.Range (0, BrokenLeftMeshes.Count)].SetActive (true);
 		else
 			CompleteLeftMeshes [UnityEngine.Random.Range (0, CompleteLeftMeshes.Count)].SetActive (true);
-	}
-
-	public void OnLaneChange ()
-	{
-		if (LaneChange.CurrentLane == ChunkPosition)
-		{
-			switch(ChunkPosition)
-			{
-			case LanePosition.First:
-				_leftLaneChange.SetActive (false);
-
-				_rightLaneChange.SetActive (true);
-				break;
-			case LanePosition.Second:
-				_leftLaneChange.SetActive (true);
-				_rightLaneChange.SetActive (true);
-				break;
-			case LanePosition.Third:
-				_leftLaneChange.SetActive (true);
-
-				_rightLaneChange.SetActive (false);
-				break;
-			}
-		}
-
-		else
-		{
-			_leftLaneChange.SetActive (false);
-			_rightLaneChange.SetActive (false);
-		}
-	}
-
-	void OnDestroy ()
-	{
-		LaneChange.OnLaneChange -= OnLaneChange;
 	}
 }
