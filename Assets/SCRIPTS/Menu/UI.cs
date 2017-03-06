@@ -27,8 +27,6 @@ public class UI : Singleton<UI>
 	void Start () 
 	{
 		DisableAll ();
-		ShowMaineMenu ();
-
 		GameManager.Instance.OnPlaying += ()=> PanelMixtape.SetActive (true);
 		GameManager.Instance.OnPlaying += ()=> isLoading = false;
 		GameManager.Instance.OnGameOver += ()=> PanelMixtape.SetActive (false);

@@ -52,6 +52,9 @@ public class ChunksManager : MonoBehaviour
 		AddFirstChunks ();
 
 		SortChunks ();
+
+		if (GameManager.Instance._initialState == GameState.Testing)
+			TestingChunks ();
 	}
 
 	void SortChunks ()
@@ -99,15 +102,27 @@ public class ChunksManager : MonoBehaviour
 		if(LanesParents [2].childCount > 0)
 			_previousChunks.Add (LanesParents [2].GetChild (0).gameObject);
 	}
-	
+
+	void TestingChunks ()
+	{
+		for (int i = 0; i < ChunksParent.childCount; i++)
+		{
+			ChunksParent.GetChild (i).transform.position = new Vector3 (0, _chunkHeight * (i + 1), 0);			
+			ChunksParent.GetChild (i).gameObject.SetActive (true);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
-		if(_camera == null)
-			_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
-
-		if (_camera.position.y + (_chunkHeight * (AheadChunksCount - 1)) > _chunkHeight * ChunkIndex)
-			AddNewChunks ();
+		if(GameManager.Instance._initialState == GameState.Playing)
+		{
+			if(_camera == null)
+				_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+			
+			if (_camera.position.y + (_chunkHeight * (AheadChunksCount - 1)) > _chunkHeight * ChunkIndex)
+				AddNewChunks ();
+		}
 	}
 
 	public void AddNewChunks ()

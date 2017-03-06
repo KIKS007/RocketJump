@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DarkTonic.MasterAudio;
 
-public enum GameState { Menu, Playing, GameOver };
+public enum GameState { Menu, Playing, GameOver, Testing };
 
 public class GameManager : Singleton<GameManager> 
 {
@@ -21,8 +21,13 @@ public class GameManager : Singleton<GameManager>
 
 	public bool FirstLaunch = false;
 
+	[HideInInspector]
+	public GameState _initialState;
+
 	void Awake ()
 	{
+		_initialState = GameState;
+
         // +++Amplitude+++ //
         Amplitude amplitude = Amplitude.Instance;
         amplitude.logging = true;
@@ -30,32 +35,21 @@ public class GameManager : Singleton<GameManager>
         // +++Amplitude+++ //
 
 		if (GameState == GameState.Menu)
-		{
-			
 			UI.Instance.ShowMaineMenu ();
-		}
-		else
+
+		if(GameState == GameState.Playing)
 		{
 			StartCoroutine (LoadGame ());
 			UI.Instance.HideAll ();
 		}
 
-		GameState = GameState.Menu;
+		if(GameState == GameState.Testing)
+		{
+			StartCoroutine (ReLoadGame ());
+			UI.Instance.HideAll ();
+		}
 
         CheckFirstLaunch();
-
-		if (GameState == GameState.Menu)
-		{
-			
-			UI.Instance.ShowMaineMenu ();
-		}
-		else
-		{
-			StartCoroutine (LoadGame ());
-			UI.Instance.HideAll ();
-		}
-
-		GameState = GameState.Menu;
 
 		StartCoroutine (GameStateChange (GameState));
 
@@ -71,7 +65,7 @@ public class GameManager : Singleton<GameManager>
 
 	void Start ()
 	{
-		if(SceneManager.GetSceneByName (GameScene).isLoaded)
+		if(SceneManager.GetSceneByName (GameScene).isLoaded && GameState == GameState.Menu)
 			SceneManager.UnloadSceneAsync (GameScene);
 	}
 
@@ -121,6 +115,24 @@ public class GameManager : Singleton<GameManager>
 			yield return SceneManager.UnloadSceneAsync (GameScene);
 		
 		yield return SceneManager.LoadSceneAsync (GameScene, LoadSceneMode.Additive);
+
+		GameState = GameState.Playing;
+	}
+
+	IEnumerator ReLoadGame ()
+	{
+		GameState = GameState.Menu;
+
+		if(SceneManager.sceneCount == 1)
+			Debug.LogWarning ("There's only ONE scene!");
+
+		string scene = SceneManager.GetSceneAt (1).name;
+
+		if(scene == "Menu")
+			Debug.LogWarning ("Menu isn't The Active Scene!");
+
+		yield return SceneManager.UnloadSceneAsync (scene);
+		yield return SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
 
 		GameState = GameState.Playing;
 	}
