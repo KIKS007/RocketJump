@@ -99,32 +99,14 @@ public class Player : MonoBehaviour
 		if (CurrentWave == null)
 			return;
 
-		/*if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
-			WaveForce ();
-		
-		if(Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
-			Wave ();*/
-
-		/*if (Input.GetMouseButtonDown (0))
+		if (Input.GetMouseButton (0) && WaveState == WaveState.CanWave && !_hasShot)
 		{
-			Debug.Log ("Down");
-			Debug.Log ("Button");
-			
-		}
-
-		if (Input.GetMouseButtonUp (0))*/
-
-
-		if (Input.GetMouseButton (0) && WaveState == WaveState.CanWave)
-		{
-			_hasShot = true;
-
 			if (_mouseHeldCount < MouseHeldThreshold)
 				_mouseHeldCount++;
 			
 			else
 			{
-				Debug.Log ("WaveForce");
+				_hasShot = true;
 				_mouseHeldCount = 0;
 				WaveForce ();
 			}
@@ -132,18 +114,18 @@ public class Player : MonoBehaviour
 
 		if (Input.GetMouseButtonUp (0))
 		{
-			if (_mouseHeldCount < MouseHeldThreshold)
+			if (_mouseHeldCount < MouseHeldThreshold && !_hasShot)
 			{
-				Debug.Log ("Rocket");
 				_mouseHeldCount = 0;
 				LaunchRocket ();
 			}
 			else if(WaveState == WaveState.IsWaving)
 			{
-				Debug.Log ("Wave");
 				_mouseHeldCount = 0;
 				Wave ();
 			}
+
+			_hasShot = false;
 		}
 			
 	}
@@ -172,6 +154,7 @@ public class Player : MonoBehaviour
 
 	void Wave ()
 	{
+
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
