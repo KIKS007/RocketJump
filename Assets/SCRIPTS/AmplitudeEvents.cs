@@ -21,8 +21,6 @@ public class AmplitudeEvents : MonoBehaviour {
         runs += 1;
 
         ChunksManager = FindObjectOfType<ChunksManager>();
-
-        Debug.Log(ChunksManager);
     }
 
     void GameOver()
