@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: bc8c5e6998de48b44be84552cebbb28f
+timeCreated: 1488880912
+licenseType: Pro
+ShaderImporter:
+  defaultTextures:
+  - _TextureYZ: {fileID: 2800000, guid: c6147c46eaa99ae47b1d4ff8be499b59, type: 3}
+  - _TextureZX: {fileID: 2800000, guid: c6147c46eaa99ae47b1d4ff8be499b59, type: 3}
+  - _TextureXY: {fileID: 2800000, guid: c6147c46eaa99ae47b1d4ff8be499b59, type: 3}
+  - _Stains: {fileID: 2800000, guid: 8fddf8f1048e5d342af2b583502e8de1, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
