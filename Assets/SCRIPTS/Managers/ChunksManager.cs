@@ -80,25 +80,41 @@ public class ChunksManager : MonoBehaviour
 	void TestingChunks ()
 	{
 		if(!SortByDifficulty)
-			for (int i = 0; i < ChunksPrefabs.childCount; i++)
+		{
+			if(!OnlyActiveOnes)
 			{
-				ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, ChunkHeight * (i + 1), 0);			
-				ChunksPrefabs.GetChild (i).gameObject.SetActive (true);
+				for (int i = 0; i < ChunksPrefabs.childCount; i++)
+				{
+					ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, ChunkHeight * (i + 1), 0);	
+					ChunksPrefabs.GetChild (i).gameObject.SetActive (true);
+				}
 			}
+			else
+			{
+				for(int i = 0; i < AllChunks.Count; i++)
+				{
+					AllChunks [i].transform.position = new Vector3 (0, ChunkHeight * (i + 1), 0);
+					AllChunks [i].gameObject.SetActive (true);
+				}
+			}
+		}
+		
 		else
 		{
 			int index = 0;
-
+			
 			foreach(ChunkList chunkList in SortedChunks)
 			{
 				foreach(Chunk chunk in chunkList.List)
 				{
 					chunk.transform.position = new Vector3 (0, ChunkHeight * (index + 1), 0);
-					chunk.gameObject.SetActive (true);
+					
+					if(!OnlyActiveOnes)
+						chunk.gameObject.SetActive (true);
+					
 					index++;
 				}
 			}
-
 		}
 	}
 

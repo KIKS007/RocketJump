@@ -38,16 +38,20 @@ public class Chunk : MonoBehaviour
 	void DisableAllMeshes ()
 	{
 		foreach (GameObject child in CompleteRightMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		foreach (GameObject child in CompleteLeftMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		foreach (GameObject child in BrokenRightMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		foreach (GameObject child in BrokenLeftMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 	}
 
 	void FindObjectwithTag(string _tag, List<GameObject> list, Predicate<GameObject> predicate = null)
@@ -109,10 +113,12 @@ public class Chunk : MonoBehaviour
 	public void EnableRightMeshes (bool opened)
 	{
 		foreach (GameObject child in CompleteRightMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		foreach (GameObject child in BrokenRightMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		if(opened)
 			BrokenRightMeshes [UnityEngine.Random.Range (0, BrokenRightMeshes.Count)].SetActive (true);
@@ -123,10 +129,12 @@ public class Chunk : MonoBehaviour
 	public void EnableLeftMeshes (bool opened)
 	{
 		foreach (GameObject child in CompleteLeftMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		foreach (GameObject child in BrokenLeftMeshes)
-			child.SetActive (false);
+			if(child != null)
+				child.SetActive (false);
 
 		if(opened)
 			BrokenLeftMeshes [UnityEngine.Random.Range (0, BrokenLeftMeshes.Count)].SetActive (true);
