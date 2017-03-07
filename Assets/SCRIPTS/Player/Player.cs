@@ -6,7 +6,7 @@ using DarkTonic.MasterAudio;
 
 public delegate void EventHandler();
 
-public enum WaveState {CanWave, IsWaving, Cooldown};
+public enum WaveState {CanWave, IsWaving, HasWaved};
 public enum JumpState {InAir, Grounded};
 
 public class Player : MonoBehaviour 
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 	public JumpState JumpState = JumpState.Grounded;
 
 	[Header ("Inputs")]
-	public int MouseHeldThreshold = 5;
+	public float MouseHeldWindow = 0.1f;
 
 	[Header ("Wave")]
 	public Wave CurrentWave;
@@ -46,15 +46,16 @@ public class Player : MonoBehaviour
 	private SlowMotion _slowMotion;
     [HideInInspector]
     public float _launchDelay = 0.005f;
-	private int _mouseHeldCount = 0;
-	public bool _hasShot = false;
 
 	public event EventHandler OnWaveChange;
 	public event EventHandler OnRocketChange;
-	public event EventHandler OnJump;
 	public event EventHandler OnGrounded;
     public event EventHandler OnLaunch;
+
+	public event EventHandler OnJump;
     public event EventHandler OnHold;
+
+	private Coroutine _waitInput;
 
     // Use this for initialization
     void Start () 
@@ -65,6 +66,9 @@ public class Player : MonoBehaviour
 
 		CrossHairRenderer.gameObject.SetActive (true);
 		CrossHairRenderer.startWidth = 0;
+
+		OnHold += EnableArrow;
+		OnJump += DisableArrow;
 	}
 	
 	// Update is called once per frame
@@ -72,10 +76,9 @@ public class Player : MonoBehaviour
 	{
 		if (GameManager.Instance.GameState == GameState.Playing) 
 		{
-			GetInput ();
-			
 			SetCrossHair ();
 			
+			GetInput ();
 			Grounded ();
 		}
 	}
@@ -99,35 +102,37 @@ public class Player : MonoBehaviour
 		if (CurrentWave == null)
 			return;
 
-		if (Input.GetMouseButton (0) && WaveState == WaveState.CanWave && !_hasShot)
-		{
-			if (_mouseHeldCount < MouseHeldThreshold)
-				_mouseHeldCount++;
-			
-			else
-			{
-				_hasShot = true;
-				_mouseHeldCount = 0;
-				WaveForce ();
-			}
-		}
+		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
+			_waitInput = StartCoroutine (WaitInput ());
 
-		if (Input.GetMouseButtonUp (0))
+		if (Input.GetMouseButtonUp (0) && WaveState != WaveState.IsWaving)
 		{
-			if (_mouseHeldCount < MouseHeldThreshold && !_hasShot)
-			{
-				_mouseHeldCount = 0;
+			if(_waitInput != null)
+				StopCoroutine (_waitInput);
+
+			if(WaveState != WaveState.HasWaved)
 				LaunchRocket ();
-			}
-			else if(WaveState == WaveState.IsWaving)
-			{
-				_mouseHeldCount = 0;
-				Wave ();
-			}
-
-			_hasShot = false;
-		}
 			
+			WaveState = WaveState.CanWave;
+		}
+
+		else if (Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
+		{
+			Wave ();
+			WaveState = WaveState.CanWave;
+		}
+	}
+
+	IEnumerator WaitInput ()
+	{
+		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+
+		yield return new WaitForSecondsRealtime (MouseHeldWindow);
+
+		if (Input.GetMouseButton (0) && WaveState == WaveState.CanWave)
+			WaveForce ();
+		else
+			LaunchRocket ();
 	}
 
 	void WaveForce ()
@@ -154,7 +159,6 @@ public class Player : MonoBehaviour
 
 	void Wave ()
 	{
-
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
@@ -180,38 +184,25 @@ public class Player : MonoBehaviour
 
 		_slowMotion.StopSlowMotion ();
 
-		MasterAudio.PlaySoundAndForget (CurrentWave.WaveSound);
+		WaveState = WaveState.HasWaved;
 
-		WaveState = WaveState.CanWave;
+		MasterAudio.PlaySoundAndForget (CurrentWave.WaveSound);
 	}
 
 	void SetCrossHair ()
 	{
-		if(WaveState == WaveState.IsWaving)
-		{
-			if(CrossHairRenderer.startWidth != 1)	
-				DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f).SetUpdate (true);
-		}
-			
-		else if(CrossHairRenderer.startWidth != 0)
-			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f).SetUpdate (true);
+		Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
+		Crosshairs.position = transform.position + direction.normalized * 3;
+		Crosshairs.LookAt (transform.position);
 
+		CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
+		CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
 
 		if(WaveState == WaveState.IsWaving)
 		{
 			if(!Crosshairs.gameObject.activeSelf)
-			{
 				Crosshairs.gameObject.SetActive (true);
-			}
 
-			Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
-
-
-			Crosshairs.position = transform.position + direction.normalized * 3;
-			Crosshairs.LookAt (transform.position);
-
-			CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
-			CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
 		}
 		else if(Crosshairs.gameObject.activeSelf)
 		{
@@ -226,12 +217,11 @@ public class Player : MonoBehaviour
 
         if (OnLaunch != null)
             OnLaunch();
-
-		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
-       
+			       
 		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
-		rocket.transform.LookAt (new Vector3 (_launchPosition.x, _launchPosition.y, 0));
+		rocket.transform.LookAt (_launchPosition);
+		//rocket.transform.LookAt (Crosshairs.position);
 
 		float launchForce = rocket.GetComponent<Rocket> ().LaunchForce;
 		Rigidbody bodyRigidbody = rocket.GetComponent<Rocket> ()._rigidbody;
@@ -253,6 +243,18 @@ public class Player : MonoBehaviour
 		}
 		else
 			JumpState = JumpState.InAir;
+	}
+
+	void EnableArrow ()
+	{
+		CrossHairRenderer.gameObject.SetActive (true);
+		DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f).SetUpdate (true);
+	}
+
+	void DisableArrow ()
+	{
+		CrossHairRenderer.startWidth = 0;
+		CrossHairRenderer.gameObject.SetActive (false);
 	}
 
 	public void SetWave (Wave wave)

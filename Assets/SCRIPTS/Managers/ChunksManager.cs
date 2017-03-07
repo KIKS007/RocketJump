@@ -1,43 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum ChunkType { RightOpened, LeftOpened, BothOpened, BothClosed };
+using System;
 
 public class ChunksManager : MonoBehaviour
 {
-	[Header ("Previous Chunks")]
-	public List<ChunkType> PreviousChunksType = new List<ChunkType> ();
-	public int SameTypeThreshold = 3;
-
-	[Header ("Chunks Chance")]
-	public int RightOpenedChance = 1;
-	public int LeftOpenedChance = 1;
-	public int BothOpenedChance = 1;
-	public int BothClosedChance = 1;
-
-	private int _sameTypeCount = 0;
-
-	[Header ("Chunks List")]
-	public Transform ChunksParent;
-	public List<Chunk> AllChunks = new List<Chunk> ();
+	[Header ("Difficulty")]
+	public List<int> PreviousDifficultyLevels = new List<int>();
+	public int CurrentDifficulty = 0;
+	public int DifficultyThreshold = 200;
+	public AnimationCurve DifficultyCurve;
 
 	[Header ("Settings")]
 	public int ChunkIndex = 1;
-	public int AheadChunksCount = 3;
+	public int AheadChunksCount = 1;
+	public float ChunkHeight = 28f;
+
+	[Header ("Chunks List")]
+	public Transform ChunksPrefabs;
+	public List<Chunk> AllChunks = new List<Chunk> ();
+	public List<ChunkList> SortedChunks = new List<ChunkList> ();
+
+	[Header ("Previous Chunks List")]
+	public List<GameObject> PreviousChunksSpawned = new List<GameObject> ();
+	public List<Chunk> PreviousChunks = new List<Chunk> ();
+
+	[Header ("Testing")]
+	public bool OnlyActiveOnes = false;
+	public bool SortByDifficulty = false;
 
 	[Header ("Lanes Parents")]
-	public Transform[] LanesParents = new Transform[3];
+	public Transform ChunksParent;
 
-	private float _chunkHeight = 28f;
 	private Transform _camera;
-
-	private List<Chunk> _bothBreakable = new List<Chunk> ();
-	private List<Chunk> _rightBreakable = new List<Chunk> ();
-	private List<Chunk> _leftBreakable = new List<Chunk> ();
-	private List<Chunk> _bothSolid = new List<Chunk> ();
-
-	private List<GameObject> _previousChunks = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () 
@@ -46,369 +41,162 @@ public class ChunksManager : MonoBehaviour
 
 		AllChunks.Clear ();
 
-		foreach (Transform child in ChunksParent)
-			AllChunks.Add (child.GetComponent<Chunk> ());
-
+		if (GameManager.Instance._initialState != GameState.Testing || !OnlyActiveOnes)
+			foreach (Transform child in ChunksPrefabs)
+				AllChunks.Add (child.GetComponent<Chunk> ());
+		else
+			foreach (Transform child in ChunksPrefabs)
+				if(child.gameObject.activeSelf == true)
+					AllChunks.Add (child.GetComponent<Chunk> ());
+			
 		AddFirstChunks ();
 
 		SortChunks ();
+
+		if (GameManager.Instance._initialState == GameState.Testing)
+			TestingChunks ();
 	}
 
 	void SortChunks ()
 	{
-		foreach (Chunk chunk in AllChunks)
+		SortedChunks.Clear ();
+
+		for (int i = 0; i < 5; i++)
 		{
-			chunk.gameObject.SetActive (false);
-
-			if(chunk.RightWall == WallType.Breakable)
-			{
-				//Both breakable
-				if (chunk.LeftWall == WallType.Breakable)
-					_bothBreakable.Add (chunk);
-
-				//Right breakable
-				else if(chunk.LeftWall == WallType.Solid)
-					_rightBreakable.Add (chunk);
-			}
-
-			else if(chunk.LeftWall == WallType.Breakable)
-			{
-				//Both breakable
-				if (chunk.RightWall == WallType.Breakable)
-					_bothBreakable.Add (chunk);
-
-				//Left breakable
-				else if(chunk.RightWall == WallType.Solid)
-					_leftBreakable.Add (chunk);
-			}
-
-			//Both solid
-			else if(chunk.RightWall == WallType.Solid && chunk.LeftWall == WallType.Solid)
-				_bothSolid.Add (chunk);
+			SortedChunks.Add (new ChunkList ());
+			SortedChunks [i].List = new List<Chunk> ();
 		}
+
+		foreach (Chunk chunk in AllChunks)
+			SortedChunks [chunk.Difficulty].List.Add (chunk);
 	}
 
 	void AddFirstChunks ()
 	{
-		if(LanesParents [0].childCount > 0)
-			_previousChunks.Add (LanesParents [0].GetChild (0).gameObject);
-
-		if(LanesParents [1].childCount > 0)
-			_previousChunks.Add (LanesParents [1].GetChild (0).gameObject);
-
-		if(LanesParents [2].childCount > 0)
-			_previousChunks.Add (LanesParents [2].GetChild (0).gameObject);
+		if(ChunksParent.childCount > 0)
+			PreviousChunksSpawned.Add (ChunksParent.GetChild (0).gameObject);
 	}
-	
+
+	void TestingChunks ()
+	{
+		if(!SortByDifficulty)
+			for (int i = 0; i < ChunksPrefabs.childCount; i++)
+			{
+				ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, ChunkHeight * (i + 1), 0);			
+				ChunksPrefabs.GetChild (i).gameObject.SetActive (true);
+			}
+		else
+		{
+			int index = 0;
+
+			foreach(ChunkList chunkList in SortedChunks)
+			{
+				foreach(Chunk chunk in chunkList.List)
+				{
+					chunk.transform.position = new Vector3 (0, ChunkHeight * (index + 1), 0);
+					chunk.gameObject.SetActive (true);
+					index++;
+				}
+			}
+
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
-		if(_camera == null)
-			_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		if(GameManager.Instance._initialState == GameState.Playing || GameManager.Instance._initialState == GameState.Menu)
+		{
+			if(_camera == null)
+				_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+			
+			if (_camera.position.y + (ChunkHeight * (AheadChunksCount - 1)) > ChunkHeight * ChunkIndex)
+				AddNewChunk ();
 
-		if (_camera.position.y + (_chunkHeight * (AheadChunksCount - 1)) > _chunkHeight * ChunkIndex)
-			AddNewChunks ();
+			if ((CurrentDifficulty + 1) * DifficultyThreshold < ScoreManager.Instance.ClimbingScore && CurrentDifficulty < 4)
+				CurrentDifficulty++;
+		}
 	}
 
-	public void AddNewChunks ()
+	public void AddNewChunk ()
 	{
 		ChunkIndex++;
 
-		ChunkType nextChunkType = RandomChunkType ();
-		PreviousChunksType.Insert (0, nextChunkType);
+		Chunk newChunk = null;
+		GameObject chunkSpawned = null;
 
-		if (PreviousChunksType.Count > 10)
-			PreviousChunksType.RemoveAt (PreviousChunksType.Count - 1);
+		float evaluatedDifficulty = DifficultyCurve.Evaluate ((float)(ScoreManager.Instance.ClimbingScore - CurrentDifficulty * DifficultyThreshold) / DifficultyThreshold);
 
-		switch(nextChunkType)
+		int difficultyIndex = CurrentDifficulty;
+
+		if (evaluatedDifficulty > -0.05f && evaluatedDifficulty < 0.05f)
+			difficultyIndex = CurrentDifficulty;
+		
+		else if(evaluatedDifficulty > 0.05f && CurrentDifficulty < 4)
+			difficultyIndex = CurrentDifficulty + 1;
+
+		else if(evaluatedDifficulty < -0.05f && CurrentDifficulty > 0)
+			difficultyIndex = CurrentDifficulty - 1;
+
+		/*Debug.Log ("Evaluated Difficulty : " + evaluatedDifficulty);
+		Debug.Log ("CurrentDifficulty : " + CurrentDifficulty);
+		Debug.Log ("Index : " + difficultyIndex);*/
+
+		PreviousDifficultyLevels.Add (difficultyIndex);
+		bool validChunk = true;
+
+		do
 		{
-		case ChunkType.RightOpened:
-			AddRightOpenedLane ();
-			break;
-		case ChunkType.LeftOpened:
-			AddLeftOpenedLane ();
-			break;
-		case ChunkType.BothOpened:
-			AddBothOpenedLane ();
-			break;
-		case ChunkType.BothClosed:
-			AddBothClosedLane ();
-			break;
+			validChunk = true;
+
+			if(SortedChunks [difficultyIndex].List.Count == 0)
+			{
+				Debug.LogWarning ("There's no Chunks!");
+				difficultyIndex = 0;
+			}
+
+			else if(SortedChunks [difficultyIndex].List.Count < 4)
+			{
+				Debug.LogWarning ("Not Enough Chunks!");
+				difficultyIndex = 0;
+			}
+
+
+			newChunk = SortedChunks [difficultyIndex].List [UnityEngine.Random.Range (0, SortedChunks [difficultyIndex].List.Count)];
+			
+			if(PreviousChunksSpawned.Count > 0 && PreviousChunksSpawned [0] == newChunk)
+				validChunk = false;
+			
 		}
+		while (!validChunk);
+
+
+		chunkSpawned = Instantiate (newChunk.gameObject, new Vector3 (0, ChunkHeight * ChunkIndex, 0), Quaternion.identity, ChunksParent) as GameObject;
+
+		PreviousChunksSpawned.Insert (0, chunkSpawned);
+		PreviousChunks.Insert (0, newChunk);
+
+		chunkSpawned.SetActive (true);
+
+		newChunk.EnableRightMeshes (false);
+		newChunk.EnableLeftMeshes (false);
 
 		RemovePreviousChunks ();
-	}
-
-	void AddRightOpenedLane ()
-	{
-		List<Chunk> firstLaneChunks = new List<Chunk> ();
-		List<Chunk> secondLaneChunks = new List<Chunk> ();
-		List<Chunk> thirdLaneChunks = new List<Chunk> ();
-		GameObject chunk = null;
-
-		//FIRST LANE
-		firstLaneChunks.Clear ();
-		firstLaneChunks = new List<Chunk> (_bothBreakable);
-		firstLaneChunks.AddRange (_rightBreakable);
-		firstLaneChunks.AddRange (_leftBreakable);
-		firstLaneChunks.AddRange (_bothSolid);
-
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		//SECOND LANE
-		secondLaneChunks.Clear ();
-		secondLaneChunks = new List<Chunk> (_bothBreakable);
-		secondLaneChunks.AddRange (_rightBreakable);
-
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
-
-		//THIRD LANE
-		thirdLaneChunks.Clear ();
-		thirdLaneChunks = new List<Chunk> (_bothBreakable);
-		thirdLaneChunks.AddRange (_leftBreakable);
-
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
-	}
-
-	void AddLeftOpenedLane ()
-	{
-		List<Chunk> firstLaneChunks = new List<Chunk> ();
-		List<Chunk> secondLaneChunks = new List<Chunk> ();
-		List<Chunk> thirdLaneChunks = new List<Chunk> ();
-		GameObject chunk = null;
-
-		//FIRST LANE
-		firstLaneChunks.Clear ();
-		firstLaneChunks = new List<Chunk> (_bothBreakable);
-		firstLaneChunks.AddRange (_rightBreakable);
-
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
-
-		//SECOND LANE
-		secondLaneChunks.Clear ();
-		secondLaneChunks = new List<Chunk> (_bothBreakable);
-		secondLaneChunks.AddRange (_leftBreakable);
-
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
-
-		//THIRD LANE
-		thirdLaneChunks.Clear ();
-		thirdLaneChunks = new List<Chunk> (_bothBreakable);
-		thirdLaneChunks.AddRange (_leftBreakable);
-
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-	}
-
-	void AddBothOpenedLane ()
-	{
-		List<Chunk> firstLaneChunks = new List<Chunk> ();
-		List<Chunk> secondLaneChunks = new List<Chunk> ();
-		List<Chunk> thirdLaneChunks = new List<Chunk> ();
-		GameObject chunk = null;
-
-		//FIRST LANE
-		firstLaneChunks.Clear ();
-		firstLaneChunks = new List<Chunk> (_bothBreakable);
-		firstLaneChunks.AddRange (_rightBreakable);
-
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
-
-		//SECOND LANE
-		secondLaneChunks.Clear ();
-		secondLaneChunks = new List<Chunk> (_bothBreakable);
-
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().RightBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
-		chunk.GetComponent<Chunk> ().EnableRightMeshes (true);
-
-		//THIRD LANE
-		thirdLaneChunks.Clear ();
-		thirdLaneChunks = new List<Chunk> (_bothBreakable);
-		thirdLaneChunks.AddRange (_leftBreakable);
-
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		StartCoroutine (RemoveBlocs (chunk.GetComponent<Chunk> ().LeftBreakableBlocs));
-		chunk.GetComponent<Chunk> ().EnableLeftMeshes (true);
-	}
-
-	void AddBothClosedLane ()
-	{
-		List<Chunk> firstLaneChunks = new List<Chunk> ();
-		List<Chunk> secondLaneChunks = new List<Chunk> ();
-		List<Chunk> thirdLaneChunks = new List<Chunk> ();
-		GameObject chunk = null;
-
-		//FIRST LANE
-		firstLaneChunks.Clear ();
-		firstLaneChunks = new List<Chunk> (_bothBreakable);
-		firstLaneChunks.AddRange (_rightBreakable);
-		firstLaneChunks.AddRange (_leftBreakable);
-		firstLaneChunks.AddRange (_bothSolid);
-
-		chunk = Instantiate (firstLaneChunks [Random.Range (0, firstLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.x, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [0]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.First;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		//SECOND LANE
-		secondLaneChunks.Clear ();
-		secondLaneChunks = new List<Chunk> (_bothBreakable);
-		secondLaneChunks.AddRange (_rightBreakable);
-		secondLaneChunks.AddRange (_leftBreakable);
-		secondLaneChunks.AddRange (_bothSolid);
-
-		chunk = Instantiate (secondLaneChunks [Random.Range (0, secondLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.y, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [1]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Second;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-
-		//THIRD LANE
-		thirdLaneChunks.Clear ();
-		thirdLaneChunks = new List<Chunk> (_bothBreakable);
-		thirdLaneChunks.AddRange (_rightBreakable);
-		thirdLaneChunks.AddRange (_leftBreakable);
-		thirdLaneChunks.AddRange (_bothSolid);
-
-		chunk = Instantiate (thirdLaneChunks [Random.Range (0, thirdLaneChunks.Count)].gameObject, new Vector3 (LaneChange.LanesPositions.z, _chunkHeight * ChunkIndex, 0), Quaternion.identity, LanesParents [2]) as GameObject;
-		chunk.GetComponent<Chunk> ().ChunkPosition = LanePosition.Third;
-		chunk.SetActive (true);
-		_previousChunks.Add (chunk);
-	}
-
-	ChunkType RandomChunkType ()
-	{
-		List<ChunkType> chunksType = new List<ChunkType> ();
-
-		for (int i = 0; i < RightOpenedChance; i++)
-			chunksType.Add (ChunkType.RightOpened);
-
-		for (int i = 0; i < LeftOpenedChance; i++)
-			chunksType.Add (ChunkType.LeftOpened);
-
-		for (int i = 0; i < BothOpenedChance; i++)
-			chunksType.Add (ChunkType.BothOpened);
-
-		for (int i = 0; i < BothClosedChance; i++)
-			chunksType.Add (ChunkType.BothClosed);
-
-		ChunkType chunkReturned = ChunkType.BothClosed;
-
-
-		if(!CheckChances ())
-			return chunkReturned;
-
-		if(_sameTypeCount == SameTypeThreshold - 1)
-		{
-			do
-			{
-				chunkReturned = chunksType [Random.Range (0, chunksType.Count)];
-			}
-			while (PreviousChunksType [0] == chunkReturned);
-
-			_sameTypeCount = 0;
-		}
-		else
-		{
-			chunkReturned = chunksType [Random.Range (0, chunksType.Count)];
-
-			if (PreviousChunksType.Count > 0 && PreviousChunksType [0] == chunkReturned)
-				_sameTypeCount++;
-			else
-				_sameTypeCount = 0;
-		}
-
-
-		return chunkReturned;
-	}
+	}		
 		
-	bool CheckChances ()
-	{
-		int noChanceCount = 0;
-
-		if (RightOpenedChance == 0)
-			noChanceCount++;
-
-		if (LeftOpenedChance == 0)
-			noChanceCount++;
-
-		if (BothOpenedChance == 0)
-			noChanceCount++;
-		
-		if (BothClosedChance == 0)
-			noChanceCount++;
-
-
-		if (noChanceCount > 2) {
-			Debug.LogError ("There aren't enough chances!");
-			return false;
-		} else
-			return true;
-	}
-
-	IEnumerator RemoveBlocs (List<GameObject> blocs)
-	{
-		yield return new WaitForSecondsRealtime (0.05f);
-
-		foreach (GameObject bloc in blocs)
-			Destroy (bloc);
-	}
-
 	void RemovePreviousChunks ()
 	{
-		if (_previousChunks [0].transform.position.y < _camera.position.y - _chunkHeight * 1)
+		if (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1] != null && PreviousChunksSpawned [PreviousChunksSpawned.Count - 1].transform.position.y < _camera.position.y - ChunkHeight * 1)
 		{
-			Destroy (_previousChunks [0]);
-			Destroy (_previousChunks [1]);
-			Destroy (_previousChunks [2]);
+			Destroy (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1]);
 
-			for(int i = 0; i < 3; i++)
-				_previousChunks.RemoveAt (0);
+			PreviousChunksSpawned.RemoveAt (PreviousChunksSpawned.Count - 1);
 		}
 	}
+}
+
+[Serializable]
+public class ChunkList
+{
+	public List<Chunk> List;
 }
