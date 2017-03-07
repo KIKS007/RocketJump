@@ -12,9 +12,6 @@ public class DestructiblePlatform : MonoBehaviour
 
 	void OnTriggerEnter (Collider collider)
 	{
-		if (collider.gameObject.tag == "Player")
-			Remove ();
-
 		if (LayerMask.NameToLayer ("Rocket") == collider.gameObject.layer)
 			Remove ();
 	}
