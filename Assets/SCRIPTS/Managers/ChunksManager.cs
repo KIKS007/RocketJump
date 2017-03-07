@@ -197,6 +197,8 @@ public class ChunksManager : MonoBehaviour
 		newChunk.EnableRightMeshes (false);
 		newChunk.EnableLeftMeshes (false);
 
+		CollectiblesManager.Instance.SpawnCollectibles (chunkSpawned);
+
 		RemovePreviousChunks ();
 	}		
 		
