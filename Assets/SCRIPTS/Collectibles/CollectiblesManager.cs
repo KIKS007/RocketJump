@@ -6,6 +6,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 {
 	public int CollectiblesCount;
 	public int CollectibleByChunk = 2;
+	public int SpawnedCollectibles;
 
 	[Header ("Spawn Limits")]
 	public Vector2 XLimits;
@@ -61,6 +62,10 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 
 			Transform parent = chunk.transform.Find ("Collectibles Parent");
 			Instantiate (collectibleGroup.gameObject, position, Quaternion.identity, parent);
+
+			Debug.Log (collectibleGroup.name + " in " + chunk.name);
+
+			SpawnedCollectibles++;
 		}
 	}
 }
