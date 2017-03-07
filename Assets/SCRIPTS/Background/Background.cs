@@ -25,6 +25,7 @@ public class Background : MonoBehaviour
 
 	void Update ()
 	{
-		transform.Translate (Vector3.forward * Speed * _parallaxCamera.delta * Time.deltaTime);
+		if(GameManager.Instance.GameState == GameState.Playing)
+			transform.Translate (Vector3.forward * Speed * _parallaxCamera.delta * Time.deltaTime);
 	}
 }

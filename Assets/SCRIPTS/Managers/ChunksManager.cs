@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class ChunksManager : MonoBehaviour
 {
@@ -213,6 +215,7 @@ public class ChunksManager : MonoBehaviour
 		}
 	}
 
+	#if UNITY_EDITOR
 	[ContextMenu ("Revert LD Prefabs")]
 	public void RevertPrefabs ()
 	{
@@ -224,6 +227,7 @@ public class ChunksManager : MonoBehaviour
 				PrefabUtility.RevertPrefabInstance (child.gameObject);
 		}
 	}
+	#endif
 }
 
 [Serializable]

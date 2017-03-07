@@ -71,7 +71,7 @@ public class ScoreManager : Singleton<ScoreManager>
 			GetClimbingScore ();
 
 			CurrentScore = ClimbingScore + EnemyScore + PickupScore;
-			ScoreText.text = "Score: " + CurrentScore.ToString ();
+			ScoreText.text = CurrentScore.ToString ();
 		}
 	}
 
