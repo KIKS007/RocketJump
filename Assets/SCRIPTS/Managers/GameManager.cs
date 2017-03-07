@@ -35,7 +35,9 @@ public class GameManager : Singleton<GameManager>
         // +++Amplitude+++ //
 
 		if (GameState == GameState.Menu)
-			UI.Instance.ShowMaineMenu ();
+		{
+			UI.Instance.ShowMainMenu ();
+		}
 
 		if(GameState == GameState.Playing)
 		{

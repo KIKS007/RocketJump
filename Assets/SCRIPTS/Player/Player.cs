@@ -49,9 +49,10 @@ public class Player : MonoBehaviour
 
 	public event EventHandler OnWaveChange;
 	public event EventHandler OnRocketChange;
-	public event EventHandler OnJump;
 	public event EventHandler OnGrounded;
     public event EventHandler OnLaunch;
+
+	public event EventHandler OnJump;
     public event EventHandler OnHold;
 
 	private Coroutine _waitInput;
@@ -65,6 +66,9 @@ public class Player : MonoBehaviour
 
 		CrossHairRenderer.gameObject.SetActive (true);
 		CrossHairRenderer.startWidth = 0;
+
+		OnHold += EnableArrow;
+		OnJump += DisableArrow;
 	}
 	
 	// Update is called once per frame
@@ -155,7 +159,6 @@ public class Player : MonoBehaviour
 
 	void Wave ()
 	{
-
 		DOTween.Kill ("Wave");
 
 		_launchPosition = _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
@@ -192,25 +195,14 @@ public class Player : MonoBehaviour
 		Crosshairs.position = transform.position + direction.normalized * 3;
 		Crosshairs.LookAt (transform.position);
 
-		if(WaveState == WaveState.IsWaving)
-		{
-			if(CrossHairRenderer.startWidth != 1)	
-				DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f).SetUpdate (true);
-		}
-			
-		else if(CrossHairRenderer.startWidth != 0)
-			DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 0, 0.05f).SetUpdate (true);
-
+		CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
+		CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
 
 		if(WaveState == WaveState.IsWaving)
 		{
 			if(!Crosshairs.gameObject.activeSelf)
-			{
 				Crosshairs.gameObject.SetActive (true);
-			}
 
-			CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
-			CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
 		}
 		else if(Crosshairs.gameObject.activeSelf)
 		{
@@ -253,6 +245,17 @@ public class Player : MonoBehaviour
 			JumpState = JumpState.InAir;
 	}
 
+	void EnableArrow ()
+	{
+		CrossHairRenderer.gameObject.SetActive (true);
+		DOTween.To (() => CrossHairRenderer.startWidth, x => CrossHairRenderer.startWidth = x, 1, 0.5f).SetUpdate (true);
+	}
+
+	void DisableArrow ()
+	{
+		CrossHairRenderer.startWidth = 0;
+		CrossHairRenderer.gameObject.SetActive (false);
+	}
 
 	public void SetWave (Wave wave)
 	{

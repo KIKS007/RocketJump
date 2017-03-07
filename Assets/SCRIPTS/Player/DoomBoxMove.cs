@@ -13,7 +13,7 @@ public class DoomBoxMove : MonoBehaviour
     void Start ()
     {
         player.OnLaunch += SetDoomBox;
-        player.OnHold += ChangeFace;
+		player.OnHold += ChangeFace;
     }
 
     void ChangeFace()

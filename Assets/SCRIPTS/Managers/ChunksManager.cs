@@ -14,6 +14,7 @@ public class ChunksManager : MonoBehaviour
 	[Header ("Settings")]
 	public int ChunkIndex = 1;
 	public int AheadChunksCount = 1;
+	public float ChunkHeight = 28f;
 
 	[Header ("Chunks List")]
 	public Transform ChunksPrefabs;
@@ -31,7 +32,6 @@ public class ChunksManager : MonoBehaviour
 	[Header ("Lanes Parents")]
 	public Transform ChunksParent;
 
-	private float _chunkHeight = 28f;
 	private Transform _camera;
 
 	// Use this for initialization
@@ -82,7 +82,7 @@ public class ChunksManager : MonoBehaviour
 		if(!SortByDifficulty)
 			for (int i = 0; i < ChunksPrefabs.childCount; i++)
 			{
-				ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, _chunkHeight * (i + 1), 0);			
+				ChunksPrefabs.GetChild (i).transform.position = new Vector3 (0, ChunkHeight * (i + 1), 0);			
 				ChunksPrefabs.GetChild (i).gameObject.SetActive (true);
 			}
 		else
@@ -93,7 +93,7 @@ public class ChunksManager : MonoBehaviour
 			{
 				foreach(Chunk chunk in chunkList.List)
 				{
-					chunk.transform.position = new Vector3 (0, _chunkHeight * (index + 1), 0);
+					chunk.transform.position = new Vector3 (0, ChunkHeight * (index + 1), 0);
 					chunk.gameObject.SetActive (true);
 					index++;
 				}
@@ -105,12 +105,12 @@ public class ChunksManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(GameManager.Instance._initialState == GameState.Playing)
+		if(GameManager.Instance._initialState == GameState.Playing || GameManager.Instance._initialState == GameState.Menu)
 		{
 			if(_camera == null)
 				_camera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
 			
-			if (_camera.position.y + (_chunkHeight * (AheadChunksCount - 1)) > _chunkHeight * ChunkIndex)
+			if (_camera.position.y + (ChunkHeight * (AheadChunksCount - 1)) > ChunkHeight * ChunkIndex)
 				AddNewChunk ();
 
 			if ((CurrentDifficulty + 1) * DifficultyThreshold < ScoreManager.Instance.ClimbingScore && CurrentDifficulty < 4)
@@ -171,7 +171,7 @@ public class ChunksManager : MonoBehaviour
 		while (!validChunk);
 
 
-		chunkSpawned = Instantiate (newChunk.gameObject, new Vector3 (0, _chunkHeight * ChunkIndex, 0), Quaternion.identity, ChunksParent) as GameObject;
+		chunkSpawned = Instantiate (newChunk.gameObject, new Vector3 (0, ChunkHeight * ChunkIndex, 0), Quaternion.identity, ChunksParent) as GameObject;
 
 		PreviousChunksSpawned.Insert (0, chunkSpawned);
 		PreviousChunks.Insert (0, newChunk);
@@ -186,7 +186,7 @@ public class ChunksManager : MonoBehaviour
 		
 	void RemovePreviousChunks ()
 	{
-		if (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1] != null && PreviousChunksSpawned [PreviousChunksSpawned.Count - 1].transform.position.y < _camera.position.y - _chunkHeight * 1)
+		if (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1] != null && PreviousChunksSpawned [PreviousChunksSpawned.Count - 1].transform.position.y < _camera.position.y - ChunkHeight * 1)
 		{
 			Destroy (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1]);
 

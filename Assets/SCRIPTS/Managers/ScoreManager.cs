@@ -78,7 +78,10 @@ public class ScoreManager : Singleton<ScoreManager>
 	void GetClimbingScore ()
 	{
 		if(GameManager.Instance.GameState == GameState.Playing)
-			ClimbingScore = (int)(ClimbingScoreFactor * (_mainCamera.transform.position.y - InitialPosition));
+		{
+			if((int)(ClimbingScoreFactor * (_mainCamera.transform.position.y - InitialPosition)) > ClimbingScore)
+				ClimbingScore = (int)(ClimbingScoreFactor * (_mainCamera.transform.position.y - InitialPosition));
+		}
 
 		if (ClimbingScore < 0)
 			ClimbingScore = 0;

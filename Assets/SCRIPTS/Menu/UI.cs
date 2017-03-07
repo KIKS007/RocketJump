@@ -26,19 +26,18 @@ public class UI : Singleton<UI>
 	// Use this for initialization
 	void Start () 
 	{
-		DisableAll ();
 		GameManager.Instance.OnPlaying += ()=> PanelMixtape.SetActive (true);
 		GameManager.Instance.OnPlaying += ()=> isLoading = false;
 		GameManager.Instance.OnGameOver += ()=> PanelMixtape.SetActive (false);
 	}
 
-	public void ShowMaineMenu ()
+	public void ShowMainMenu ()
 	{
 		DisableAll ();
+
 		MenuMesh.SetActive(true);
 		DoomBoxMesh.SetActive (true);
 		PanelMainMenu.SetActive(true);
-
 	}
 
 	void DisableAll ()
