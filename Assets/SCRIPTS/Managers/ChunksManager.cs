@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
 
 public class ChunksManager : MonoBehaviour
 {
@@ -209,6 +210,18 @@ public class ChunksManager : MonoBehaviour
 			Destroy (PreviousChunksSpawned [PreviousChunksSpawned.Count - 1]);
 
 			PreviousChunksSpawned.RemoveAt (PreviousChunksSpawned.Count - 1);
+		}
+	}
+
+	[ContextMenu ("Revert LD Prefabs")]
+	public void RevertPrefabs ()
+	{
+		foreach(Transform chunk in ChunksPrefabs)
+		{
+			Transform parent = chunk.Find ("Level Design");
+
+			foreach (Transform child in parent)
+				PrefabUtility.RevertPrefabInstance (child.gameObject);
 		}
 	}
 }

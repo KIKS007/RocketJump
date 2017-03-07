@@ -118,6 +118,9 @@ public class Player : MonoBehaviour
 
 		else if (Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
 		{
+			if(_waitInput != null)
+				StopCoroutine (_waitInput);
+			
 			Wave ();
 			WaveState = WaveState.CanWave;
 		}
