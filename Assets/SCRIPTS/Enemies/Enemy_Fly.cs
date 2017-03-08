@@ -4,13 +4,13 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class Enemy_Walk : MonoBehaviour {
+public class Enemy_Fly : MonoBehaviour {
 
     Rigidbody rb;
 
 	public LayerMask collisionLayer = (1 << 11) | (1 << 12) | (1 << 13);
     public float speed;
-
+    public bool isRight = true;
     Transform child;
     
     // Use this for initialization
@@ -27,8 +27,8 @@ public class Enemy_Walk : MonoBehaviour {
     void FixedUpdate()
     {
 
-        rb.MovePosition(transform.position + transform.forward * speed * Time.fixedDeltaTime);
-
+        rb.MovePosition(transform.position + transform.right * -speed * Time.fixedDeltaTime);
+        
 
         DetectBorder();
     
@@ -38,30 +38,23 @@ public class Enemy_Walk : MonoBehaviour {
     {
         RaycastHit hit;
 
-		if (Physics.Raycast(child.transform.position, -Vector3.up, out hit, collisionLayer))
+         Debug.DrawRay(child.transform.position, Vector3.right * 2.7f, Color.red);
+
+        Vector3 direction = isRight ? Vector3.right : Vector3.left;
+
+        if (Physics.Raycast(child.transform.position, direction, out hit, 2.7f, collisionLayer))
         {
-            if (hit.distance > 2)
-            {
+            Debug.Log("hit");
+                isRight = !isRight;
                 ChangeDirection();
-            }
-        }
-
-		if (Physics.Raycast(child.transform.position, transform.forward, out hit, collisionLayer))
-        {
-            Debug.DrawRay(child.transform.position, transform.forward);
-
-            if (hit.distance < 0.5f)
-            {
-                ChangeDirection();
-            }
-        }
-
-        
+            
+        }        
     }
 
     void ChangeDirection()
     {
-        transform.Rotate(new Vector3(0, 180, 0));
+        transform.Rotate(new Vector3(0, 0, 0));
+        speed = -speed;
     }
 
 

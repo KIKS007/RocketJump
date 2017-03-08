@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
 
 		GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
-		GetComponent<Enemy_Walk>().speed = 0;
+		GetComponent<Enemy_Fly>().speed = 0;
 
 		StartCoroutine(Delaymort());
 	}
@@ -73,5 +73,6 @@ public class Enemy : MonoBehaviour
     {
 		yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
+        Debug.Log("Mort");
     }
 }
