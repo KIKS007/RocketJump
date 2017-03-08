@@ -92,7 +92,6 @@ public class GameManager : Singleton<GameManager>
 		VibrationManager.Instance.Vibrate (FeedbackType.Death);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
 
-		MixtapesManager.Instance.StartCoroutine ("GameOver");
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
@@ -139,10 +138,15 @@ public class GameManager : Singleton<GameManager>
 
 		string scene = SceneManager.GetSceneAt (1).name;
 
+		if(SceneManager.sceneCount > 1)
+			for(int i = 1; i < SceneManager.sceneCount; i++)
+				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt (i).name);
+
 		if(scene == "Menu")
 			Debug.LogWarning ("Menu isn't The Active Scene!");
 
 		yield return SceneManager.UnloadSceneAsync (scene);
+
 		yield return SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
 
 		GameState = GameState.Playing;

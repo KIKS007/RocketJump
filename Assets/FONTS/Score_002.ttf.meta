@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 8ab328577cb5d514c8a0064db3ba33e2
+timeCreated: 1488982308
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JF1
+  fontNames:
+  - JF1
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 961c47d2ff66daf4bbd9fd2386ab5f7b, type: 3}
+  - {fileID: 12800000, guid: b42db8337f92ad14496137e435de07d7, type: 3}
+  - {fileID: 12800000, guid: 39c397fe729c8dd4d9ac742e64779cc0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

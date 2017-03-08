@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour 
 {
-	public int Value = 1;
+	private int Value = 2;
 
 	void OnTriggerEnter (Collider collider)
 	{
-		if (collider.gameObject.tag == "Player")
+		if (collider.tag == "Player" && collider.GetComponent<Rigidbody> () != null)
+		{
 			CollectiblesManager.Instance.CollectiblePickedUp (Value);
-
-		Destroy (gameObject);
+			ScoreManager.Instance.PickupCollected (Value);
+			Destroy (gameObject);
+		}
 	}
 }

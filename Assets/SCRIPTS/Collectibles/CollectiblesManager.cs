@@ -5,12 +5,13 @@ using UnityEngine;
 public class CollectiblesManager : Singleton<CollectiblesManager> 
 {
 	public int CollectiblesCount;
-	public int CollectibleByChunk = 2;
+	public int CollectiblesByChunk = 2;
 	public int SpawnedCollectibles;
 
 	[Header ("Spawn Limits")]
 	public Vector2 XLimits;
 	public Vector2 YLimits;
+	public float Margin = 2;
 
 	[Header ("Collectibles Prefabs")]
 	public List<Transform> AllCollectiblesGroup = new List<Transform> ();
@@ -29,7 +30,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 
 	public void SpawnCollectibles (GameObject chunk)
 	{
-		for(int j = 0; j < CollectiblesCount; j++)
+		for(int j = 0; j < CollectiblesByChunk; j++)
 		{
 			GameObject collectibleGroup = null;
 			Vector3 position = new Vector3 ();
@@ -43,11 +44,16 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 				for(int i = 0; i < 10; i++)
 				{
 					correctSpawn = true;
-					
-					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (YLimits.x, YLimits.y));
 
-					foreach(Transform child in AllCollectiblesGroup)
-						if(Physics.CheckSphere (child.position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
+					float dividedHeight = (YLimits.y - YLimits.x) / CollectiblesByChunk;
+					Vector2 modifedYRandom = new Vector2();
+					modifedYRandom.x = YLimits.x + dividedHeight * j;
+					modifedYRandom.y = YLimits.x + dividedHeight * (j + 1);
+
+					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (modifedYRandom.x + Margin, modifedYRandom.y - Margin));
+
+					foreach(Transform child in collectibleGroup.transform)
+						if(Physics.CheckSphere (position + child.localPosition, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
 						{
 							correctSpawn = false;
 							break;
@@ -63,7 +69,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 			Transform parent = chunk.transform.Find ("Collectibles Parent");
 			Instantiate (collectibleGroup.gameObject, position, Quaternion.identity, parent);
 
-			Debug.Log (collectibleGroup.name + " in " + chunk.name);
+			//Debug.Log (collectibleGroup.name + " in " + chunk.name);
 
 			SpawnedCollectibles++;
 		}
