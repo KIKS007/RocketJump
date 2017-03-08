@@ -100,7 +100,7 @@ public class GameManager : Singleton<GameManager>
 		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
 		player.SetActive (false);
 
-		yield return new WaitForSecondsRealtime (0.5f);
+		yield return new WaitForSecondsRealtime (0.8f);
 
 		if (_initialState != GameState.Testing) 
 		{

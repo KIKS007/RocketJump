@@ -6,6 +6,8 @@ using DarkTonic.MasterAudio;
 
 public class DestructiblePlatform : MonoBehaviour 
 {
+	public GameObject Fx;
+
 	private static float DestroyDuration = 0.2f;
 
 	private string DestroySound = "SFX_BreakPlatform";
@@ -25,6 +27,8 @@ public class DestructiblePlatform : MonoBehaviour
 	void Remove ()
 	{
 		MasterAudio.PlaySoundAndForget (DestroySound);
+
+		Instantiate (Fx, transform.position, Quaternion.identity);
 
 		if (GetComponent<Collider> () != null) 
 		{

@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
 	public float MaxForceDuration = 1.2f;
 	[SoundGroup]
 	public string WaveSound;
+	public GameObject WaveFX;
 
 	[Header ("Gravity")]
 	public float GravityForce = 15;
@@ -211,7 +212,9 @@ public class Player : MonoBehaviour
 		recoilDirection.Normalize ();
 
 		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Jump);
-		VibrationManager.Instance.Vibrate (FeedbackType.Jump);
+		//VibrationManager.Instance.Vibrate (FeedbackType.Jump);
+
+		Instantiate (WaveFX, transform.position, Quaternion.identity);
 
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;

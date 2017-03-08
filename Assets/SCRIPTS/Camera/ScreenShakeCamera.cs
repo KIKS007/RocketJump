@@ -26,7 +26,7 @@ public class ScreenShakeCamera : MonoBehaviour
 	{
 		initialRotation = transform.rotation.eulerAngles;
 
-		GameManager.Instance.OnGameOver += ResetCameraRotation;
+		GameManager.Instance.OnPlaying += ResetCameraRotation;
 		ResetCameraRotation ();
 	}
 
@@ -50,7 +50,7 @@ public class ScreenShakeCamera : MonoBehaviour
 	{
 		float shakeDuration = 0;
 		Vector3 shakeStrenth = Vector3.zero;
-		bool exactType = true;
+		bool exactType = true;			
 
 		for(int i = 0; i < screenShakeList.Count; i++)
 		{
@@ -69,8 +69,7 @@ public class ScreenShakeCamera : MonoBehaviour
 			shakeStrenth = screenShakeList [0].shakeStrenth;
 		}
 
-		shake = false;
-		transform.DOShakeRotation (shakeDuration, shakeStrenth, shakeVibrato, shakeRandomness).SetId("ScreenShake").OnComplete (EndOfShake);
+		transform.DOShakeRotation (shakeDuration, shakeStrenth, shakeVibrato, shakeRandomness).SetId("ScreenShake").OnComplete (EndOfShake).SetUpdate (true);
 	}
 
 	void EndOfShake ()
@@ -84,7 +83,7 @@ public class ScreenShakeCamera : MonoBehaviour
 	void ResetCameraRotation ()
 	{
 		//		Debug.Log ("Rotation : " + transform.rotation.eulerAngles);
-		transform.DORotate(initialRotation, 0.5f);
+		transform.DORotate(initialRotation, 0.5f).SetUpdate (true).SetId ("ResetScreenShake");
 	}
 
 }
