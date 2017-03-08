@@ -5,30 +5,29 @@ using UnityEngine;
 public class Tuto : MonoBehaviour {
 
     public GameObject TutoCanvas;
+	public Transform PreviousTrigger;
 
     string name;
     Transform text;
     GameObject triggerBox;
     GameObject player;
-
+	Player playerScript;
 
     // Use this for initialization
     void Start () {
-        player = GameObject.FindGameObjectWithTag("Player");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        Debug.Log(player.GetComponent<Player>().cantRocket);
+		playerScript = GetComponent<Player> ();
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
     
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Collider>().tag == "TriggerSloMoBox")
+        if (other.tag == "TriggerSloMoBox")
         {
             Camera.main.GetComponent<SlowMotion>().StartSlowMotion(0);
             triggerBox = other.gameObject;
             name = other.GetComponent<Collider>().name;
+
+			PreviousTrigger = other.transform;
 
             if (name == "TriggerBox1")
             {
@@ -50,8 +49,8 @@ public class Tuto : MonoBehaviour {
                 text.gameObject.SetActive(true);
             }
 
-            player.GetComponent<Player>().cantInput = true;
-            player.GetComponent<Player>().cantRocket = true;
+            playerScript.cantInput = true;
+            playerScript.cantRocket = true;
         }
     }
 
@@ -71,10 +70,7 @@ public class Tuto : MonoBehaviour {
             TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
             triggerBox.SetActive(false);
 
-
-
             text = TutoCanvas.transform.Find("TriggerBox6");
-
         }
 
         else
@@ -82,7 +78,7 @@ public class Tuto : MonoBehaviour {
             text.gameObject.SetActive(false);
             triggerBox.SetActive(false);
             Camera.main.GetComponent<SlowMotion>().StopSlowMotion();
-            player.GetComponent<Player>().cantInput = false;
+            playerScript.cantInput = false;
 
             StartCoroutine("Wait");
         }
@@ -91,8 +87,7 @@ public class Tuto : MonoBehaviour {
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.05f);
-        player.GetComponent<Player>().cantRocket = false;
-
+        playerScript.cantRocket = false;
     }
 
 }

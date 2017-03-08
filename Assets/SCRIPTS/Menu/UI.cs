@@ -92,14 +92,20 @@ public class UI : Singleton<UI>
     public void StartGame ()
     {
 		if(!isLoading)
-			StartCoroutine (WaitLoadScene ());
+			StartCoroutine (WaitLoadScene ("LoadGame"));
     }
 
-	IEnumerator WaitLoadScene ()
+	public void StartTuto ()
+	{
+		if(!isLoading)
+			StartCoroutine (WaitLoadScene ("LoadTuto"));
+	}
+
+	IEnumerator WaitLoadScene (string coroutine)
 	{
 		isLoading = true;
 
-		yield return GameManager.Instance.StartCoroutine ("LoadGame");
+		yield return GameManager.Instance.StartCoroutine (coroutine);
 
 		DisableAll ();
 	}

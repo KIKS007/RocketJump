@@ -94,10 +94,10 @@ public class Player : MonoBehaviour
 	{
 		if (GameManager.Instance.GameState == GameState.Playing) 
 		{
-			SetCrossHair ();
 
             if (!cantInput)
             {
+				SetCrossHair ();
                 GetInput();
             }
             Grounded ();

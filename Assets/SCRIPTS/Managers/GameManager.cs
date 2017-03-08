@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DarkTonic.MasterAudio;
+using DG.Tweening;
 
 public enum GameState { Menu, Playing, GameOver, Testing };
 
@@ -10,6 +11,7 @@ public class GameManager : Singleton<GameManager>
 {
 	public GameState GameState = GameState.Playing;
 	public string GameScene ="Kiki";
+	public string TutoScene ="Tuto";
 
 	[Header ("Sounds")]
 	[SoundGroup]
@@ -24,9 +26,12 @@ public class GameManager : Singleton<GameManager>
 	[HideInInspector]
 	public GameState _initialState;
 
+	private GameObject _mainCamera;
+
 	void Awake ()
 	{
 		_initialState = GameState;
+		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 
         // +++Amplitude+++ //
         Amplitude amplitude = Amplitude.Instance;
@@ -82,16 +87,19 @@ public class GameManager : Singleton<GameManager>
 
 	public void GameOver ()
 	{
-		StartCoroutine (GameOverCoroutine ());
+		if(SceneManager.GetSceneAt (1).name != TutoScene)
+			StartCoroutine (GameOverCoroutine ());
+		else
+			StartCoroutine (SpawnAtLastCheckpoint ());
 	}
 
 	IEnumerator GameOverCoroutine ()
 	{
 		GameState = GameState.GameOver;
 
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
+		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
 		VibrationManager.Instance.Vibrate (FeedbackType.Death);
-		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
+		_mainCamera.GetComponent<SlowMotion> ().StartSlowMotion ();
 
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
@@ -114,6 +122,32 @@ public class GameManager : Singleton<GameManager>
 			StartCoroutine (ReLoadGame ());
 	}
 
+	IEnumerator SpawnAtLastCheckpoint ()
+	{
+		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
+		VibrationManager.Instance.Vibrate (FeedbackType.Death);
+		_mainCamera.GetComponent<SlowMotion> ().StartSlowMotion ();
+
+		MasterAudio.PlaySoundAndForget (MenuGameOver);
+
+		GameObject player = GameObject.FindGameObjectWithTag ("Player");
+		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
+		player.SetActive (false);
+
+		float initialSmoothTime = _mainCamera.GetComponent<FollowMovement> ().DownSmoothTime;
+		_mainCamera.GetComponent<FollowMovement> ().DownSmoothTime = _mainCamera.GetComponent<FollowMovement> ().SmoothTime;
+		player.transform.DOMove (player.GetComponent<Tuto> ().PreviousTrigger.position, 1f);
+
+
+		yield return new WaitForSecondsRealtime (1f);
+
+		_mainCamera.GetComponent<FollowMovement> ().DownSmoothTime = initialSmoothTime;
+		player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		player.SetActive (true);
+
+		_mainCamera.GetComponent<SlowMotion> ().StopSlowMotion ();
+	}
+
 	IEnumerator LoadGame ()
 	{
 		GameState = GameState.Menu;
@@ -126,6 +160,22 @@ public class GameManager : Singleton<GameManager>
 			yield return SceneManager.UnloadSceneAsync (GameScene);
 		
 		yield return SceneManager.LoadSceneAsync (GameScene, LoadSceneMode.Additive);
+
+		GameState = GameState.Playing;
+	}
+
+	IEnumerator LoadTuto ()
+	{
+		GameState = GameState.Menu;
+
+		if(SceneManager.sceneCount > 1)
+			for(int i = 1; i < SceneManager.sceneCount; i++)
+				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt (i).name);
+
+		if(SceneManager.GetSceneByName (TutoScene).isLoaded)
+			yield return SceneManager.UnloadSceneAsync (TutoScene);
+
+		yield return SceneManager.LoadSceneAsync (TutoScene, LoadSceneMode.Additive);
 
 		GameState = GameState.Playing;
 	}
