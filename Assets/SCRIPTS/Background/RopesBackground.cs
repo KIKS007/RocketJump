@@ -8,6 +8,7 @@ public class RopesBackground : MonoBehaviour
 	public float FirstY;
 	public float BottomLimit;
 	public float TopLimit;
+	public float Lerp = 0.1f;
 
 	[Header ("Settings")]
 	public float Height;
@@ -57,8 +58,10 @@ public class RopesBackground : MonoBehaviour
 			{
 				//child.Translate (Vector3.down * Speed * Time.deltaTime);
 
-				child.Translate (Vector3.down * Speed * _parallaxCamera.delta * Time.deltaTime);
-				
+				//child.Translate (Vector3.down * Speed * _parallaxCamera.delta * Time.deltaTime);
+
+				child.position = Vector3.Lerp (child.position, child.position + Vector3.down * Speed * _parallaxCamera.delta, Lerp);
+
 				if(child.localPosition.y < BottomLimit)
 				{
 					Vector3 position = child.localPosition;
