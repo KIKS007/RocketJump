@@ -29,12 +29,17 @@ public class BounceRocket : Rocket
 	{
 		base.OnCollisionEnter (collision);
 
+		if (_bounceCount > 3)
+			return;
+		
 		_bounceCount++;
 
 		lighting.Play ();
 
 		if (_bounceCount > 3)
-			End ();
+		{
+			transform.DOScale (0, 0.25f).OnComplete (End);
+		}
 		
 		if(!DOTween.IsTweening ("Bounce" + GetInstanceID ()))
 		{
