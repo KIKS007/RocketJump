@@ -68,6 +68,19 @@ public class SlowMotion : MonoBehaviour
 		StartEffect ();
 	}
 
+	public void StartSlowMotion (float newTimeScale)
+	{
+		DOTween.Kill ("SlowMotion");
+
+		if (OnSlowMotionStart != null)
+			OnSlowMotionStart ();
+
+		DOTween.To(()=> Time.timeScale, x=> Time.timeScale =x, newTimeScale, TimeTween).SetEase(easetype).SetId("SlowMotion");
+		DOTween.To(()=> Time.fixedDeltaTime, x=> Time.fixedDeltaTime =x, newTimeScale, TimeTween).SetEase(easetype).SetId("SlowMotion");
+
+		StartEffect ();
+	}
+
 	public void StopSlowMotion ()
 	{
 		//Debug.Log("Undo Slomo !");
