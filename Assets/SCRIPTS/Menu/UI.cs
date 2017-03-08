@@ -7,14 +7,7 @@ using DG.Tweening;
 
 public class UI : Singleton<UI> 
 {
-	public GameObject MenuMesh;
-
-	[Header ("Main Menu")]
-	public GameObject PanelMainMenu;
-	//public GameObject DoomBoxMesh;
-
 	[Header ("Navigation")]
-	public float MenuWidth;
 	public float MenuMovementDuration;
 	public Ease MenuMovementEase;
 
@@ -22,114 +15,79 @@ public class UI : Singleton<UI>
 	public RectTransform[] AllPanels = new RectTransform[0];
 
 	[Header ("Panels")]
-	public GameObject PanelCredit;
-    public GameObject PanelSettings;
-	public GameObject PanelHowToPlay;
-
-	[Header ("Panels")]
 	public Transform[] Backgrounds = new Transform[0];
-
-	[Header ("Game Over")]
-	public GameObject PanelGameOver;
 
 	[Header ("Sounds")]
 	[SoundGroup]
 	public string MenuCancel;
 
 	private bool isLoading = false;
-	private float[] _menuPositions = new float[5];
 
 	// Use this for initialization
 	void Start () 
 	{
-		_menuPositions [0] = -MenuWidth * 2;
-		_menuPositions [1] = -MenuWidth;
-		_menuPositions [2] = 0;
-		_menuPositions [3] = MenuWidth;
-		_menuPositions [4] = MenuWidth * 2;
-
-		//GameManager.Instance.OnPlaying += ()=> PanelMixtape.SetActive (true);
 		GameManager.Instance.OnPlaying += ()=> isLoading = false;
-		//GameManager.Instance.OnGameOver += ()=> PanelMixtape.SetActive (false);
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
 		if(GameManager.Instance.GameState != GameState.Playing)
+		{
 			if(Input.GetKey(KeyCode.Escape))
 			{
-				ShowMainMenu ();
-				
+				ShowMenu (2);
+
 				MasterAudio.PlaySoundAndForget (MenuCancel);
 			}
+		}
+			
 	}
 
 	public void ShowMenu (int whichMenu)
 	{
-		/*foreach(RectTransform rect in AllPanels)
-		{
-			rect.DOAnchorPosX (rect.anchoredPosition.x + whichMenu * MenuWidth);
-		}*/
+		DOTween.Kill ("MenuMovement");
+
+		float difference = -AllPanels [whichMenu].anchoredPosition.x;
+
+		foreach(RectTransform rect in AllPanels)
+			rect.DOAnchorPosX (rect.anchoredPosition.x + difference, MenuMovementDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
 	}
 
-	void DisableAll ()
+	public void ShowInstantMenu (int whichMenu)
 	{
-		PanelCredit.SetActive(false);
-		PanelHowToPlay.SetActive(false);
-		PanelSettings.SetActive(false);
-		//PanelMixtape.SetActive(false);
-		PanelGameOver.SetActive(false);
-		PanelMainMenu.SetActive(false);
+		DOTween.Kill ("MenuMovement");
+
+		float difference = -AllPanels [whichMenu].anchoredPosition.x;
+
+		foreach(RectTransform rect in AllPanels)
+			rect.anchoredPosition = new Vector2 (rect.anchoredPosition.x + difference, rect.anchoredPosition.y);
 	}
 
-	public void ShowMainMenu ()
+	public void DisableAll ()
 	{
-		DisableAll ();
+		foreach (Transform back in Backgrounds)
+			back.gameObject.SetActive (false);
 
+		foreach (RectTransform rect in AllPanels)
+			rect.gameObject.SetActive (false);
+	}
+
+	public void EnableAll ()
+	{
 		foreach (Transform back in Backgrounds)
 			back.gameObject.SetActive (true);
 
-		MenuMesh.SetActive(true);
-		//DoomBoxMesh.SetActive (true);
-		PanelMainMenu.SetActive(true);
+		foreach (RectTransform rect in AllPanels)
+			rect.gameObject.SetActive (true);
 	}
-
-    public void ShowPanelCredit ()
-    {
-		DisableAll ();
-        
-		PanelCredit.SetActive(true);
-    }
-
-	public void ShowPanelSettings ()
-	{
-		DisableAll ();
-
-		PanelSettings.SetActive(true);
-	}
-
-    public void ShowPanelHowToPlay ()
-    {
-		DisableAll ();
-        
-		PanelHowToPlay.SetActive(true);
-    }
-
+		
 	public void ShowGameOver ()
 	{
-		DisableAll ();
+		ShowInstantMenu (3);
 
-		foreach (Transform back in Backgrounds)
-			back.gameObject.SetActive (true);
-
-		PanelGameOver.SetActive(true);
+		EnableAll ();
 	}
-
-    public void ChangeVolume ()
-    {
-		MasterAudio.ToggleMuteBus ("MUSIC");
-    }
 
     public void StartGame ()
     {
@@ -143,19 +101,7 @@ public class UI : Singleton<UI>
 
 		yield return GameManager.Instance.StartCoroutine ("LoadGame");
 
-		HideAll ();
-	}
-
-	public void HideAll ()
-	{
 		DisableAll ();
-
-		foreach (Transform back in Backgrounds)
-			back.gameObject.SetActive (false);
-
-		MenuMesh.SetActive(false);
-		//DoomBoxMesh.SetActive (false);
-		
 	}
 
     public void QuitGame()

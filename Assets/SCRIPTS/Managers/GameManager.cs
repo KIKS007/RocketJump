@@ -36,19 +36,20 @@ public class GameManager : Singleton<GameManager>
 
 		if (GameState == GameState.Menu)
 		{
-			UI.Instance.ShowMainMenu ();
+			//UI.Instance.ShowMainMenu ();
+			UI.Instance.ShowMenu (2);
 		}
 
 		if(GameState == GameState.Playing)
 		{
 			StartCoroutine (LoadGame ());
-			UI.Instance.HideAll ();
+			UI.Instance.DisableAll ();
 		}
 
 		if(GameState == GameState.Testing)
 		{
 			StartCoroutine (ReLoadGame ());
-			UI.Instance.HideAll ();
+			UI.Instance.DisableAll ();
 		}
 
         CheckFirstLaunch();
