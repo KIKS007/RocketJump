@@ -185,6 +185,7 @@ public class Player : MonoBehaviour
 		DOTween.To (()=> _waveForce, x => _waveForce = x, WaveForceLimits.y, MaxForceDuration)
 			.SetEase (Ease.OutQuad)
 			.SetUpdate (true)
+			.SetId ("Wave")
 			.OnComplete (()=> { 
 				if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) 
 					Wave();
