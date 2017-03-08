@@ -7,6 +7,7 @@ public class RopesBackground : MonoBehaviour
 	[Header ("Infos")]
 	public float FirstY;
 	public float BottomLimit;
+	public float TopLimit;
 
 	[Header ("Settings")]
 	public float Height;
@@ -16,6 +17,12 @@ public class RopesBackground : MonoBehaviour
 
 	// Use this for initialization
 	void Start () 
+	{
+		GameManager.Instance.OnPlaying += Setup;
+		Setup ();
+	}
+
+	void Setup ()
 	{
 		_parallaxCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<ParallaxCamera> ();
 
@@ -43,7 +50,7 @@ public class RopesBackground : MonoBehaviour
 		if(GameManager.Instance.GameState == GameState.Playing)
 		{
 			foreach (Transform child in transform)
-				if (child.position.y > highestRope.position.y)
+				if (child.localPosition.y > highestRope.localPosition.y)
 					highestRope = child;
 
 			foreach(Transform child in transform)
@@ -52,11 +59,11 @@ public class RopesBackground : MonoBehaviour
 
 				child.Translate (Vector3.down * Speed * _parallaxCamera.delta * Time.deltaTime);
 				
-				if(child.position.y < BottomLimit)
+				if(child.localPosition.y < BottomLimit)
 				{
-					Vector3 position = child.position;
-					position.y = highestRope.position.y + Height;
-					child.position = position;
+					Vector3 position = child.localPosition;
+					position.y = highestRope.localPosition.y + Height;
+					child.localPosition = position;
 				}
 			}
 		}
