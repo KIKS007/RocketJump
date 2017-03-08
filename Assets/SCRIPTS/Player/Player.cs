@@ -66,6 +66,9 @@ public class Player : MonoBehaviour
 	private float _crossHairMax = 4;
 	private float _crossHairDistance;
 
+    public bool cantInput = false;
+    public bool cantRocket = false;
+
     // Use this for initialization
     void Start () 
 	{
@@ -93,8 +96,11 @@ public class Player : MonoBehaviour
 		{
 			SetCrossHair ();
 
-			GetInput ();
-			Grounded ();
+            if (!cantInput)
+            {
+                GetInput();
+            }
+            Grounded ();
 		}
 	}
 
@@ -268,16 +274,19 @@ public class Player : MonoBehaviour
 
         if (OnLaunch != null)
             OnLaunch();
-			       
-		GameObject rocket = Instantiate (CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
-		rocket.transform.LookAt (_launchPosition);
-		//rocket.transform.LookAt (Crosshairs.position);
+        if (cantRocket)
+            return;
+       
+            GameObject rocket = Instantiate(CurrentRocket, LaunchPoint.position, Quaternion.identity, RocketsParent) as GameObject;
 
-		float launchForce = rocket.GetComponent<Rocket> ().LaunchForce;
-		Rigidbody bodyRigidbody = rocket.GetComponent<Rocket> ()._rigidbody;
+            rocket.transform.LookAt(_launchPosition);
+            //rocket.transform.LookAt (Crosshairs.position);
 
-		bodyRigidbody.AddForce (rocket.transform.forward * launchForce, ForceMode.Impulse);
+            float launchForce = rocket.GetComponent<Rocket>().LaunchForce;
+            Rigidbody bodyRigidbody = rocket.GetComponent<Rocket>()._rigidbody;
+
+            bodyRigidbody.AddForce(rocket.transform.forward * launchForce, ForceMode.Impulse);  
 	}
 
 	void Grounded ()

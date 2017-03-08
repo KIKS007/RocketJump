@@ -59,6 +59,10 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
+<<<<<<< HEAD
+    maxTextureSize: 512
+    textureFormat: 12
+=======
     maxTextureSize: 2048
     textureFormat: 10
     textureCompression: 1
@@ -77,19 +81,12 @@ TextureImporter:
   - buildTarget: Android
     maxTextureSize: 256
     textureFormat: 34
-    textureCompression: 1
-    compressionQuality: 100
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-  - buildTarget: WebGL
-    maxTextureSize: 2048
-    textureFormat: -1
+>>>>>>> kiki
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
   spriteSheet:
     serializedVersion: 2
     sprites: []
