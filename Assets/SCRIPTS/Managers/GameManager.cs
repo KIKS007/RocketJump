@@ -92,7 +92,6 @@ public class GameManager : Singleton<GameManager>
 		VibrationManager.Instance.Vibrate (FeedbackType.Death);
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<SlowMotion> ().StartSlowMotion ();
 
-		MixtapesManager.Instance.StartCoroutine ("GameOver");
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");

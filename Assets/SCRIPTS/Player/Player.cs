@@ -18,10 +18,14 @@ public class Player : MonoBehaviour
 	[Header ("Inputs")]
 	public float MouseHeldWindow = 0.1f;
 
-	[Header ("Wave")]
-	public Wave CurrentWave;
-	[Range (0, 1)]
-	public float WaveForceDebug;
+	[Header ("Wave Force")]
+	public Vector2 WaveForceLimits = new Vector2 (15, 20);
+	public float MaxForceDuration = 1.2f;
+	[SoundGroup]
+	public string WaveSound;
+
+	[Header ("Gravity")]
+	public float GravityForce = 15;
 
 	[Header ("Rocket Launch")]
 	public Transform RocketsParent;
@@ -69,6 +73,12 @@ public class Player : MonoBehaviour
 
 		OnHold += EnableArrow;
 		OnJump += DisableArrow;
+
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		Debug.Log ("ANDROID");
+		#else
+		Debug.Log ("PC");
+		#endif
 	}
 	
 	// Update is called once per frame
@@ -77,7 +87,7 @@ public class Player : MonoBehaviour
 		if (GameManager.Instance.GameState == GameState.Playing) 
 		{
 			SetCrossHair ();
-			
+
 			GetInput ();
 			Grounded ();
 		}
@@ -91,17 +101,11 @@ public class Player : MonoBehaviour
 
 	void Gravity ()
 	{
-		if (CurrentWave == null)
-			return;
-
-		_rigidbody.AddForce (Vector3.down * CurrentWave.GravityForce, ForceMode.Force);
+		_rigidbody.AddForce (Vector3.down * GravityForce, ForceMode.Force);
 	}
 
 	void GetInput ()
 	{
-		if (CurrentWave == null)
-			return;
-
 		#if UNITY_ANDROID && !UNITY_EDITOR
 
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began && WaveState == WaveState.CanWave)
@@ -176,11 +180,10 @@ public class Player : MonoBehaviour
 		WaveState = WaveState.IsWaving;
 
 		_rigidbody.velocity = Vector3.zero;
-		_waveForce = CurrentWave.WaveForceLimits.x;
+		_waveForce = WaveForceLimits.x;
 
-		DOTween.To (()=> _waveForce, x => _waveForce = x, CurrentWave.WaveForceLimits.y, CurrentWave.MaxForceDuration)
+		DOTween.To (()=> _waveForce, x => _waveForce = x, WaveForceLimits.y, MaxForceDuration)
 			.SetEase (Ease.OutQuad)
-			.OnUpdate (()=> WaveForceDebug = _waveForce / CurrentWave.WaveForceLimits.y).SetId ("Wave")
 			.SetUpdate (true)
 			.OnComplete (()=> { 
 				if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) 
@@ -206,7 +209,6 @@ public class Player : MonoBehaviour
 
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
-		WaveForceDebug = 0;
 
 		JumpState = JumpState.InAir;
 
@@ -217,7 +219,7 @@ public class Player : MonoBehaviour
 
 		WaveState = WaveState.HasWaved;
 
-		MasterAudio.PlaySoundAndForget (CurrentWave.WaveSound);
+		MasterAudio.PlaySoundAndForget (WaveSound);
 	}
 
 	void SetCrossHair ()
@@ -244,7 +246,10 @@ public class Player : MonoBehaviour
 	void LaunchRocket ()
 	{
 		if (CurrentRocket == null)
+		{
+			Debug.LogWarning ("No Rocket!");
 			return;
+		}
 
         if (OnLaunch != null)
             OnLaunch();
@@ -286,19 +291,6 @@ public class Player : MonoBehaviour
 	{
 		CrossHairRenderer.startWidth = 0;
 		CrossHairRenderer.gameObject.SetActive (false);
-	}
-
-	public void SetWave (Wave wave)
-	{
-		CurrentWave = wave;
-
-		if (CurrentWave.Rocket != null)
-			SetRocket (CurrentWave.Rocket);
-		else
-			Debug.LogWarning ("No Rocket!");
-
-		if (OnWaveChange != null)
-			OnWaveChange ();
 	}
 
 	public void SetRocket (GameObject rocket)

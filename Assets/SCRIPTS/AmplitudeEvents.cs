@@ -27,7 +27,6 @@ public class AmplitudeEvents : MonoBehaviour {
     {
         int score = ScoreManager.Instance.CurrentScore;
         int chunks = ChunksManager.ChunkIndex;
-        int mixtape = MixtapesManager.Instance.MixtapeIndex;
         float deltaRunTime = runStartTime - Time.unscaledTime;
 
         Amplitude.Instance.logEvent("RunEnd", new Dictionary<string, object>()
@@ -35,7 +34,6 @@ public class AmplitudeEvents : MonoBehaviour {
             {"Score", score},
             {"Number of chunks", chunks},
             /*{"Chunk ID" , },*/
-            {"Mixtape on dead", mixtape},
             {"Run time", deltaRunTime }
         });
     }

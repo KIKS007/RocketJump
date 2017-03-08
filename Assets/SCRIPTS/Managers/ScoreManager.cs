@@ -61,6 +61,19 @@ public class ScoreManager : Singleton<ScoreManager>
 		for (int i = 0; i < BestScores.Count; i++)
 			PlayerPrefs.SetInt ("BestScore" + i, BestScores [i]);
 	}
+
+	public void ClearScore ()
+	{
+		for (int i = 0; i < BestScores.Count; i++)
+			PlayerPrefs.SetInt ("BestScore" + i, 0);
+
+		BestScores.Clear ();
+
+		ClimbingScore = 0;
+		EnemyScore = 0;
+		PickupScore = 0;
+		CurrentScore = 0;
+	}
 	
 	// Update is called once per frame
 	void Update () 
