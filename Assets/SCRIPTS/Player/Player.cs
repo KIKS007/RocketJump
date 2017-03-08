@@ -61,6 +61,10 @@ public class Player : MonoBehaviour
 
 	private Coroutine _waitInput;
 
+	private float _crossHairMin = 2;
+	private float _crossHairMax = 4;
+	private float _crossHairDistance;
+
     // Use this for initialization
     void Start () 
 	{
@@ -186,6 +190,7 @@ public class Player : MonoBehaviour
 			.SetEase (Ease.OutQuad)
 			.SetUpdate (true)
 			.SetId ("Wave")
+			.OnUpdate (SetCrossHairDistance)
 			.OnComplete (()=> { 
 				if(WaveState == WaveState.IsWaving && GameManager.Instance.GameState != GameState.GameOver) 
 					Wave();
@@ -223,14 +228,20 @@ public class Player : MonoBehaviour
 		MasterAudio.PlaySoundAndForget (WaveSound);
 	}
 
+	void SetCrossHairDistance ()
+	{
+		float waveForceValue = (_waveForce - WaveForceLimits.x) / (WaveForceLimits.y - WaveForceLimits.x);
+		_crossHairDistance = waveForceValue * _crossHairMax + _crossHairMin;
+	}
+
 	void SetCrossHair ()
 	{
 		Vector3 direction = transform.position - _mainCamera.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, -_mainCamera.transform.position.z));
-		Crosshairs.position = transform.position + direction.normalized * 3;
+		Crosshairs.position = transform.position + direction.normalized * _crossHairDistance;
 		Crosshairs.LookAt (transform.position);
 
 		CrossHairRenderer.SetPosition (0, transform.position + direction.normalized * 0.2f);
-		CrossHairRenderer.SetPosition (1, transform.position + direction.normalized * 5);
+		CrossHairRenderer.SetPosition (1, Crosshairs.position);
 
 		if(WaveState == WaveState.IsWaving)
 		{
