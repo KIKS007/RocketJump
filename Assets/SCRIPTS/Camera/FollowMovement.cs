@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class FollowMovement : MonoBehaviour 
 {
 	public float CurrentHeight = 0;
+	//private float InitialYPos = -7;
 
 	[Header ("Rise")]
 	public float RiseLerp = 0.1f;
@@ -21,14 +22,14 @@ public class FollowMovement : MonoBehaviour
 	private Rigidbody _playerRigidbody;
 
 	private Vector3 _velocity = Vector3.zero;
-
 	private float _initialYOffset;
+
 
 	// Use this for initialization
 	void Awake () 
 	{
 		GameManager.Instance.OnPlaying += Setup;
-		GameManager.Instance.OnMenu += ()=> transform.position = new Vector3 (0, 0, transform.position.z);
+		//GameManager.Instance.OnMenu += ()=> transform.position = new Vector3 (0, 0, transform.position.z);
 
 		_initialYOffset = Offset.y;
 	}

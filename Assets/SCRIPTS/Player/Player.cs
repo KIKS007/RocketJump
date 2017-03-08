@@ -102,20 +102,46 @@ public class Player : MonoBehaviour
 		if (CurrentWave == null)
 			return;
 
-		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
+		#if UNITY_ANDROID && !UNITY_EDITOR
+
+		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began && WaveState == WaveState.CanWave)
 			_waitInput = StartCoroutine (WaitInput ());
 
-		if (Input.GetMouseButtonUp (0) && WaveState != WaveState.IsWaving)
+		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended && WaveState != WaveState.IsWaving)
 		{
 			if(_waitInput != null)
 				StopCoroutine (_waitInput);
 
 			if(WaveState != WaveState.HasWaved)
 				LaunchRocket ();
-			
+
 			WaveState = WaveState.CanWave;
 		}
 
+		else if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended && WaveState == WaveState.IsWaving)
+		{
+			if(_waitInput != null)
+				StopCoroutine (_waitInput);
+
+			Wave ();
+			WaveState = WaveState.CanWave;
+		}
+
+		#else
+		if (Input.GetMouseButtonDown (0) && WaveState == WaveState.CanWave)
+			_waitInput = StartCoroutine (WaitInput ());
+		
+		if (Input.GetMouseButtonUp (0) && WaveState != WaveState.IsWaving)
+		{
+			if(_waitInput != null)
+				StopCoroutine (_waitInput);
+			
+			if(WaveState != WaveState.HasWaved)
+				LaunchRocket ();
+			
+			WaveState = WaveState.CanWave;
+		}
+		
 		else if (Input.GetMouseButtonUp (0) && WaveState == WaveState.IsWaving)
 		{
 			if(_waitInput != null)
@@ -124,6 +150,8 @@ public class Player : MonoBehaviour
 			Wave ();
 			WaveState = WaveState.CanWave;
 		}
+		#endif
+
 	}
 
 	IEnumerator WaitInput ()

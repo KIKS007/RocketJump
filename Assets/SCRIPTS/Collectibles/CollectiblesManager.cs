@@ -5,7 +5,7 @@ using UnityEngine;
 public class CollectiblesManager : Singleton<CollectiblesManager> 
 {
 	public int CollectiblesCount;
-	public int CollectibleByChunk = 2;
+	public int CollectiblesByChunk = 2;
 	public int SpawnedCollectibles;
 
 	[Header ("Spawn Limits")]
@@ -29,7 +29,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 
 	public void SpawnCollectibles (GameObject chunk)
 	{
-		for(int j = 0; j < CollectiblesCount; j++)
+		for(int j = 0; j < CollectiblesByChunk; j++)
 		{
 			GameObject collectibleGroup = null;
 			Vector3 position = new Vector3 ();
@@ -43,13 +43,22 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 				for(int i = 0; i < 10; i++)
 				{
 					correctSpawn = true;
-					
-					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (YLimits.x, YLimits.y));
+
+					float dividedHeight = (YLimits.y - YLimits.x) / CollectiblesByChunk;
+					Vector2 modifedYRandom = new Vector2();
+					modifedYRandom.x = YLimits.x + dividedHeight * j;
+					modifedYRandom.y = YLimits.x + dividedHeight * (j + 1);
+
+					Debug.Log (modifedYRandom);
+
+					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (modifedYRandom.x, modifedYRandom.y));
+
+					Debug.Log (position);
 
 					foreach(Transform child in AllCollectiblesGroup)
 						if(Physics.CheckSphere (child.position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
 						{
-							correctSpawn = false;
+							//correctSpawn = false;
 							break;
 						}
 					
