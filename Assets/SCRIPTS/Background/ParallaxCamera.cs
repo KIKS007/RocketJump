@@ -7,6 +7,9 @@ public class ParallaxCamera : MonoBehaviour
 	public delegate void ParallaxCameraDelegate(float deltaMovement);
 	public ParallaxCameraDelegate onCameraTranslate;
 	private float oldPosition;
+
+	public float delta;
+
 	void Start()
 	{
 		oldPosition = transform.position.y;
@@ -14,15 +17,16 @@ public class ParallaxCamera : MonoBehaviour
 		GameManager.Instance.OnPlaying += ()=> oldPosition = transform.position.y;
 
 	}
+
 	void Update()
 	{
 		if (transform.position.y != oldPosition)
 		{
+			delta = transform.position.y - oldPosition;
+
 			if (onCameraTranslate != null)
-			{
-				float delta = transform.position.y - oldPosition;
 				onCameraTranslate(delta);
-			}
+			
 			oldPosition = transform.position.y;
 		}
 	}

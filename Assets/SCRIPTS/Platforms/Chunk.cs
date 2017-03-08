@@ -9,45 +9,14 @@ public class Chunk : MonoBehaviour
 	[Range (0, 4)]
 	public int Difficulty;
 
-	[Header ("Meshes")]
-	public List<GameObject> CompleteRightMeshes = new List<GameObject>();
-	public List<GameObject> CompleteLeftMeshes = new List<GameObject>();
-	public List<GameObject> BrokenRightMeshes = new List<GameObject>();
-	public List<GameObject> BrokenLeftMeshes = new List<GameObject>();
-
+	[Header ("Spawnable Platforms")]
     public List<GameObject> SpawnablePlatforms = new List<GameObject>();
-
 
     void Awake ()
 	{
 		FindObjectwithTag("SpawnablePlatform", SpawnablePlatforms);
 
 		SpawnEnemies();
-
-		SetupMeshes ();
-	}
-
-	void SetupMeshes ()
-	{
-		DisableAllMeshes ();
-		
-		EnableLeftMeshes (false);
-		EnableRightMeshes (false);
-	}
-
-	void DisableAllMeshes ()
-	{
-		foreach (GameObject child in CompleteRightMeshes)
-			child.SetActive (false);
-
-		foreach (GameObject child in CompleteLeftMeshes)
-			child.SetActive (false);
-
-		foreach (GameObject child in BrokenRightMeshes)
-			child.SetActive (false);
-
-		foreach (GameObject child in BrokenLeftMeshes)
-			child.SetActive (false);
 	}
 
 	void FindObjectwithTag(string _tag, List<GameObject> list, Predicate<GameObject> predicate = null)
@@ -102,35 +71,15 @@ public class Chunk : MonoBehaviour
 				SpawnablePlatformsTemp.Remove(platform);
 			}
 		}
-
-        //numberOfEnemies
     }
 
 	public void EnableRightMeshes (bool opened)
 	{
-		foreach (GameObject child in CompleteRightMeshes)
-			child.SetActive (false);
-
-		foreach (GameObject child in BrokenRightMeshes)
-			child.SetActive (false);
-
-		if(opened)
-			BrokenRightMeshes [UnityEngine.Random.Range (0, BrokenRightMeshes.Count)].SetActive (true);
-		else
-			CompleteRightMeshes [UnityEngine.Random.Range (0, CompleteRightMeshes.Count)].SetActive (true);
+		//Nothing
 	}
 
 	public void EnableLeftMeshes (bool opened)
 	{
-		foreach (GameObject child in CompleteLeftMeshes)
-			child.SetActive (false);
-
-		foreach (GameObject child in BrokenLeftMeshes)
-			child.SetActive (false);
-
-		if(opened)
-			BrokenLeftMeshes [UnityEngine.Random.Range (0, BrokenLeftMeshes.Count)].SetActive (true);
-		else
-			CompleteLeftMeshes [UnityEngine.Random.Range (0, CompleteLeftMeshes.Count)].SetActive (true);
+		//Nothing
 	}
 }
