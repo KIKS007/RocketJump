@@ -11,6 +11,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 	[Header ("Spawn Limits")]
 	public Vector2 XLimits;
 	public Vector2 YLimits;
+	public float Margin = 2;
 
 	[Header ("Collectibles Prefabs")]
 	public List<Transform> AllCollectiblesGroup = new List<Transform> ();
@@ -49,16 +50,12 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 					modifedYRandom.x = YLimits.x + dividedHeight * j;
 					modifedYRandom.y = YLimits.x + dividedHeight * (j + 1);
 
-					Debug.Log (modifedYRandom);
+					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (modifedYRandom.x + Margin, modifedYRandom.y - Margin));
 
-					position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (modifedYRandom.x, modifedYRandom.y));
-
-					Debug.Log (position);
-
-					foreach(Transform child in AllCollectiblesGroup)
-						if(Physics.CheckSphere (child.position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
+					foreach(Transform child in collectibleGroup.transform)
+						if(Physics.CheckSphere (position + child.localPosition, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
 						{
-							//correctSpawn = false;
+							correctSpawn = false;
 							break;
 						}
 					
@@ -72,7 +69,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 			Transform parent = chunk.transform.Find ("Collectibles Parent");
 			Instantiate (collectibleGroup.gameObject, position, Quaternion.identity, parent);
 
-			Debug.Log (collectibleGroup.name + " in " + chunk.name);
+			//Debug.Log (collectibleGroup.name + " in " + chunk.name);
 
 			SpawnedCollectibles++;
 		}
