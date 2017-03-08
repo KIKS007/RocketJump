@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DarkTonic.MasterAudio;
 
-public class Enemy: MonoBehaviour 
+public class Enemy_ForFlyer : MonoBehaviour 
 {
 	private bool _dead = false;
 
@@ -64,7 +64,7 @@ public class Enemy: MonoBehaviour
 
 		GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Enemy_Walk>().speed = 0;
+		GetComponent<Enemy_Fly>().speed = 0;
 
         StartCoroutine(Delaymort());
 	}
