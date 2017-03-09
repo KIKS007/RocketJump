@@ -52,13 +52,13 @@ public class Enemy : MonoBehaviour
 		VibrationManager.Instance.Vibrate (FeedbackType.Kill);
 
 		Instantiate (deathParticle, transform.position, Quaternion.identity);
-
 		MasterAudio.PlaySoundAndForget (DeathSound);
 
 		_dead = true;
 
 		ScoreManager.Instance.EnemyKilled (50);
-		
+		ScoreManager.Instance.PopupScore (transform, 50, 1.5f);
+
 		Animator animator = GetComponentInChildren<Animator>();
 		animator.SetTrigger("Mort");
 

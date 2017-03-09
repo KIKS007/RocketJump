@@ -3,15 +3,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class FollowMovement : MonoBehaviour 
 {
-	public float CurrentHeight = 0;
-	//private float InitialYPos = -7;
-
-	[Header ("Rise")]
-	public float RiseLerp = 0.1f;
-	public float RiseValue = 3;
+	private float InitialYPos = -7;
 
 	[Header ("Follow")]
 	public float SmoothTime;
@@ -19,19 +15,15 @@ public class FollowMovement : MonoBehaviour
 	public Vector3 Offset;
 
 	private Transform _player;
-	private Rigidbody _playerRigidbody;
 
 	private Vector3 _velocity = Vector3.zero;
-	private float _initialYOffset;
-
 
 	// Use this for initialization
 	void Awake () 
 	{
 		GameManager.Instance.OnPlaying += Setup;
-		//GameManager.Instance.OnMenu += ()=> transform.position = new Vector3 (0, 0, transform.position.z);
-
-		_initialYOffset = Offset.y;
+		GameManager.Instance.OnMenu += ()=> transform.position = new Vector3 (0, InitialYPos, transform.position.z);
+		ScoreManager.Instance.InitialPosition = InitialYPos + 1;
 	}
 
 	void Setup ()
@@ -43,12 +35,8 @@ public class FollowMovement : MonoBehaviour
 		}
 
 		_player = GameObject.FindGameObjectWithTag ("Player").transform;
-		_playerRigidbody = _player.GetComponent<Rigidbody> ();
 
-		transform.position = new Vector3 (0, _player.position.y + Offset.y, transform.position.z);
-		ScoreManager.Instance.InitialPosition = transform.position.y;
-
-		CurrentHeight = _player.position.y;
+		transform.position = new Vector3 (0, InitialYPos, transform.position.z);
 	}
 	
 	// Update is called once per frame
@@ -60,11 +48,6 @@ public class FollowMovement : MonoBehaviour
 				return;
 
 			Follow ();
-
-			if(_playerRigidbody.velocity.y > 0)
-				Offset.y = Mathf.Lerp (Offset.y, RiseValue, RiseLerp);
-			else
-				Offset.y = Mathf.Lerp (Offset.y, _initialYOffset, RiseLerp);
 		}
 	}
 
