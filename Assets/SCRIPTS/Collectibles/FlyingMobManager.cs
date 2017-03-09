@@ -39,7 +39,7 @@ public class FlyingMobManager : Singleton<FlyingMobManager>
             Vector3 position = new Vector3();
             bool correctSpawn = true;
 
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				correctSpawn = true;
 				position = new Vector3(Random.Range(XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range(YLimits.x + Margin, YLimits.y - Margin));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using DarkTonic.MasterAudio;
 
 public class Collectible : MonoBehaviour 
 {
@@ -10,6 +11,8 @@ public class Collectible : MonoBehaviour
 	private int Value = 2;
 
 	private bool pickedUp = false;
+
+	private string SFX = "SFX_PickUpBonus";
 
 	void OnTriggerEnter (Collider collider)
 	{
@@ -21,6 +24,8 @@ public class Collectible : MonoBehaviour
 			pickedUp = true;
 
 			Instantiate (FX, transform.position, Quaternion.identity);
+
+			MasterAudio.PlaySoundAndForget (SFX);
 
 			VibrationManager.Instance.Vibrate (FeedbackType.Jump);
 

@@ -64,15 +64,13 @@ public class ParallaxBackground : MonoBehaviour
 
 		do
 		{
-			foreach (ParallaxLayer layer in parallaxLayers)
-			{
-				if (layer == null)
+			for(int i = 0; i < parallaxLayers.Count; i++)
+				if(parallaxLayers [i] == null)
 				{
 					sorted = false;
-					parallaxLayers.Remove (layer);
+					parallaxLayers.RemoveAt (i);
 					break;
 				}
-			}
 		}
 		while (!sorted);
 	}

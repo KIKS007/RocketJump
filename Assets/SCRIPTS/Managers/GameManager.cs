@@ -94,6 +94,10 @@ public class GameManager : Singleton<GameManager>
 
 	IEnumerator GameOverCoroutine ()
 	{
+		float volume = MasterAudio.PlaylistMasterVolume;
+		MasterAudio.FadePlaylistToVolume (0, 0.5f);
+		DOVirtual.DelayedCall (1.5f, ()=> MasterAudio.FadePlaylistToVolume (volume, 0.5f));
+
 		GameState = GameState.GameOver;
 
 		_mainCamera.GetComponent<ScreenShakeCamera> ().CameraShaking (FeedbackType.Death);
@@ -106,6 +110,7 @@ public class GameManager : Singleton<GameManager>
 		_player.SetActive (false);
 
 		yield return new WaitForSecondsRealtime (0.8f);
+
 
 		if (_initialState != GameState.Testing) 
 		{
