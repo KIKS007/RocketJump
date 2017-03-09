@@ -76,8 +76,16 @@ public class ChunksManager : MonoBehaviour
 
 	void AddFirstChunks ()
 	{
+		int randomFirstStart = UnityEngine.Random.Range (0, ChunksParent.childCount);
+
+		for(int i = 0; i < ChunksParent.childCount; i++)
+			if(i != randomFirstStart)
+				ChunksParent.GetChild (i).gameObject.SetActive (false);
+			else
+				ChunksParent.GetChild (i).gameObject.SetActive (true);
+
 		if(ChunksParent.childCount > 0)
-			PreviousChunksSpawned.Add (ChunksParent.GetChild (0).gameObject);
+			PreviousChunksSpawned.Add (ChunksParent.GetChild (randomFirstStart).gameObject);
 	}
 
 	void TestingChunks ()
