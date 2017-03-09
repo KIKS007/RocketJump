@@ -39,27 +39,18 @@ public class FlyingMobManager : Singleton<FlyingMobManager>
             Vector3 position = new Vector3();
             bool correctSpawn = true;
 
-            do
-            {
-                correctSpawn = true;
-
-                float dividedHeight = (YLimits.y - YLimits.x) / MobByChunk;
-                Vector2 modifedYRandom = new Vector2();
-                modifedYRandom.x = YLimits.x + dividedHeight * j;
-                modifedYRandom.y = YLimits.x + dividedHeight * (j + 1);
-
+			for (int i = 0; i < 50; i++)
+			{
+				correctSpawn = true;
 				position = new Vector3(Random.Range(XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range(YLimits.x + Margin, YLimits.y - Margin));
-
+				
 				if (Physics.CheckSphere(position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
-				{
 					correctSpawn = false;
+				else
 					break;
-				}
-            }
-            while (!correctSpawn);
+			}
 
-
-            Instantiate(FlyingMob.gameObject, position, Quaternion.Euler(0,180,0), EnemiesParent);
+			Instantiate(FlyingMob.gameObject, position, Quaternion.Euler(0, 180, 0), EnemiesParent);
             
             //Debug.Log (collectibleGroup.name + " in " + chunk.name);
 

@@ -30,6 +30,8 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 
 	public void SpawnCollectibles (GameObject chunk)
 	{
+		int index = 0;
+
 		for(int j = 0; j < CollectiblesByChunk; j++)
 		{
 			GameObject collectibleGroup = null;
@@ -40,7 +42,8 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 			do
 			{
 				collectibleGroup = AllCollectiblesGroup [Random.Range (0, AllCollectiblesGroup.Count)].gameObject;
-				
+				index++;
+
 				for(int i = 0; i < 10; i++)
 				{
 					correctSpawn = true;
@@ -59,7 +62,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 							break;
 						}
 					
-					if(correctSpawn)
+					if(correctSpawn || index > 50)
 						break;
 				}
 			}
