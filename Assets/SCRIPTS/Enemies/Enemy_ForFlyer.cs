@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DarkTonic.MasterAudio;
 
-public class Enemy: MonoBehaviour 
+public class Enemy_ForFlyer : MonoBehaviour 
 {
 	private bool _dead = false;
 
@@ -52,19 +52,19 @@ public class Enemy: MonoBehaviour
 		VibrationManager.Instance.Vibrate (FeedbackType.Kill);
 
 		Instantiate (deathParticle, transform.position, Quaternion.identity);
+
 		MasterAudio.PlaySoundAndForget (DeathSound);
 
 		_dead = true;
 
 		ScoreManager.Instance.EnemyKilled (50);
-		ScoreManager.Instance.PopupScore (transform, 50, 1.5f);
-
+		
 		Animator animator = GetComponentInChildren<Animator>();
 		animator.SetTrigger("Mort");
 
 		GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Enemy_Walk>().speed = 0;
+		GetComponent<Enemy_Fly>().speed = 0;
 
         StartCoroutine(Delaymort());
 	}

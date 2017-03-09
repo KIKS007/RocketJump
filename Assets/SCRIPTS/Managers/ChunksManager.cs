@@ -201,6 +201,7 @@ public class ChunksManager : MonoBehaviour
 		newChunk.EnableLeftMeshes (false);
 
 		CollectiblesManager.Instance.SpawnCollectibles (chunkSpawned);
+        FlyingMobManager.Instance.SpawnCollectibles (chunkSpawned);
 
 		RemovePreviousChunks ();
 	}		
