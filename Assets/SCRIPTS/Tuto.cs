@@ -7,6 +7,7 @@ public class Tuto : MonoBehaviour {
     public GameObject TutoCanvas;
 	public Transform PreviousTrigger;
 
+
     string name;
     Transform text;
     GameObject triggerBox;
@@ -34,12 +35,12 @@ public class Tuto : MonoBehaviour {
                 text = TutoCanvas.transform.Find("TriggerBox1");
                 text.gameObject.SetActive(true);
                 text = TutoCanvas.transform.Find("TriggerBox2");
-                text.gameObject.SetActive(true);
+                text.gameObject.SetActive(false);
             }
             else if (name == "TriggerBox6")
             {
                 text = TutoCanvas.transform.Find("TriggerBox6");
-                text.gameObject.SetActive(true);
+                text.gameObject.SetActive(false);
                 text = TutoCanvas.transform.Find("TriggerBox7");
                 text.gameObject.SetActive(true);
             }
@@ -58,14 +59,47 @@ public class Tuto : MonoBehaviour {
     {
         if (text.name == "TriggerBox2")
         {
-            TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(false);
-            triggerBox.SetActive(false);
+                TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(true);
+                TutoCanvas.transform.Find("TriggerBox1").gameObject.SetActive(false);
+                triggerBox.SetActive(true);
+            
+                text = TutoCanvas.transform.Find("TriggerBox1");
 
-            text = TutoCanvas.transform.Find("TriggerBox1");
-
-
+           
         }
         else if (text.name == "TriggerBox7")
+        {
+            Debug.Log("PushButton7");
+            TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
+            TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(true);
+            triggerBox.SetActive(false);
+
+            text = TutoCanvas.transform.Find("TriggerBox6");
+        }
+
+        else
+        {
+            text.gameObject.SetActive(false);
+            triggerBox.SetActive(false);
+            Camera.main.GetComponent<SlowMotion>().StopSlowMotion();
+            playerScript.cantInput = false;
+
+            StartCoroutine("Wait");
+        }
+    }
+
+    public void DisableTutoText2()
+    {
+            Debug.Log("Tets");
+            TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(false);
+            TutoCanvas.transform.Find("TriggerBox1").gameObject.SetActive(false);
+            triggerBox.SetActive(false);
+        TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(false);
+        text = TutoCanvas.transform.Find("TriggerBox1");
+
+
+        
+         if (text.name == "TriggerBox7")
         {
             TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
             triggerBox.SetActive(false);
@@ -82,6 +116,8 @@ public class Tuto : MonoBehaviour {
 
             StartCoroutine("Wait");
         }
+
+
     }
 
     IEnumerator Wait()
