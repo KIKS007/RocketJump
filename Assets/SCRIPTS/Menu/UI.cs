@@ -95,6 +95,13 @@ public class UI : Singleton<UI>
 		EnableAll ();
 	}
 
+	public void ShowMainMenu ()
+	{
+		ShowInstantMenu (2);
+
+		EnableAll ();
+	}
+
     public void StartGame ()
     {
 		if(!isLoading)

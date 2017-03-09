@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tuto : MonoBehaviour {
 
@@ -69,7 +70,7 @@ public class Tuto : MonoBehaviour {
         }
         else if (text.name == "TriggerBox7")
         {
-            Debug.Log("PushButton7");
+            //Debug.Log("PushButton7");
             TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
             TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(true);
             triggerBox.SetActive(false);
@@ -90,7 +91,7 @@ public class Tuto : MonoBehaviour {
 
     public void DisableTutoText2()
     {
-            Debug.Log("Tets");
+            //Debug.Log("Tets");
             TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(false);
             TutoCanvas.transform.Find("TriggerBox1").gameObject.SetActive(false);
             triggerBox.SetActive(false);
@@ -125,5 +126,19 @@ public class Tuto : MonoBehaviour {
         yield return new WaitForSeconds(0.05f);
         playerScript.cantRocket = false;
     }
+
+	public void End ()
+	{
+		if (GameManager.Instance.FirstLaunch)
+			GameManager.Instance.StartCoroutine ("LoadGame");
+		else
+		{
+			UI.Instance.ShowMainMenu ();
+
+			if(SceneManager.sceneCount > 1)
+				for(int i = 1; i < SceneManager.sceneCount; i++)
+					SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt (i).name);
+		}
+	}
 
 }

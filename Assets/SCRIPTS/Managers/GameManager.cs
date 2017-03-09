@@ -21,7 +21,7 @@ public class GameManager : Singleton<GameManager>
 	public event EventHandler OnMenu;
 	public event EventHandler OnGameOver;
 
-	public bool FirstLaunch = false;
+	public bool FirstLaunch = true;
 
 	[HideInInspector]
 	public GameState _initialState;
@@ -61,14 +61,10 @@ public class GameManager : Singleton<GameManager>
 
 		StartCoroutine (GameStateChange (GameState));
 
-		OnGameOver += () => 
-		{
-			if(FirstLaunch)
-			{
-				FirstLaunch = false; 
-				PlayerPrefs.SetInt ("FirstLaunch", 0);
-			}
-		};
+		if (PlayerPrefs.HasKey ("FirstLaunch"))
+			FirstLaunch = false;
+		else
+			FirstLaunch = true;
 	}
 
 	void Start ()
@@ -227,5 +223,10 @@ public class GameManager : Singleton<GameManager>
 		yield return new WaitWhile (() => GameState == state);
 
 		StartCoroutine (GameStateChange (GameState));
+	}
+
+	void OnApplicationQuit ()
+	{
+		PlayerPrefs.SetInt ("FirstLaunch", 1);
 	}
 }
