@@ -30,6 +30,9 @@ public class DestructiblePlatform : MonoBehaviour
 
 		Instantiate (Fx, transform.position, Quaternion.identity);
 
+		ScoreManager.Instance.PopupScore (transform, 10, 1);
+		ScoreManager.Instance.PickupCollected (10);
+
 		if (GetComponent<Collider> () != null) 
 		{
 			GetComponent<Collider> ().enabled = false;

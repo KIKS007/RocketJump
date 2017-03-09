@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ScoreManager : Singleton<ScoreManager> 
 {
@@ -10,7 +11,6 @@ public class ScoreManager : Singleton<ScoreManager>
 	public int BestScoreLimit = 5;
 	public int CurrentScore;
 
-	[HideInInspector]
 	public float InitialPosition = -4;
 
 	[Header ("Score Text")]
@@ -30,20 +30,30 @@ public class ScoreManager : Singleton<ScoreManager>
 	public float EnemyScoreFactor = 1;
 	public float PickupScoreFactor = 1;
 
+	[Header ("In Game Score")]
+	public RectTransform inGameScore;
+
+	[Header ("Popup Score")]
+	public GameObject ScorePopup;
+
 	private Transform _mainCamera;
+	private Transform _mainCanvas;
 
 	// Use this for initialization
 	void Start () 
 	{
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").transform;
+		_mainCanvas = GameObject.FindGameObjectWithTag ("MenuCanvas").transform;
+
 		BestScores.Sort (new Comparison<int>((i1, i2) => i2.CompareTo(i1)));
 
 		GameManager.Instance.OnGameOver += OnGameOver;
 
-		GameManager.Instance.OnGameOver += ()=> transform.GetChild (0).gameObject.SetActive (false);
-		GameManager.Instance.OnPlaying += ()=> transform.GetChild (0).gameObject.SetActive (true);
+		GameManager.Instance.OnGameOver += ()=> inGameScore.DOAnchorPosY (-155f, 0.5f);
+		GameManager.Instance.OnPlaying += ()=> inGameScore.DOAnchorPosY (0, 0.5f);
 
-		transform.GetChild (0).gameObject.SetActive (false);
+		transform.GetChild (0).gameObject.SetActive (true);
+		inGameScore.anchoredPosition = new Vector2 (0, -155);
 
 		GetSavedScores ();
 	}
@@ -109,7 +119,7 @@ public class ScoreManager : Singleton<ScoreManager>
 	public void PickupCollected (int score)
 	{
 		if(GameManager.Instance.GameState == GameState.Playing)
-			PickupScoreFactor += (int)(score * PickupScoreFactor);
+			PickupScore += (int)(score * PickupScoreFactor);
 	}
 
 	void OnGameOver ()
@@ -130,5 +140,32 @@ public class ScoreManager : Singleton<ScoreManager>
 		CurrentScore = 0;
 
 		SaveScores ();
+	}
+
+
+	public void PopupScore (Transform target, int score, float width = 1.5f)
+	{
+		GameObject canvas = Instantiate (ScorePopup, target.position, Quaternion.identity) as GameObject;
+		canvas.GetComponent<Canvas> ().worldCamera = _mainCamera.GetComponent<Camera> ();
+		canvas.transform.GetChild (0).GetComponent<Text> ().text = "+" + score;
+		canvas.transform.GetChild (0).GetComponent<RectTransform> ().sizeDelta = new Vector2 (width, canvas.transform.GetChild (0).GetComponent<RectTransform> ().sizeDelta.y);
+
+		/*//Vector3 position = _mainCamera.GetComponent<Camera> ().WorldToScreenPoint (target.TransformPoint (target.position));
+		Vector3 position = GetScreenPosition (target, _mainCanvas.GetComponent<Canvas> (), _mainCamera.GetComponent<Camera> ());
+
+		GameObject popup = Instantiate (ScorePopup, position, Quaternion.identity, _mainCanvas) as GameObject;
+		popup.GetComponent<RectTransform> ().anchoredPosition3D = new Vector3 (position.x, position.y, 0);
+		popup.GetComponent<Text> ().text = "+" + score;*/
+	}
+
+	public static Vector3 GetScreenPosition(Transform transform,Canvas canvas,Camera cam)
+	{
+		Vector3 pos;
+		float width = canvas.GetComponent<RectTransform> ().sizeDelta.x;
+		float height = canvas.GetComponent<RectTransform > ().sizeDelta.y;
+		float x = Camera.main.WorldToScreenPoint (transform.position).x / Screen.width;
+		float y = Camera.main.WorldToScreenPoint (transform.position).y / Screen.height;
+		pos = new Vector3 (width * x - width / 2, y * height - height / 2); 
+		return pos;    
 	}
 }

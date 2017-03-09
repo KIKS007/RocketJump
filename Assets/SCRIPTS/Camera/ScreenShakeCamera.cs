@@ -21,6 +21,8 @@ public class ScreenShakeCamera : MonoBehaviour
 
 	private Vector3 initialRotation;
 
+	public event EventHandler OnScreenShake;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -70,6 +72,9 @@ public class ScreenShakeCamera : MonoBehaviour
 		}
 
 		transform.DOShakeRotation (shakeDuration, shakeStrenth, shakeVibrato, shakeRandomness).SetId("ScreenShake").OnComplete (EndOfShake).SetUpdate (true);
+
+		if (OnScreenShake != null)
+			OnScreenShake ();
 	}
 
 	void EndOfShake ()
