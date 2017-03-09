@@ -17,11 +17,18 @@ public class UI : Singleton<UI>
 	[Header ("Panels")]
 	public Transform[] Backgrounds = new Transform[0];
 
+	[Header ("Icons")]
+	public float IconDuration = 0.5f;
+	public RectTransform[] Icons = new RectTransform[5];
+	public RectTransform SelectionBox;
+
 	[Header ("Sounds")]
 	[SoundGroup]
 	public string MenuCancel;
 
 	private bool isLoading = false;
+
+	private float initialScale = 0.85f;
 
 	// Use this for initialization
 	void Start () 
@@ -58,6 +65,13 @@ public class UI : Singleton<UI>
 
 		foreach(RectTransform rect in AllPanels)
 			rect.DOAnchorPosX (rect.anchoredPosition.x + difference, MenuMovementDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
+
+		SelectionBox.DOAnchorPosX (Icons [whichMenu].anchoredPosition.x, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");;
+
+		foreach(RectTransform rect in Icons)
+			rect.DOScale (initialScale, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
+
+		Icons [whichMenu].DOScale (1, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
 	}
 
 	public void ShowInstantMenu (int whichMenu)
@@ -68,6 +82,13 @@ public class UI : Singleton<UI>
 
 		foreach(RectTransform rect in AllPanels)
 			rect.anchoredPosition = new Vector2 (rect.anchoredPosition.x + difference, rect.anchoredPosition.y);
+
+		SelectionBox.DOAnchorPosX (Icons [whichMenu].anchoredPosition.x, 0).SetEase (MenuMovementEase).SetId ("MenuMovement");
+
+		foreach(RectTransform rect in Icons)
+			rect.DOScale (initialScale, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
+		
+		Icons [whichMenu].DOScale (1, 0).SetEase (MenuMovementEase).SetId ("MenuMovement");
 	}
 
 	public void DisableAll ()
@@ -90,7 +111,7 @@ public class UI : Singleton<UI>
 		
 	public void ShowGameOver ()
 	{
-		ShowInstantMenu (3);
+		ShowInstantMenu (4);
 
 		EnableAll ();
 	}
