@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: ad8883a438a220240a3d203c70bd9445
-timeCreated: 1488911265
-licenseType: Pro
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
@@ -58,8 +56,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
-=======
   - buildTarget: Standalone
     maxTextureSize: 2048
     textureFormat: -1
@@ -80,7 +76,7 @@ TextureImporter:
     maxTextureSize: 512
     textureFormat: 34
     textureCompression: 1
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
@@ -92,7 +88,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
->>>>>>> kiki
   spriteSheet:
     serializedVersion: 2
     sprites: []

@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: db4fc9d8ec5038a488df865f0dd6723b
-timeCreated: 1488635585
-licenseType: Pro
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
@@ -66,8 +64,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
-=======
   - buildTarget: iPhone
     maxTextureSize: 2048
     textureFormat: -1
@@ -80,7 +76,7 @@ TextureImporter:
     maxTextureSize: 512
     textureFormat: 34
     textureCompression: 1
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
@@ -92,7 +88,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
->>>>>>> kiki
   spriteSheet:
     serializedVersion: 2
     sprites: []
