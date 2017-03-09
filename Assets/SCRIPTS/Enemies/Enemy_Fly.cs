@@ -44,7 +44,7 @@ public class Enemy_Fly : MonoBehaviour {
 
         if (Physics.Raycast(child.transform.position, direction, out hit, 2.7f, collisionLayer))
         {
-            Debug.Log("hit");
+            //Debug.Log("hit");
                 isRight = !isRight;
                 ChangeDirection();
             

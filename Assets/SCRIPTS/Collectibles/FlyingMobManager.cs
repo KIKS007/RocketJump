@@ -25,6 +25,7 @@ public class FlyingMobManager : Singleton<FlyingMobManager>
 	public void CollectiblePickedUp (int value = 1)
 	{
         Debug.Log("TestSpawn");
+
 		if (value > 0)
 			MobCount += value;
 		else
@@ -47,18 +48,17 @@ public class FlyingMobManager : Singleton<FlyingMobManager>
                 modifedYRandom.x = YLimits.x + dividedHeight * j;
                 modifedYRandom.y = YLimits.x + dividedHeight * (j + 1);
 
-                position = new Vector3(Random.Range(XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range(modifedYRandom.x + Margin, modifedYRandom.y - Margin));
+				position = new Vector3(Random.Range(XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range(YLimits.x + Margin, YLimits.y - Margin));
 
-                    if (Physics.CheckSphere(position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
-                    {
-                        correctSpawn = false;
-                        break;
-                    }
+				if (Physics.CheckSphere(position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
+				{
+					correctSpawn = false;
+					break;
+				}
             }
             while (!correctSpawn);
 
 
-           // Transform parent = chunk.transform.Find("Collectibles Parent");
             Instantiate(FlyingMob.gameObject, position, Quaternion.Euler(0,180,0), EnemiesParent);
             
             //Debug.Log (collectibleGroup.name + " in " + chunk.name);

@@ -21,11 +21,18 @@ public class PassThroughPlatform : MonoBehaviour
 	{
 		if(collider.tag == "Player")
 			Physics.IgnoreCollision (_playerCollider, _parentCollider, true);
+
+		if(collider.tag == "Rocket")
+			Physics.IgnoreCollision (collider, _parentCollider, true);
+
 	}
 
 	void OnTriggerExit (Collider collider)
 	{
 		if(collider.tag == "Player")
 			Physics.IgnoreCollision (_playerCollider, _parentCollider, false);
+
+		if(collider.tag == "Rocket")
+			Physics.IgnoreCollision (collider, _parentCollider, true);
 	}
 }

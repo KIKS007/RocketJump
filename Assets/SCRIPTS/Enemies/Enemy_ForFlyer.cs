@@ -57,14 +57,17 @@ public class Enemy_ForFlyer : MonoBehaviour
 
 		_dead = true;
 
-		ScoreManager.Instance.EnemyKilled (50);
-		
+		ScoreManager.Instance.EnemyKilled (100);
+		ScoreManager.Instance.PopupScore (transform, 100, 1.8f);
+
 		Animator animator = GetComponentInChildren<Animator>();
 		animator.SetTrigger("Mort");
 
 		GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
-		GetComponent<Enemy_Fly>().speed = 0;
+
+		if(GetComponent<Enemy_Fly>() != null)
+			GetComponent<Enemy_Fly>().speed = 0;
 
         StartCoroutine(Delaymort());
 	}
@@ -73,6 +76,6 @@ public class Enemy_ForFlyer : MonoBehaviour
     {
 		yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
-        Debug.Log("Mort");
+        //Debug.Log("Mort");
     }
 }
