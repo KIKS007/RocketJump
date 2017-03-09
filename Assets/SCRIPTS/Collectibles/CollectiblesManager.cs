@@ -39,7 +39,7 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 			
 			bool correctSpawn = true;
 			
-			do
+			for(int x = 0; x < 10; x++)
 			{
 				collectibleGroup = AllCollectiblesGroup [Random.Range (0, AllCollectiblesGroup.Count)].gameObject;
 				index++;
@@ -62,16 +62,20 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 							break;
 						}
 				}
+
+				if (correctSpawn)
+					break;
 			}
-			while (!correctSpawn || index < 5);
 
-
-			Transform parent = chunk.transform.Find ("Collectibles Parent");
-			Instantiate (collectibleGroup.gameObject, position, Quaternion.identity, parent);
-
-			//Debug.Log (collectibleGroup.name + " in " + chunk.name);
-
-			SpawnedCollectibles++;
+			if (correctSpawn)
+			{
+				Transform parent = chunk.transform.Find ("Collectibles Parent");
+				Instantiate (collectibleGroup.gameObject, position, Quaternion.identity, parent);
+				
+				//Debug.Log (collectibleGroup.name + " in " + chunk.name);
+				
+				SpawnedCollectibles++;
+			}
 		}
 	}
 }

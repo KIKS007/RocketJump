@@ -83,12 +83,12 @@ public class UI : Singleton<UI>
 		foreach(RectTransform rect in AllPanels)
 			rect.anchoredPosition = new Vector2 (rect.anchoredPosition.x + difference, rect.anchoredPosition.y);
 
-		SelectionBox.DOAnchorPosX (Icons [whichMenu].anchoredPosition.x, 0).SetEase (MenuMovementEase).SetId ("MenuMovement");
+		SelectionBox.DOAnchorPosX (Icons [whichMenu].anchoredPosition.x, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
 
 		foreach(RectTransform rect in Icons)
 			rect.DOScale (initialScale, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
 		
-		Icons [whichMenu].DOScale (1, 0).SetEase (MenuMovementEase).SetId ("MenuMovement");
+		Icons [whichMenu].DOScale (1, IconDuration).SetEase (MenuMovementEase).SetId ("MenuMovement");
 	}
 
 	public void DisableAll ()

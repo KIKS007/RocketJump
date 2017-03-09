@@ -226,7 +226,7 @@ public class Player : MonoBehaviour
 		_rigidbody.AddForce (recoilDirection * _waveForce, ForceMode.Impulse);
 		_waveForce = 0;
 
-		JumpState = JumpState.InAir;
+		//JumpState = JumpState.InAir;
 
 		if (OnJump != null)
 			OnJump ();
