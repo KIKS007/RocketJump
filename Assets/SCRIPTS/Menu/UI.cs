@@ -26,7 +26,13 @@ public class UI : Singleton<UI>
 	// Use this for initialization
 	void Start () 
 	{
+		AllPanels [0].parent.gameObject.SetActive (true);
 		GameManager.Instance.OnPlaying += ()=> isLoading = false;
+
+		if(GameManager.Instance._initialState == GameState.Menu)
+		{
+			EnableAll ();
+		}
 	}
 
 	// Update is called once per frame
