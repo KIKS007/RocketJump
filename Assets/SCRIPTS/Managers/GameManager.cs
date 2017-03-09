@@ -35,6 +35,7 @@ public class GameManager : Singleton<GameManager>
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 
 		OnPlaying += () => _player = GameObject.FindGameObjectWithTag ("Player");
+		OnPlaying += () => MasterAudio.StartPlaylist ("Game");
 
         // +++Amplitude+++ //
         Amplitude amplitude = Amplitude.Instance;
