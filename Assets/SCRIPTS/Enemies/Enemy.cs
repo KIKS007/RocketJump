@@ -73,6 +73,6 @@ public class Enemy: MonoBehaviour
     {
 		yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
-        Debug.Log("Mort");
+        //Debug.Log("Mort");
     }
 }

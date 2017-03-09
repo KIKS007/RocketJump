@@ -19,6 +19,7 @@ public class Tuto : MonoBehaviour {
     void Start () {
 		playerScript = GetComponent<Player> ();
 		player = GameObject.FindGameObjectWithTag("Player");
+		playerScript.cantRocket = true;
 	}
     
     void OnTriggerEnter(Collider other)
@@ -52,7 +53,6 @@ public class Tuto : MonoBehaviour {
             }
 
             playerScript.cantInput = true;
-            playerScript.cantRocket = true;
         }
     }
 
@@ -75,7 +75,8 @@ public class Tuto : MonoBehaviour {
             TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(true);
             triggerBox.SetActive(false);
 
-            text = TutoCanvas.transform.Find("TriggerBox6");
+			text = TutoCanvas.transform.Find("TriggerBox6");
+			playerScript.cantRocket = false;
         }
 
         else
@@ -85,37 +86,39 @@ public class Tuto : MonoBehaviour {
             Camera.main.GetComponent<SlowMotion>().StopSlowMotion();
             playerScript.cantInput = false;
 
-            StartCoroutine("Wait");
+			if(playerScript.gameObject.activeSelf)
+           	 StartCoroutine("Wait");
         }
     }
 
     public void DisableTutoText2()
     {
-            //Debug.Log("Tets");
-            TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(false);
-            TutoCanvas.transform.Find("TriggerBox1").gameObject.SetActive(false);
-            triggerBox.SetActive(false);
-        TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(false);
-        text = TutoCanvas.transform.Find("TriggerBox1");
-
-
-        
-         if (text.name == "TriggerBox7")
-        {
-            TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
-            triggerBox.SetActive(false);
-
-            text = TutoCanvas.transform.Find("TriggerBox6");
-        }
-
-        else
-        {
-            text.gameObject.SetActive(false);
-            triggerBox.SetActive(false);
-            Camera.main.GetComponent<SlowMotion>().StopSlowMotion();
-            playerScript.cantInput = false;
-
-            StartCoroutine("Wait");
+		//Debug.Log("Tets");
+		TutoCanvas.transform.Find("TriggerBox2").gameObject.SetActive(false);
+		TutoCanvas.transform.Find("TriggerBox1").gameObject.SetActive(false);
+		triggerBox.SetActive(false);
+		TutoCanvas.transform.Find("TriggerBox6").gameObject.SetActive(false);
+		text = TutoCanvas.transform.Find("TriggerBox1");
+		
+		
+		
+		if (text.name == "TriggerBox7")
+		{
+			TutoCanvas.transform.Find("TriggerBox7").gameObject.SetActive(false);
+			triggerBox.SetActive(false);
+			
+			text = TutoCanvas.transform.Find("TriggerBox6");
+			playerScript.cantRocket = false;
+		}
+		
+		else
+		{
+			text.gameObject.SetActive(false);
+			triggerBox.SetActive(false);
+			Camera.main.GetComponent<SlowMotion>().StopSlowMotion();
+			playerScript.cantInput = false;
+			
+			StartCoroutine("Wait");
         }
 
 
@@ -124,11 +127,13 @@ public class Tuto : MonoBehaviour {
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.05f);
-        playerScript.cantRocket = false;
     }
 
 	public void End ()
 	{
+		GameManager.Instance.GameState = GameState.Menu;
+		ScoreManager.Instance.ClearScore ();
+
 		if (GameManager.Instance.FirstLaunch)
 			GameManager.Instance.StartCoroutine ("LoadGame");
 		else

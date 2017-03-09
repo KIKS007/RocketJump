@@ -27,11 +27,14 @@ public class GameManager : Singleton<GameManager>
 	public GameState _initialState;
 
 	private GameObject _mainCamera;
+	private GameObject _player;
 
 	void Awake ()
 	{
 		_initialState = GameState;
 		_mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
+
+		OnPlaying += () => _player = GameObject.FindGameObjectWithTag ("Player");
 
         // +++Amplitude+++ //
         Amplitude amplitude = Amplitude.Instance;
@@ -99,10 +102,8 @@ public class GameManager : Singleton<GameManager>
 
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-
-		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
-		player.SetActive (false);
+		Instantiate (_player.GetComponent<Player> ().deathParticle, _player.transform.position, Quaternion.identity);
+		_player.SetActive (false);
 
 		yield return new WaitForSecondsRealtime (0.8f);
 
@@ -126,20 +127,19 @@ public class GameManager : Singleton<GameManager>
 
 		MasterAudio.PlaySoundAndForget (MenuGameOver);
 
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-		Instantiate (player.GetComponent<Player> ().deathParticle, player.transform.position, Quaternion.identity);
-		player.SetActive (false);
+		Instantiate (_player.GetComponent<Player> ().deathParticle, _player.transform.position, Quaternion.identity);
+		_player.SetActive (false);
 
 		float initialSmoothTime = _mainCamera.GetComponent<FollowMovement> ().DownSmoothTime;
 		_mainCamera.GetComponent<FollowMovement> ().DownSmoothTime = _mainCamera.GetComponent<FollowMovement> ().SmoothTime;
-		player.transform.DOMove (player.GetComponent<Tuto> ().PreviousTrigger.position, 1f);
+		_player.transform.DOMove (_player.GetComponent<Tuto> ().PreviousTrigger.position, 1f);
 
 
 		yield return new WaitForSecondsRealtime (1f);
 
 		_mainCamera.GetComponent<FollowMovement> ().DownSmoothTime = initialSmoothTime;
-		player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
-		player.SetActive (true);
+		_player.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		_player.SetActive (true);
 
 		_mainCamera.GetComponent<SlowMotion> ().StopSlowMotion ();
 	}

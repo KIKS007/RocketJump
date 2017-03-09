@@ -50,6 +50,7 @@ public class ScoreManager : Singleton<ScoreManager>
 		GameManager.Instance.OnGameOver += OnGameOver;
 
 		GameManager.Instance.OnGameOver += ()=> inGameScore.DOAnchorPosY (-155f, 0.5f);
+		GameManager.Instance.OnMenu += ()=> inGameScore.DOAnchorPosY (-155f, 0.5f);
 		GameManager.Instance.OnPlaying += ()=> inGameScore.DOAnchorPosY (0, 0.5f);
 
 		transform.GetChild (0).gameObject.SetActive (true);
