@@ -65,10 +65,12 @@ public class Chunk : MonoBehaviour
 				Vector3 position = SpawnablePlatformsTemp[UnityEngine.Random.Range(0, SpawnablePlatformsTemp.Count)].transform.position;
 				position.y = position.y + (platform.transform.localScale.y / 2) + 1;
 				
-				Instantiate(enemy, position, enemy.transform.rotation, EnemiesManager.Instance.enemiesParent);
+				GameObject clone = Instantiate(enemy, position, enemy.transform.rotation, EnemiesManager.Instance.enemiesParent) as GameObject;
 				
-				
-				SpawnablePlatformsTemp.Remove(platform);
+				if (Physics.CheckSphere (clone.transform.position, 0.5f, CollectiblesManager.Instance.CollectibleMask))
+					Destroy (clone);
+				else
+					SpawnablePlatformsTemp.Remove(platform);
 			}
 		}
     }

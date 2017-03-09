@@ -46,7 +46,8 @@ public class Player : MonoBehaviour
 	private Camera _mainCamera;
     [HideInInspector]
     public Vector3 _launchPosition;
-	private Rigidbody _rigidbody;
+	[HideInInspector]
+	public Rigidbody _rigidbody;
 	private float _waveForce;
 	private SlowMotion _slowMotion;
     [HideInInspector]
@@ -101,7 +102,6 @@ public class Player : MonoBehaviour
 				SetCrossHair ();
                 GetInput();
             }
-            Grounded ();
 		}
 	}
 
@@ -290,20 +290,17 @@ public class Player : MonoBehaviour
             bodyRigidbody.AddForce(rocket.transform.forward * launchForce, ForceMode.Impulse);  
 	}
 
-	void Grounded ()
+	public void Grounded ()
 	{
-		Vector3 position = transform.position;
-		position.y -= 0.8f;
+		if(OnGrounded != null)
+			OnGrounded ();
+		
+		JumpState = JumpState.Grounded;
+	}
 
-		if (Physics.CheckSphere (position, 0.2f, GroundLayer, QueryTriggerInteraction.Ignore))
-		{
-			if(JumpState == JumpState.InAir && OnGrounded != null)
-				OnGrounded ();
-			
-			JumpState = JumpState.Grounded;
-		}
-		else
-			JumpState = JumpState.InAir;
+	public void InAir ()
+	{
+		JumpState = JumpState.InAir;
 	}
 
 	void EnableArrow ()

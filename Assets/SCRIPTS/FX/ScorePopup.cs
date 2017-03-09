@@ -16,7 +16,7 @@ public class ScorePopup : MonoBehaviour
 	void Start () 
 	{
 		scaleDuration += Random.Range (-0.1f, 0.1f);
-		movementDuration += Random.Range (-0.1f, 0.1f);
+		movementDuration += Random.Range (-0.2f, 0.2f);
 
 		rect = GetComponent<RectTransform> ();
 		rect.DOScale (1.5f, scaleDuration).SetLoops (-1, LoopType.Yoyo);

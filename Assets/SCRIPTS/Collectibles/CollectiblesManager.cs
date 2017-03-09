@@ -61,12 +61,9 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 							correctSpawn = false;
 							break;
 						}
-					
-					if(correctSpawn || index > 50)
-						break;
 				}
 			}
-			while (!correctSpawn);
+			while (!correctSpawn || index < 50);
 
 
 			Transform parent = chunk.transform.Find ("Collectibles Parent");
