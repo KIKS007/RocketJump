@@ -18,7 +18,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
 	[Header ("Menu Score Text")]
 	public Text MenuScoreText;
-	public Text MenuBestScoreText;
+	public Text[] MenuBestScoreText = new Text[5];
 
 	[Header ("Scores")]
 	public int ClimbingScore;
@@ -57,6 +57,10 @@ public class ScoreManager : Singleton<ScoreManager>
 		inGameScore.anchoredPosition = new Vector2 (0, -155);
 
 		GetSavedScores ();
+
+		for(int i = 0; i < 4; i++)
+			if(BestScores.Count > 0)
+				MenuBestScoreText [i].text = BestScores [i].ToString ();
 	}
 
 	void GetSavedScores ()
@@ -78,12 +82,19 @@ public class ScoreManager : Singleton<ScoreManager>
 		for (int i = 0; i < BestScores.Count; i++)
 			PlayerPrefs.SetInt ("BestScore" + i, 0);
 
-		BestScores.Clear ();
+		for(int i = 0; i < BestScores.Count; i++)
+			BestScores [i] = 0;
 
 		ClimbingScore = 0;
 		EnemyScore = 0;
 		PickupScore = 0;
 		CurrentScore = 0;
+
+		MenuScoreText.text = CurrentScore.ToString ();
+
+		for(int i = 0; i < 4; i++)
+			if(BestScores.Count > 0)
+				MenuBestScoreText [i].text = BestScores [i].ToString ();
 	}
 	
 	// Update is called once per frame
@@ -133,7 +144,10 @@ public class ScoreManager : Singleton<ScoreManager>
 			BestScores.RemoveAt (BestScores.Count - 1);
 
 		MenuScoreText.text = CurrentScore.ToString ();
-		MenuBestScoreText.text = BestScores [0].ToString ();
+
+		for(int i = 0; i < 4; i++)
+			if(BestScores.Count > 0)
+				MenuBestScoreText [i].text = BestScores [i].ToString ();
 
 		ClimbingScore = 0;
 		EnemyScore = 0;
