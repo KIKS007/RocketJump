@@ -8,6 +8,9 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 	public int CollectiblesByChunk = 2;
 	public int SpawnedCollectibles;
 
+	public float RocketCollectibleChance = 20f;
+	public GameObject[] RocketsCollectibles = new GameObject[2];
+
 	[Header ("Spawn Limits")]
 	public Vector2 XLimits;
 	public Vector2 YLimits;
@@ -30,6 +33,8 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 
 	public void SpawnCollectibles (GameObject chunk)
 	{
+		SpawnRocketCollectible (chunk);
+
 		int index = 0;
 
 		for(int j = 0; j < CollectiblesByChunk; j++)
@@ -75,6 +80,31 @@ public class CollectiblesManager : Singleton<CollectiblesManager>
 				//Debug.Log (collectibleGroup.name + " in " + chunk.name);
 				
 				SpawnedCollectibles++;
+			}
+		}
+	}
+
+	void SpawnRocketCollectible (GameObject chunk)
+	{
+		Vector3 position = new Vector3 ();
+		bool correctSpawn = true;
+
+		float random = Random.Range (0, 100);
+
+		if(random < RocketCollectibleChance)
+		{
+			GameObject clone = RocketsCollectibles [Random.Range (0, RocketsCollectibles.Length)];
+			
+			for (int i = 0; i < 50; i++) 
+			{
+				position = new Vector3 (Random.Range (XLimits.x, XLimits.y), chunk.transform.position.y + Random.Range (YLimits.x + Margin, YLimits.y - Margin));
+
+				if(Physics.CheckSphere (position, CollectibleRadius, CollectibleMask, QueryTriggerInteraction.Ignore))
+				{
+					Instantiate (clone.gameObject, position, Quaternion.identity);
+					Debug.Log ("Bite!!!");
+					break;
+				}
 			}
 		}
 	}
